@@ -1,0 +1,790 @@
+@import url('https://db.onlinewebfonts.com/c/900df1ff35673fe9593bfd802b9d0eaf?family=FilmotypeHoney');
+@import url('https://db.onlinewebfonts.com/c/a13850cbf8632b500cfd24847e30ce07?family=Aesthet+Nova+W05+Bold');
+@import url('https://fonts.googleapis.com/css2?family=Fasthand&family=Federo&family=Pacifico&family=Shantell+Sans:ital,wght@0,600;0,700;0,800;1,700&family=Fredoka:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;700&family=Patrick+Hand&family=Kalam:wght@700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'FastHand';
+  src: url('https://fonts.gstatic.com/s/fasthand/v15/0F27EMZ3t85iL4qL1Hk4.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fasthand';
+  src: url('https://fonts.gstatic.com/s/fasthand/v15/0F27EMZ3t85iL4qL1Hk4.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Federo';
+  src: url('https://fonts.gstatic.com/s/federo/v20/4UaSrW61765l6yJ4Hxs.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aesthet';
+  src: url('https://db.onlinewebfonts.com/t/a13850cbf8632b500cfd24847e30ce07.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Workforce';
+  src: local('Workforce'), local('Workforce Sans'), local('Work Force JNL');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-fasthand {
+  font-family: var(--font-fasthand-g), 'FastHand', 'Fasthand', cursive, sans-serif !important;
+}
+
+.font-workforce {
+  font-family: var(--font-workforce-g), 'Workforce', 'Patrick Hand', 'Caveat', cursive, sans-serif !important;
+}
+
+.font-aesthet {
+  font-family: var(--font-quicksand-g), 'Quicksand', var(--font-kalam-g), 'Kalam', 'Patrick Hand', sans-serif !important;
+}
+
+.font-cozy-recipe {
+  font-family: var(--font-quicksand-g), 'Quicksand', var(--font-kalam-g), 'Kalam', 'Patrick Hand', sans-serif !important;
+}
+
+.font-federo {
+  font-family: var(--font-federo-g), 'Federo', sans-serif !important;
+}
+
+.font-editorial-serif {
+  font-family: 'Fraunces', 'Playfair Display', 'Lora', serif;
+}
+
+.font-machina {
+  font-family: 'Plus Jakarta Sans', 'Fredoka', 'Poppins', sans-serif;
+}
+
+.font-cabinet-bold {
+  font-family: 'Plus Jakarta Sans', 'Fredoka', 'Poppins', sans-serif;
+  font-weight: 800;
+}
+
+
+
+:root {
+  /* Color Palette (Vibrant Neobrutalism) */
+  --color-canvas-base: #FDFBF7;   /* Warm cream background */
+  --color-graphite-ink: #3D2E25;  /* Deep chocolate charcoal for text & borders */
+  --color-purple-wave: #4B2773;   /* Rich purple for features waves */
+  --color-lime-yellow: #DDF51A;   /* Neon lime-yellow for MUST-TRY and splats */
+  --color-pink-accent: #F43F5E;   /* Strawberry pink for CTA buttons and cards */
+  --color-cyan-accent: #22D3EE;   /* Turquoise cyan for review cards and tags */
+  --color-sandy-yellow: #E6DCB8;  /* Soft sand color for the footer */
+
+  /* Z-Index Hierarchy */
+  --z-background: -10;
+  --z-base: 0;
+  --z-content: 10;
+  --z-floating: 50;
+  --z-ui: 100;
+
+  /* SVG Noise Grain Texture */
+  --noise-url: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  --opacity-bg-grain: 0.035;
+}
+
+@theme {
+  --color-canvas-base: var(--color-canvas-base);
+  --color-graphite-ink: var(--color-graphite-ink);
+  --color-purple-wave: var(--color-purple-wave);
+  --color-lime-yellow: var(--color-lime-yellow);
+  --color-pink-accent: var(--color-pink-accent);
+  --color-cyan-accent: var(--color-cyan-accent);
+  --color-sandy-yellow: var(--color-sandy-yellow);
+
+  --font-lilita: var(--font-lilita);
+  --font-jakarta: var(--font-jakarta);
+}
+
+/* Global resets */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scrollbar-width: none; 
+  -ms-overflow-style: none;  
+}
+
+html::-webkit-scrollbar {
+  display: none; 
+}
+
+body {
+  background-color: var(--color-canvas-base);
+  color: var(--color-graphite-ink);
+  font-family: var(--font-jakarta), sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings use Lilita One for the Neobrutalist bubble display look */
+h1, h2, h3, .font-bubble {
+  font-family: var(--font-lilita), sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Neobrutalism Utilities */
+.neo-border {
+  border: 4px solid var(--color-graphite-ink);
+}
+
+.neo-border-sm {
+  border: 3px solid var(--color-graphite-ink);
+}
+
+.neo-shadow-sm {
+  box-shadow: 4px 4px 0px 0px var(--color-graphite-ink);
+}
+
+.neo-shadow {
+  box-shadow: 6px 6px 0px 0px var(--color-graphite-ink);
+}
+
+.neo-shadow-lg {
+  box-shadow: 8px 8px 0px 0px var(--color-graphite-ink);
+}
+
+/* Sticker cutout effect (white border surrounded by a dark outline) */
+.sticker-outline {
+  border: 4px solid #ffffff;
+  outline: 4px solid var(--color-graphite-ink);
+}
+
+/* Linen Grain Texture Overlay */
+.linen-grain-overlay {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  background: var(--noise-url) repeat;
+  opacity: var(--opacity-bg-grain);
+  pointer-events: none;
+  z-index: 9999;
+  animation: grain-shift 8s steps(10) infinite;
+}
+
+@keyframes grain-shift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  10% { transform: translate3d(-1%, -1%, 0); }
+  20% { transform: translate3d(-2%, 1%, 0); }
+  30% { transform: translate3d(1%, -2%, 0); }
+  40% { transform: translate3d(-1%, 3%, 0); }
+  50% { transform: translate3d(-2%, 1%, 0); }
+  60% { transform: translate3d(3%, -1%, 0); }
+  70% { transform: translate3d(2%, 1%, 0); }
+  80% { transform: translate3d(-3%, -2%, 0); }
+  90% { transform: translate3d(1%, 3%, 0); }
+}
+
+/* Floating Animations (recreates video motion) */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(-2deg); }
+}
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+@keyframes float-reverse {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(8px) rotate(-1.5deg); }
+}
+.animate-float-reverse {
+  animation: float-reverse 5s ease-in-out infinite;
+}
+
+/* Calm Editorial GPU Keyframe Animations (Final Micro Polish Pass) */
+@keyframes paper-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(5px); }
+}
+.animate-paper-float {
+  animation: paper-float 16s ease-in-out infinite;
+}
+
+@keyframes cheesecake-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.015); }
+}
+.animate-cheesecake-breathe {
+  animation: cheesecake-breathe 15s ease-in-out infinite;
+}
+
+@keyframes badge-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+.animate-badge-float {
+  animation: badge-float 10s ease-in-out infinite;
+}
+
+@keyframes scribble-pulse {
+  0%, 100% { opacity: 0.03; }
+  50% { opacity: 0.04; }
+}
+.animate-scribble-pulse {
+  animation: scribble-pulse 24s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+/* Story Redesign Safe Container Layout */
+.story-safe-content {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+  padding-top: 2.5rem !important;
+  padding-bottom: 2.5rem !important;
+}
+
+.story-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 2.5rem !important;
+}
+
+@media (min-width: 1024px) {
+  .story-safe-content {
+    margin-left: clamp(12rem, 17vw, 20rem) !important;
+    margin-right: clamp(2rem, 5vw, 6rem) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: clamp(2.5rem, 4vh, 3.5rem) !important;
+    padding-bottom: clamp(2.5rem, 4vh, 3.5rem) !important;
+  }
+
+  .story-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr) !important;
+    gap: 4rem !important;
+  }
+}
+
+/* Interactive Moments: Hovering a card/extra lifts it up and shadow grows */
+.photo-card-wrapper, .scrapbook-extra {
+  transition: z-index 0.1s ease, filter 0.25s ease, opacity 0.25s ease;
+  pointer-events: auto !important;
+}
+
+/* Ambient Neighbor Reaction: Slightly dim other cards when one is focused */
+.group\/canvas:hover .photo-card-wrapper, .group\/canvas:hover .scrapbook-extra {
+  opacity: 0.94;
+  filter: brightness(0.97);
+}
+
+.photo-card-wrapper:hover, .scrapbook-extra:hover {
+  opacity: 1 !important;
+  filter: brightness(1) !important;
+  z-index: 50 !important;
+}
+
+.photo-card, .recipe-card-inner {
+  transition: box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1), filter 0.25s ease-out, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.photo-card-wrapper:hover .photo-card, .scrapbook-extra:hover .recipe-card-inner {
+  --elevate-y: -4px;
+  box-shadow: 10px 12px 0px #3D2E25 !important;
+  filter: brightness(1.03) !important; /* Increase brightness by 3% */
+}
+
+@keyframes outline-wiggle {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-0.6px, 0.6px) rotate(-0.5deg); }
+  50% { transform: translate(0.6px, -0.6px) rotate(0.5deg); }
+  75% { transform: translate(-0.6px, -0.6px) rotate(-0.2deg); }
+}
+
+
+
+.font-etemelo {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-lumiare {
+  font-family: 'Lora', Georgia, serif;
+}
+
+.portrait-outline-wiggle {
+  transform-origin: center;
+}
+
+.group:hover .portrait-outline-wiggle {
+  animation: outline-wiggle 0.3s ease-in-out infinite;
+}
+
+/* ========================================================== */
+/* REVIEWS REDESIGN GEOMETRY MAP                              */
+/* ========================================================== */
+:root {
+  --reviews-x: clamp(1.5rem, 4vw, 3rem);
+  --reviews-card-gap: 2rem; /* 32px gap */
+  --reviews-card-width: 35rem; /* Exactly 560px */
+  --reviews-ink: var(--foreground, #16202a);
+}
+
+.reviewsSection {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 4.5rem 0; /* 72px top/bottom padding */
+}
+
+.reviewsSection::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.reviewsIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 40%) minmax(0, 60%); /* 40% / 60% editorial grid split */
+  gap: 3.5rem; /* Modular 56px left-right column gap */
+  padding-inline: var(--reviews-x);
+  align-items: start; /* Top edge optical alignment with heading */
+}
+
+.reviewsEyebrow {
+  margin: 0 0 0.75rem; /* 12px spacing eyebrow -> heading */
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.reviewsTitle {
+  max-width: 6ch;
+  margin: 0;
+  font-size: 4.25rem; /* 68px */
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+
+.reviewsLead {
+  max-width: 250px; /* 240px - 260px Description width */
+  margin: 1.5rem 0 0; /* 24px spacing below heading */
+  font-size: clamp(0.875rem, 1.2vw, 1rem);
+  line-height: 1.55;
+}
+
+.reviewsViewport {
+  margin-top: 0px; /* Optical alignment with heading top baseline */
+  padding: 1.5rem 0; /* 24px clearance for hover lift without pushing card down */
+  overflow: hidden;
+}
+
+.reviewsTrack, .reviewsGroup {
+  display: flex;
+  width: max-content;
+  gap: var(--reviews-card-gap);
+}
+
+.reviewsTrack {
+  will-change: transform;
+}
+
+/* ========================================================== */
+/* REVIEWS CARD HIERARCHY & LAYOUT CONTRACT                  */
+/* ========================================================== */
+.reviewCard {
+  position: relative;
+  width: var(--reviews-card-width);
+  height: 22.5rem; /* Exactly 360px height */
+  border-radius: 28px;
+  overflow: hidden; /* Portrait and splash completely contained inside card boundaries */
+  /* Progressive Shadow Stack Layer 4: Softest ambient base shadow */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 10px 18px rgba(0, 0, 0, 0.12);
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1), 
+              filter 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Zero-Pop GSAP Pre-Hydration Initial States */
+.reviewsEyebrow,
+.reviewsWord,
+.reviewsLead,
+.reviewCard,
+.reviewTape,
+.reviewDecoration,
+.reviewPortrait,
+.reviewQuote,
+.reviewName {
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+}
+
+.reviewCard:hover, .reviewCard:focus-within {
+  filter: brightness(1.03); /* brightness(1.03) */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 26px 56px rgba(0, 0, 0, 0.18);
+}
+
+/* Progressive Shadow Stack Layer 1: Crisp micro-shadow & serrated torn edges for tape */
+.reviewTape {
+  position: absolute;
+  top: -10px;
+  left: 15%;
+  width: 65px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(1.5px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06); /* Micro shadow for crisp paper tape */
+  clip-path: polygon(0% 0%, 96% 0%, 100% 12%, 97% 28%, 100% 45%, 96% 60%, 100% 75%, 97% 88%, 100% 100%, 0% 100%);
+  transform: rotate(-3.5deg);
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* Tactile Details: registration mark crosshairs with offset rotation */
+.reviewRegistrationMark {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  opacity: 0.35;
+  pointer-events: none;
+  transform: rotate(12deg) translate(2px, -1px);
+}
+.reviewRegLineV {
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.20);
+}
+.reviewRegLineH {
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.20);
+}
+
+.reviewBackground {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  z-index: 0;
+  /* Watercolor bloom overlay for subtle tonal variations */
+  background-image: radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0.06) 80%);
+  background-blend-mode: overlay;
+}
+
+.reviewPaper {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  opacity: 0.035; /* 3.5% opacity */
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.reviewContent {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(0, 55%) minmax(0, 45%); /* 55% / 45% grid contract for 50/50 visual weight balance */
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  padding: 2.875rem 0rem 2.875rem 3.25rem; /* Top/Bottom 46px, Left 52px, Right 0 */
+}
+
+.reviewText {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  text-align: left;
+  justify-content: center;
+  z-index: 6; /* Layer 6: Typography */
+}
+
+/* Eye Flow Step 1: Reviewer Name (Dominant) */
+.reviewName {
+  font-size: 40px; /* Dominant visual hierarchy */
+  font-weight: 700;
+  font-style: italic; /* Luxury print italic serif look */
+  text-transform: uppercase;
+  color: #FFFFFF;
+  line-height: 0.90; /* Tightened line-height */
+  letter-spacing: -0.2px; /* Tightened tracking */
+  margin-bottom: 32px; /* Generous breathing room below reviewer name */
+  max-width: 300px;
+  transition: letter-spacing 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 220ms;
+}
+
+.reviewCard:hover .reviewName, .reviewCard:focus-within .reviewName {
+  letter-spacing: 0.2px; /* Expands letter spacing to natural uppercase baseline */
+}
+
+/* Eye Flow Step 3: Review Quote (Lightweight Editorial Copy, Kinfolk 10/10 feel) */
+.reviewQuote {
+  font-size: 14.5px; /* Extremely light visual weight to maintain secondary hierarchy */
+  font-weight: 400;
+  line-height: 1.7; /* 1.7 line height for Kinfolk editorial feel */
+  letter-spacing: 0.02em; /* 0.02em letter spacing contract */
+  color: rgba(255, 255, 255, 0.68); /* 68% Opacity muted white body text */
+  max-width: 34ch; /* Exactly 34 characters max width per line */
+  text-wrap: pretty; /* Prevents single orphaned words on last line */
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 280ms;
+}
+
+.reviewCard:hover .reviewQuote, .reviewCard:focus-within .reviewQuote {
+  transform: translateX(4px);
+}
+
+/* Eye Flow Step 2: Portrait (Responsive 43% width, contained inside card) */
+.reviewPortraitWrapper {
+  position: absolute;
+  bottom: 4%; /* completely contained */
+  right: 4%; /* completely contained */
+  width: 43%; /* occupies exactly 43% of card width */
+  height: 92%;
+  z-index: 3;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* Progressive Shadow Stack Layer 3: Soft portrait separation shadow */
+.reviewPortrait {
+  position: absolute;
+  bottom: 4%; /* contained */
+  right: 0;
+  width: 100%;
+  height: 88%;
+  object-fit: cover;
+  object-position: center 24%;
+  z-index: 3;
+  /* Organic hand-cut paper outline to achieve visual cutout effect */
+  border-radius: 52% 48% 68% 32% / 40% 60% 40% 60%;
+  filter: drop-shadow(-6px 6px 12px rgba(0, 0, 0, 0.15)); /* Soft portrait separation shadow */
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+              filter 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 140ms;
+}
+
+.reviewCard:hover .reviewPortrait, .reviewCard:focus-within .reviewPortrait {
+  transform: translate(-6px, -4px) scale(1.03);
+  filter: drop-shadow(-10px 10px 18px rgba(0, 0, 0, 0.22));
+}
+
+/* Progressive Shadow Stack Layer 2: Mid-depth ambient paint splash shadow */
+.paintSplash {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08)); /* Mid-depth ambient splash shadow */
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 80ms;
+}
+
+.foregroundSplash {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4; /* Layer 4: Foreground paint fragments overlapping portrait */
+}
+
+.reviewCard:hover .paintSplash, .reviewCard:focus-within .paintSplash {
+  transform: scale(1.04) rotate(2deg);
+}
+
+.reviewDecoration {
+  position: absolute;
+  z-index: 5; /* Layer 5: Decorative elements */
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 300ms;
+}
+
+.reviewCard:hover .reviewDecoration, .reviewCard:focus-within .reviewDecoration {
+  transform: rotate(4deg);
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --reviews-card-width: 31.25rem; /* 500px on tablet */
+  }
+  .reviewsIntro {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .reviewsTitle {
+    font-size: 3.5rem; /* 56px */
+  }
+  .reviewsViewport {
+    margin-top: 2rem;
+  }
+  .reviewCard {
+    height: 20.625rem; /* 330px height */
+  }
+  .reviewContent {
+    padding: 2.5rem 0rem 2.5rem 2.5rem;
+  }
+  .reviewPortraitWrapper {
+    bottom: 4%;
+    right: 4%;
+    width: 43%;
+    height: 92%;
+  }
+  .reviewPortrait {
+    bottom: 4%;
+    width: 100%;
+    height: 88%;
+  }
+}
+
+@media (max-width: 767px) {
+  .reviewsIntro {
+    padding-inline: 1.5rem;
+  }
+  .reviewsTitle {
+    max-width: 7ch;
+    font-size: 2.625rem; /* 42px */
+  }
+  .reviewCard {
+    display: flex;
+    flex-direction: column;
+    width: min(86vw, 340px); /* min(86vw, 340px) width on mobile */
+    height: auto;
+    padding: 2rem; /* 32px padding */
+    align-items: center;
+    text-align: center;
+    overflow: hidden; /* No bleed on mobile */
+  }
+  .reviewContent {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 0;
+  }
+  .reviewText {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+  .reviewName {
+    margin-bottom: 12px;
+    font-size: 28px;
+    text-align: center;
+  }
+  .reviewQuote {
+    text-align: center;
+    font-size: 18px; /* 18px review text font size */
+    line-height: 1.6;
+    max-width: 100%;
+  }
+  .reviewPortraitWrapper {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    margin-bottom: 1.5rem;
+    order: -1;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0 !important;
+    right: 0 !important;
+  }
+  .reviewPortrait {
+    position: relative;
+    bottom: 0 !important;
+    right: auto !important;
+    width: 180px;
+    height: 220px;
+    border-radius: 20px;
+  }
+  .paintSplash {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 220px;
+    height: 220px;
+  }
+  .foregroundSplash {
+    display: none; /* Hide foreground splash overlaps on mobile to fit bounds */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reviewsViewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  .reviewsTrack {
+    transform: none !important;
+  }
+  .reviewsGroup[aria-hidden="true"] {
+    display: none;
+  }
+  .reviewCard {
+    scroll-snap-align: start;
+  }
+  .reviewCard, .paintSplash, .reviewPortrait, .reviewName, .reviewQuote, .reviewDecoration {
+    transition: none !important;
+    transform: none !important;
+  }
+}
