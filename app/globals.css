@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bowlby+One&family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Kalam:wght@300;400;700&family=Pacifico&family=Lilita+One&family=Titan+One&family=Baloo+2:wght@400;500;600;700;800&family=Caveat:wght@400;500;600;700&family=Cherry+Bomb+One&family=Shrikhand&family=Instrument+Serif:ital@0;1&family=Caveat+Brush&family=DynaPuff:wght@600;700;800&family=Mali:wght@500;600;700&family=Fasthand&family=Federo&family=Shantell+Sans:ital,wght@0,600;0,700;0,800;1,700&family=Fredoka:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&family=Patrick+Hand&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=Cormorant+Garamond:wght@600;700&family=IBM+Plex+Sans:wght@500;600;700&family=Instrument+Sans:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Chewy&family=Nunito+Sans:wght@600;700&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
+
 
 .font-bowlby {
   font-family: 'Bowlby One', 'Titan One', cursive, sans-serif !important;
