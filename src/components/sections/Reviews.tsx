@@ -6,7 +6,32 @@ import { ReviewHeader } from './Reviews/ReviewHeader';
 import { ReviewCarousel } from './Reviews/ReviewCarousel';
 import { BackgroundDecorations } from './Reviews/BackgroundDecorations';
 
+import { useAdmin } from '@/context/AdminContext';
+import { ReviewItem } from './Reviews/ReviewsData';
+
 export const Reviews: React.FC = () => {
+  const { reviews } = useAdmin();
+
+  const formattedReviews: ReviewItem[] = React.useMemo(() => {
+    if (!reviews || reviews.length === 0) return REVIEWS_DATA;
+    return reviews.map((r, i) => {
+      const fallback = REVIEWS_DATA[i % REVIEWS_DATA.length] || REVIEWS_DATA[0];
+      return {
+        id: r.id,
+        name: r.name || r.customerName || fallback.name,
+        profession: r.profession || fallback.profession || "Bakery Guest",
+        rating: r.rating || fallback.rating || 5,
+        review: r.review || fallback.review,
+        portrait: r.portrait || r.customerImage || fallback.portrait,
+        backgroundColor: r.backgroundColor || fallback.backgroundColor,
+        splashColor: r.splashColor || fallback.splashColor,
+        accentColor: r.accentColor || fallback.accentColor,
+        mood: r.mood || fallback.mood,
+        decorativeElement: r.decorativeElement || fallback.decorativeElement,
+      };
+    });
+  }, [reviews]);
+
   return (
     <section
       id="reviews"
@@ -25,7 +50,7 @@ export const Reviews: React.FC = () => {
 
           {/* RIGHT ZONE: Two-Row Infinite Marquee (68% Width on Desktop) */}
           <div className="w-full lg:w-[68%] min-w-0 overflow-hidden">
-            <ReviewCarousel reviews={REVIEWS_DATA} />
+            <ReviewCarousel reviews={formattedReviews} />
           </div>
 
         </div>

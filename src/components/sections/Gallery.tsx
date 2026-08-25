@@ -47,7 +47,26 @@ const BakeryStamp = ({ className = "" }: { className?: string }) => (
   </div>
 );
 
+import { useAdmin } from "@/context/AdminContext";
+
 export default function Gallery() {
+  const { gallery } = useAdmin();
+  
+  // Merge live gallery updates from context with layout configuration
+  const activePhotos = React.useMemo(() => {
+    if (!gallery || gallery.length === 0) return GALLERY_PHOTOS;
+    return GALLERY_PHOTOS.map((staticPhoto, idx) => {
+      const liveItem = gallery[idx];
+      if (!liveItem) return staticPhoto;
+      return {
+        ...staticPhoto,
+        src: liveItem.image || liveItem.src || staticPhoto.src,
+        alt: liveItem.title || liveItem.alt || staticPhoto.alt,
+        label: liveItem.title || liveItem.label || staticPhoto.label,
+      };
+    });
+  }, [gallery]);
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const leftColumnRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -457,7 +476,7 @@ export default function Gallery() {
           <div ref={canvasRef} className="group/canvas relative w-[910px] h-[530px] select-none transform scale-[0.50] xs:scale-[0.55] sm:scale-[0.74] md:scale-[0.87] lg:scale-[1.10] lg:-translate-x-6 origin-center lg:origin-right">
             
             {/* Render 8 Photo Cards from config */}
-            {GALLERY_PHOTOS.map((photo) => (
+            {activePhotos.map((photo) => (
               <div key={photo.id} data-id={photo.id} className="photo-card-wrapper absolute" style={{ top: photo.desktopPosition.top || "0px", left: photo.desktopPosition.left || "0px", zIndex: photo.zIndex, width: photo.width, height: photo.height }}>
                 {/* Static tape anchored to wrapper container so it doesn't move when card is tilted */}
                 {photo.attachment.type === "tape" && <MaskingTape color={photo.attachment.color} />}

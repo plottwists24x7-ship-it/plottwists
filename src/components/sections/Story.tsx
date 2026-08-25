@@ -4,10 +4,12 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useAdmin } from "@/context/AdminContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Story() {
+  const { storyImages } = useAdmin();
   const containerRef = useRef<HTMLDivElement>(null);
   const revealContainerRef = useRef<HTMLDivElement>(null);
   
@@ -565,9 +567,7 @@ export default function Story() {
               {/* 2. UNIFIED HEADLINE WRAPPER: PLOTTWIST24X7 (FILMOTYPE HONEY WARM IVORY #FFF7EF) */}
               <div className="story-heading flex flex-col text-left mb-[22px] w-full relative">
                 
-                {/* OPEN-CENTER 3-LINE SPARKLE BURSTS IN BABY PINK (#F6AFCF) (NO CROSSES / NO X ICONS) */}
-                
-                {/* SPARKLE GROUP 1: BOTTOM LEFT OF PLOTTWIST24X7 (/ | \ 3 radiating lines with open center gap) */}
+                {/* OPEN-CENTER 3-LINE SPARKLE BURSTS IN BABY PINK (#F6AFCF) */}
                 <div className="absolute -bottom-2 -left-6 z-20 pointer-events-none sparkle-pink">
                   <svg className="w-7 h-7" viewBox="0 0 30 30" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                     <line x1="12" y1="17" x2="5" y2="24" />
@@ -576,7 +576,6 @@ export default function Story() {
                   </svg>
                 </div>
 
-                {/* SPARKLE GROUP 2: TOP RIGHT OF PLOTTWIST24X7 (\ | / 3 radiating lines with open center gap) */}
                 <div className="absolute -top-4 right-0 sm:right-2 lg:right-4 z-20 pointer-events-none sparkle-pink">
                   <svg className="w-7 h-7" viewBox="0 0 30 30" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                     <line x1="12" y1="13" x2="5" y2="6" />
@@ -613,12 +612,13 @@ export default function Story() {
                 <div className="relative flex flex-col items-center select-none w-22 sm:w-26 lg:w-28 transform rotate-[-2deg] hover:scale-[1.04] transition-transform duration-300">
                   <div className="w-20 h-20 sm:w-24 sm:h-24 lg:w-26 lg:h-26 rounded-full overflow-hidden border-3 border-[#2B1824] shadow-[0_6px_12px_rgba(0,0,0,0.12)] bg-white relative">
                     <Image
-                      src="/images/baker-where/prod_pancakes.jpg"
+                      src={storyImages?.badge1 || "/images/baker-where/prod_pancakes.jpg"}
                       alt="Pancakes background stats bakes"
                       fill
                       sizes="(max-width: 768px) 80px, 128px"
                       loading="lazy"
                       className="object-cover scale-110"
+                      unoptimized={storyImages?.badge1?.startsWith("data:")}
                     />
                   </div>
                   {/* Badge Capsule sit BELOW image, overlapping bottom edge by only 6-8px */}
@@ -634,12 +634,13 @@ export default function Story() {
                 <div className="relative flex flex-col items-center select-none w-24 sm:w-28 lg:w-30 transform rotate-[3deg] hover:scale-[1.04] transition-transform duration-300">
                   <div className="w-22 h-22 sm:w-26 sm:h-26 lg:w-28 lg:h-28 rounded-full overflow-hidden border-3 border-[#2B1824] shadow-[0_8px_16px_rgba(0,0,0,0.16)] bg-white relative">
                     <Image
-                      src="/images/baker-where/prod_tiramisu.jpg"
+                      src={storyImages?.badge2 || "/images/baker-where/prod_tiramisu.jpg"}
                       alt="Tiramisu background stats bakes"
                       fill
                       sizes="(max-width: 768px) 80px, 128px"
                       loading="lazy"
                       className="object-cover scale-110"
+                      unoptimized={storyImages?.badge2?.startsWith("data:")}
                     />
                   </div>
                   {/* Badge Capsule sit BELOW image, overlapping bottom edge by only 6-8px */}
@@ -655,12 +656,13 @@ export default function Story() {
                 <div className="relative flex flex-col items-center select-none w-22 sm:w-26 lg:w-28 transform rotate-[-2deg] hover:scale-[1.04] transition-transform duration-300">
                   <div className="w-20 h-20 sm:w-24 sm:h-24 lg:w-26 lg:h-26 rounded-full overflow-hidden border-3 border-[#2B1824] shadow-[0_6px_14px_rgba(0,0,0,0.10)] bg-white relative">
                     <Image
-                      src="/images/baker-where/prod_biscoff_brownie.jpg"
+                      src={storyImages?.badge3 || "/images/baker-where/prod_biscoff_brownie.jpg"}
                       alt="Brownie background stats bakes"
                       fill
                       sizes="(max-width: 768px) 80px, 128px"
                       loading="lazy"
                       className="object-cover scale-110"
+                      unoptimized={storyImages?.badge3?.startsWith("data:")}
                     />
                   </div>
                   {/* Badge Capsule sit BELOW image, overlapping bottom edge by only 6-8px */}
@@ -757,12 +759,13 @@ export default function Story() {
                   {/* Photo Container */}
                   <div className="relative w-full h-[80%] rounded border border-[#2B1824]/20 overflow-hidden bg-white">
                     <Image
-                      src="/images/baker-where/hero_bakery.jpg"
+                      src={storyImages?.mainPolaroid || "/images/baker-where/hero_bakery.jpg"}
                       alt="Artisan bakery kitchen prep"
                       fill
                       sizes="(max-width: 768px) 256px, 288px"
                       loading="lazy"
                       className="object-cover"
+                      unoptimized={storyImages?.mainPolaroid?.startsWith("data:")}
                     />
                   </div>
 

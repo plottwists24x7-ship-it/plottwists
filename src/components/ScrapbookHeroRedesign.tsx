@@ -5,6 +5,7 @@ import Image from "next/image";
 import { MaskingTape } from "@/components/paper/MaskingTape";
 import { PaperLabel } from "@/components/paper/PaperLabel";
 import { RecipeCard } from "@/components/paper/RecipeCard";
+import { useAdmin } from "@/context/AdminContext";
 
 const PencilHeart = ({ className = "w-8 h-8", rotate = 0 }: { className?: string; rotate?: number }) => (
   <svg className={`${className} text-[#3B2A22] pointer-events-none opacity-90 filter drop-shadow-[1px_1px_0_rgba(59,42,34,0.15)]`} style={{ transform: `rotate(${rotate}deg)` }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -37,6 +38,8 @@ export function ScrapbookHeroRedesign({
   onExploreClick,
   onStoryClick,
 }: ScrapbookHeroRedesignProps) {
+  const { hero } = useAdmin();
+
   return (
     <div className="w-full max-w-7xl mx-auto min-h-[680px] lg:min-h-[740px] relative select-none flex flex-col justify-center py-6">
       
@@ -214,11 +217,12 @@ export function ScrapbookHeroRedesign({
             {/* Polaroid Photo Window (Matte finish & subtle corner wear) */}
             <div className="relative w-full h-[78%] rounded overflow-hidden bg-[#F5EDDC] border-2 border-[#3B2A22]/30 shadow-inner">
               <Image
-                src="/cheesecake.png"
-                alt="Signature Artisanal Cheesecake"
+                src={hero?.image || "/cheesecake.png"}
+                alt={hero?.alt || "Signature Artisanal Cheesecake"}
                 fill
                 className="object-cover scale-[1.03] group-hover:scale-[1.07] transition-transform duration-700 ease-out"
                 priority
+                unoptimized={hero?.image?.startsWith("data:") || false}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
             </div>
@@ -227,9 +231,11 @@ export function ScrapbookHeroRedesign({
             <div className="flex items-center justify-between px-2 pt-2 pb-1">
               <div className="flex flex-col">
                 <p className="font-fasthand text-lg md:text-xl text-[#3B2A22] font-bold rotate-[-1deg]">
-                  today&apos;s batch ♡
+                  {hero?.captionTitle || "today's batch ♡"}
                 </p>
-                <p className="font-caveat text-sm font-bold text-[#3B2A22]/70 -mt-1">Mom&apos;s Special</p>
+                <p className="font-caveat text-sm font-bold text-[#3B2A22]/70 -mt-1">
+                  {hero?.captionSubtitle || "Mom's Special"}
+                </p>
               </div>
               <div className="text-right">
                 <span className="font-fraunces text-xs font-bold text-[#3B2A22]/80 uppercase tracking-widest block">

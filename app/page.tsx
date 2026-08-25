@@ -84,7 +84,7 @@ export default function Home() {
       </div>
 
       {/* Award-Winning Final Instagram CTA Section */}
-      <div id="contact-section">
+      <div id="instagram-cta">
         <InstagramCTA />
       </div>
 

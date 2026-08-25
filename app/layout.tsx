@@ -47,6 +47,8 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
+import { AdminProvider } from '@/context/AdminContext'
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -55,7 +57,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${bowlbyOne.variable} ${lilitaOne.variable} ${cherryBomb.variable} ${manrope.variable} ${fredoka.variable} ${poppins.variable} ${fasthand.variable} ${federo.variable} ${caveat.variable} ${quicksand.variable} ${kalam.variable}`} style={{ backgroundColor: '#C7E9E4' }}>
       <body className="antialiased bg-[#C7E9E4] font-manrope">
-        {children}
+        <AdminProvider>
+          {children}
+        </AdminProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
@@ -178,28 +178,26 @@ export default function Footer() {
               
               {/* Phone Button */}
               <a
-                href="tel:+3727121070"
-                onClick={preventDefault}
-                className="h-[74px] bg-[#FFFDF8] text-[#3E2A24] border-[4px] border-[#3E2A24] shadow-[6px_6px_0px_#3E2A24] hover:shadow-[10px_10px_0px_#3E2A24] hover:-translate-y-[6px] hover:rotate-[-1deg] active:translate-y-0 active:shadow-[3px_3px_0px_#3E2A24] px-8 rounded-full font-bricolage font-semibold text-[22px] flex items-center gap-3 transition-all duration-300 cursor-pointer focus-visible:outline-none"
-                aria-label="Call PlotTwist Bakery"
+                href="tel:+918008922410"
+                className="h-[74px] bg-[#FFFDF8] text-[#3E2A24] border-[4px] border-[#3E2A24] shadow-[6px_6px_0px_#3E2A24] hover:shadow-[10px_10px_0px_#3E2A24] hover:-translate-y-[6px] hover:rotate-[-1deg] active:translate-y-0 active:shadow-[3px_3px_0px_#3E2A24] px-8 rounded-full font-bricolage font-semibold text-[18px] sm:text-[22px] flex items-center gap-3 transition-all duration-300 cursor-pointer focus-visible:outline-none"
+                aria-label="Call PlotTwist Bakery at +91 80089 22410"
               >
                 <div className="w-11 h-11 rounded-full bg-[#FFE26E] border-2 border-[#3E2A24] flex items-center justify-center shrink-0 shadow-sm">
                   <PhoneIcon />
                 </div>
-                <span>+372 712 10 70</span>
+                <span>+91 80089 22410</span>
               </a>
 
               {/* Email Button */}
               <a
-                href="mailto:hello@plotwist.co"
-                onClick={preventDefault}
-                className="h-[74px] bg-[#FFFDF8] text-[#3E2A24] border-[4px] border-[#3E2A24] shadow-[6px_6px_0px_#3E2A24] hover:shadow-[10px_10px_0px_#3E2A24] hover:-translate-y-[6px] hover:rotate-[1deg] active:translate-y-0 active:shadow-[3px_3px_0px_#3E2A24] px-8 rounded-full font-bricolage font-semibold text-[22px] flex items-center gap-3 transition-all duration-300 cursor-pointer focus-visible:outline-none"
-                aria-label="Email PlotTwist Bakery"
+                href="mailto:plottwists24x7@gmail.com"
+                className="h-[74px] bg-[#FFFDF8] text-[#3E2A24] border-[4px] border-[#3E2A24] shadow-[6px_6px_0px_#3E2A24] hover:shadow-[10px_10px_0px_#3E2A24] hover:-translate-y-[6px] hover:rotate-[1deg] active:translate-y-0 active:shadow-[3px_3px_0px_#3E2A24] px-8 rounded-full font-bricolage font-semibold text-[18px] sm:text-[22px] flex items-center gap-3 transition-all duration-300 cursor-pointer focus-visible:outline-none"
+                aria-label="Email PlotTwist Bakery at plottwists24x7@gmail.com"
               >
                 <div className="w-11 h-11 rounded-full bg-[#FFE26E] border-2 border-[#3E2A24] flex items-center justify-center shrink-0 shadow-sm">
                   <MailIcon />
                 </div>
-                <span>hello@plotwist.co</span>
+                <span>plottwists24x7@gmail.com</span>
               </a>
 
             </div>

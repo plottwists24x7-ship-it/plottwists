@@ -147,7 +147,12 @@ const FlowerDoodle = ({ className = "w-7 h-7 text-[#6B2C12]" }: { className?: st
   </svg>
 );
 
+import { useAdmin } from "@/context/AdminContext";
+
 export default function Products() {
+  const { bakes } = useAdmin();
+  const activeProducts = bakes && bakes.length > 0 ? bakes : PRODUCTS;
+
   const containerRef = useRef<HTMLDivElement>(null);
   const pinWrapperRef = useRef<HTMLDivElement>(null);
   const introContentRef = useRef<HTMLDivElement>(null);
@@ -155,6 +160,13 @@ export default function Products() {
   const trackRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const [activeProductNum, setActiveProductNum] = useState("01");
+
+  const scrollToInstagramCTA = () => {
+    const element = document.getElementById("instagram-cta") || document.getElementById("contact-section");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -438,13 +450,13 @@ export default function Products() {
           </div>
         </div>
 
-        {/* HORIZONTAL TRACK OF ALL 7 BAKES */}
+        {/* HORIZONTAL TRACK OF ALL BAKES */}
         <div
           ref={trackRef}
           className="flex h-full items-center pl-16 pr-[20vw] absolute top-0 left-0 z-20"
           style={{ width: "fit-content" }}
         >
-          {PRODUCTS.map((product) => (
+          {activeProducts.map((product) => (
             <div
               key={product.id}
               className="product-panel w-[85vw] max-w-6xl h-full flex items-center justify-center px-12 relative flex-shrink-0"
@@ -471,8 +483,15 @@ export default function Products() {
                     {product.description}
                   </p>
 
-                  <div className="panel-fade-up relative inline-flex items-center group cursor-pointer">
-                    <button className="bg-[#1E63D5] text-white font-manrope font-bold text-base px-7 py-3.5 rounded-full shadow-[0_8px_20px_rgba(59,42,34,0.18)] group-hover:-translate-y-1 group-hover:shadow-[0_12px_28px_rgba(59,42,34,0.22)] transition-all duration-250 ease-out flex items-center gap-2 cursor-pointer">
+                  <div 
+                    onClick={scrollToInstagramCTA}
+                    className="panel-fade-up relative inline-flex items-center group cursor-pointer"
+                  >
+                    <button 
+                      onClick={scrollToInstagramCTA}
+                      aria-label={`Try this bake: ${product.name}`}
+                      className="bg-[#1E63D5] text-white font-manrope font-bold text-base px-7 py-3.5 rounded-full shadow-[0_8px_20px_rgba(59,42,34,0.18)] group-hover:-translate-y-1 group-hover:shadow-[0_12px_28px_rgba(59,42,34,0.22)] transition-all duration-250 ease-out flex items-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFE63B]"
+                    >
                       <span>Try This Bake</span>
                     </button>
                     <div className="w-11 h-11 rounded-full bg-[#FFE63B] border-2 border-[#3B2A22] shadow-md flex items-center justify-center -ml-4 z-10 group-hover:rotate-8 transition-transform duration-250 ease-out">
@@ -562,7 +581,7 @@ export default function Products() {
         </div>
 
         <div className="mobile-showcase-container max-w-xl mx-auto flex flex-col gap-10">
-          {PRODUCTS.map((product) => (
+          {activeProducts.map((product) => (
             <div
               key={product.id}
               className="mobile-product-card w-full p-6 bg-white border-4 border-[#6B2C12] shadow-[6px_6px_0px_0px_#6B2C12] rounded-3xl flex flex-col items-center gap-6 relative overflow-hidden"
@@ -599,9 +618,13 @@ export default function Products() {
                   {product.description}
                 </p>
 
-                <div className="bg-[#1E63D5] text-white px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-widest shadow-xs">
+                <button
+                  onClick={scrollToInstagramCTA}
+                  aria-label={`Try this bake: ${product.name}`}
+                  className="bg-[#1E63D5] text-white px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-widest shadow-xs cursor-pointer hover:bg-[#1853b3] transition-colors focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFE63B]"
+                >
                   Try this bake
-                </div>
+                </button>
               </div>
             </div>
           ))}

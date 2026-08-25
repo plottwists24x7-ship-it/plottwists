@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { MaskingTape } from "@/components/paper/MaskingTape";
 
+// Official Instagram profile link (Placeholder URL - replace with the actual Instagram username when needed)
+const INSTAGRAM_PROFILE_URL = "https://www.instagram.com/plottwist24x7?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==";
+
 export const InstagramCTA: React.FC = () => {
   const [wiggle, setWiggle] = useState(false);
 
@@ -18,12 +21,12 @@ export const InstagramCTA: React.FC = () => {
 
   const handleInstagramClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    window.open("https://www.instagram.com/plottwist24x", "_blank", "noopener,noreferrer");
+    window.open(INSTAGRAM_PROFILE_URL, "_blank", "noopener,noreferrer");
   };
 
   return (
     <section
-      id="contact-section"
+      id="instagram-cta"
       aria-label="Instagram Community Showcase"
       className="relative w-full bg-[#FFFDF8] py-24 sm:py-32 md:py-40 px-4 sm:px-8 md:px-12 lg:px-20 overflow-hidden select-none"
     >
@@ -261,12 +264,14 @@ export const InstagramCTA: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-center gap-8 lg:gap-10 w-full justify-center lg:justify-start">
               
               {/* 4 & 5. FOLLOW Button: Baloo 2 ExtraBold (800 weight, 46px FOLLOW, 24px Username) */}
-              <button
-                onClick={handleInstagramClick}
+              <a
+                href={INSTAGRAM_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`bg-[#FF4FA3] text-white border-[4px] border-[#111111] shadow-[8px_8px_0px_#111111] hover:shadow-[12px_12px_0px_#111111] hover:-translate-y-1.5 hover:rotate-[-2deg] hover:scale-[1.04] active:translate-y-0 active:shadow-[4px_4px_0px_#111111] px-7 py-4 rounded-[20px] uppercase flex items-center justify-between gap-4 transition-all duration-300 cursor-pointer focus-visible:outline-none ${
                   wiggle ? "animate-wiggle" : ""
                 }`}
-                aria-label="Follow @PLOTTWIST24X on Instagram"
+                aria-label="Follow @PLOTTWIST24X on Instagram (opens in a new tab)"
               >
                 <span className="leading-none text-left">
                   <span className="font-baloo font-extrabold text-[36px] sm:text-[46px] text-white block">FOLLOW</span>
@@ -275,12 +280,15 @@ export const InstagramCTA: React.FC = () => {
                 <div className="w-10 h-10 rounded-full bg-[#FFE066] border-2 border-[#111111] flex items-center justify-center text-[#111111] font-bold text-lg shrink-0 shadow-sm">
                   ↗
                 </div>
-              </button>
+              </a>
 
               {/* Instagram Polaroid Card Taped to Scrapbook */}
-              <div 
-                onClick={handleInstagramClick}
-                className="w-[280px] sm:w-[310px] bg-white border-[4px] border-[#111111] shadow-[8px_8px_0_#111111] rounded-2xl p-5 relative transform rotate-[4deg] hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer group shrink-0"
+              <a 
+                href={INSTAGRAM_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit @plottwist24x Instagram profile (opens in a new tab)"
+                className="w-[280px] sm:w-[310px] bg-white border-[4px] border-[#111111] shadow-[8px_8px_0_#111111] rounded-2xl p-5 relative transform rotate-[4deg] hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer group shrink-0 block"
               >
                 {/* Top Masking Tape */}
                 <MaskingTape color="pink" width={56} height={18} rotate={-8} className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30 opacity-90" />
@@ -324,7 +332,7 @@ export const InstagramCTA: React.FC = () => {
                 <div className="w-full bg-[#FF4FA3] text-white border-2 border-[#111111] shadow-[3px_3px_0_#111111] py-2 rounded-full font-baloo font-bold text-xs uppercase tracking-wider text-center group-hover:bg-[#FFE066] group-hover:text-[#111111] transition-colors duration-300">
                   Follow on Instagram ↗
                 </div>
-              </div>
+              </a>
 
             </div>
 
