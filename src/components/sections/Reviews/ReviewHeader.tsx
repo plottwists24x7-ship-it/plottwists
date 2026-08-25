@@ -15,13 +15,13 @@ export const ReviewHeader: React.FC = React.memo(() => {
       {/* Main Heading: WHAT OUR CUSTOMERS SAY (Shrikhand Ultra-Aesthetic Retro-Artisan Bakery Display) */}
       <h2 
         id="reviews-heading" 
-        className="font-shrikhand text-4xl sm:text-6xl md:text-7xl text-[#3B2A22] tracking-wide font-normal uppercase leading-[1.1] filter drop-shadow-[2px_2px_0_rgba(255,224,102,0.6)]"
+        className="font-shrikhand text-3xl xs:text-4xl sm:text-6xl md:text-7xl text-[#3B2A22] tracking-wide font-normal uppercase leading-[1.1] filter drop-shadow-[2px_2px_0_rgba(255,224,102,0.6)]"
       >
         What Our Customers Say
       </h2>
 
       {/* Handwritten Subtitle (Mali Marker Handwriting) */}
-      <p className="font-mali text-2xl sm:text-3xl font-bold text-[#EF5B5B] mt-2 rotate-[-1.5deg]">
+      <p className="font-mali text-lg xs:text-2xl sm:text-3xl font-bold text-[#EF5B5B] mt-2 rotate-[-1.5deg]">
         sweet memories & happy tummies ♡
       </p>
     </div>

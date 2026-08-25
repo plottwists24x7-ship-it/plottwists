@@ -488,5 +488,18 @@ export const INITIAL_STORY_IMAGES: StoryImagesConfig = {
   updatedAt: new Date().toISOString(),
 };
 
+// ─── 7. INSTAGRAM CTA CONFIG ───
+export interface InstagramCTAConfig {
+  image: string;
+  alt?: string;
+  updatedAt: string;
+}
+
+export const INITIAL_INSTAGRAM_CTA: InstagramCTAConfig = {
+  image: "/images/baker-where/instagram_cta_dessert.jpg",
+  alt: "PlotTwist24x signature gourmet cake dessert",
+  updatedAt: new Date().toISOString(),
+};
+
 
 

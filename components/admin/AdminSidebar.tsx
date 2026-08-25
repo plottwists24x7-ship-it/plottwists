@@ -56,6 +56,12 @@ const NAV_ITEMS = [
     icon: MessageSquareHeart,
     badge: null,
   },
+  {
+    label: "Instagram CTA",
+    href: "/admin/instagram",
+    icon: Sparkles,
+    badge: "Social",
+  },
 ];
 
 export function AdminSidebar({ onCloseMobile }: AdminSidebarProps) {

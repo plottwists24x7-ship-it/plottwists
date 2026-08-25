@@ -95,7 +95,7 @@ export default function Navbar() {
     <>
       <nav
         aria-label="Primary Navigation"
-        className="fixed top-8 md:top-10 left-1/2 transform -translate-x-1/2 w-[calc(100%-48px)] max-w-7xl z-50 px-6 py-3.5 bg-[#FAF9F6] border-4 border-[#3D2E25] rounded-2xl shadow-[5px_5px_0px_0px_#3D2E25,0_8px_28px_rgba(0,0,0,0.06)] flex items-center justify-between transition-all"
+        className="fixed top-4 md:top-10 left-1/2 transform -translate-x-1/2 w-[calc(100%-32px)] md:w-[calc(100%-48px)] max-w-7xl z-50 px-4 md:px-6 py-2.5 md:py-3.5 bg-[#FAF9F6] border-4 border-[#3D2E25] rounded-2xl shadow-[5px_5px_0px_0px_#3D2E25,0_8px_28px_rgba(0,0,0,0.06)] flex items-center justify-between transition-all"
       >
         {/* Scrapbook Tucked Layering behind Navbar (System 2) */}
         <div className="hidden lg:block absolute -top-4 -right-6 bg-[#22D3EE] text-[#3D2E25] font-bubble text-[9px] uppercase tracking-widest px-3 py-1 border-2 border-[#3D2E25] rounded-lg shadow-xs rotate-6 opacity-35 -z-10 pointer-events-none select-none">
@@ -109,7 +109,7 @@ export default function Navbar() {
         {/* Logo brand */}
         <button
           onClick={() => handleScrollTo("hero")}
-          className="flex items-center gap-2.5 font-bubble text-xl md:text-2xl text-[#3D2E25] cursor-pointer bg-transparent border-none p-0 focus-visible:outline-none"
+          className="flex items-center gap-2.5 font-bubble text-xl md:text-2xl text-[#3D2E25] cursor-pointer bg-transparent border-none p-0 focus-visible:outline-none min-h-[44px]"
         >
           <LogoIcon />
           <span>plotwist</span>
@@ -140,8 +140,8 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Right CTA arrow button */}
-        <div className="flex items-center gap-3">
+        {/* Right CTA arrow button & mobile toggle */}
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={preventDefault}
             className="hidden sm:flex bg-[#F43F5E] text-[#FAF9F6] border-3 border-[#3D2E25] shadow-[3px_3px_0px_0px_#3D2E25] hover:bg-[#DDF51A] hover:text-[#3D2E25] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-[4px_4px_0px_0px_#3D2E25] active:translate-x-[0px] active:translate-y-[0px] active:shadow-[3px_3px_0px_0px_#3D2E25] w-10 h-10 rounded-full items-center justify-center transition-all cursor-pointer focus-visible:outline-none"
@@ -153,7 +153,7 @@ export default function Navbar() {
           {/* Mobile Menu Icon */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-[#3D2E25] hover:opacity-80 transition-opacity p-1 cursor-pointer bg-transparent border-none focus-visible:outline-none"
+            className="md:hidden text-[#3D2E25] hover:opacity-80 transition-opacity p-2 min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer bg-transparent border-none focus-visible:outline-none"
             aria-label="Toggle navigation menu"
             aria-expanded={isMobileMenuOpen}
           >

@@ -3,11 +3,13 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { MaskingTape } from "@/components/paper/MaskingTape";
+import { useAdmin } from "@/context/AdminContext";
 
 // Official Instagram profile link (Placeholder URL - replace with the actual Instagram username when needed)
 const INSTAGRAM_PROFILE_URL = "https://www.instagram.com/plottwist24x7?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==";
 
 export const InstagramCTA: React.FC = () => {
+  const { instagramCTA } = useAdmin();
   const [wiggle, setWiggle] = useState(false);
 
   // Playful subtle wiggle on button every 10 seconds
@@ -28,7 +30,7 @@ export const InstagramCTA: React.FC = () => {
     <section
       id="instagram-cta"
       aria-label="Instagram Community Showcase"
-      className="relative w-full bg-[#FFFDF8] py-24 sm:py-32 md:py-40 px-4 sm:px-8 md:px-12 lg:px-20 overflow-hidden select-none"
+      className="relative w-full bg-[#FFFDF8] py-14 sm:py-24 md:py-40 px-4 sm:px-8 md:px-12 lg:px-20 overflow-hidden select-none"
     >
       {/* ─── TOP TORN PAPER EDGE TRANSITION ─── */}
       <div className="absolute top-0 left-0 right-0 w-full overflow-hidden leading-none z-30 pointer-events-none -translate-y-[1px]">
@@ -206,12 +208,13 @@ export const InstagramCTA: React.FC = () => {
             {/* Main Dessert Photo Cutout Card */}
             <div className="relative z-10 w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[500px] h-[360px] sm:h-[440px] lg:h-[480px] rounded-3xl overflow-hidden border-[5px] border-white bg-[#FAF4E8] shadow-[10px_10px_0_rgba(17,17,17,0.25)] transform -rotate-4 hover:rotate-0 transition-transform duration-500 ease-out group">
               <Image
-                src="/images/baker-where/instagram_cta_dessert.jpg"
-                alt="PlotTwist24x signature gourmet cake dessert"
+                src={instagramCTA?.image || "/images/baker-where/instagram_cta_dessert.jpg"}
+                alt={instagramCTA?.alt || "PlotTwist24x signature gourmet cake dessert"}
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 500px"
                 className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                unoptimized={Boolean(instagramCTA?.image?.startsWith("data:"))}
               />
 
               {/* Masking Tape on Dessert Photo */}
@@ -243,41 +246,41 @@ export const InstagramCTA: React.FC = () => {
             </div>
 
             {/* 1. Main Heading: Lilita One (ONE LAST: 84px, SWEET STOP...: 92px, Line Height 0.9, Letter Spacing -2px) */}
-            <h2 className="font-lilita leading-[0.9] tracking-[-2px] mb-6 filter drop-shadow-[2px_2px_0_rgba(255,224,102,0.8)]" style={{ fontFamily: "var(--font-lilita-one), 'Lilita One', cursive, sans-serif" }}>
-              <span className="text-[#111111] text-[52px] sm:text-[72px] lg:text-[84px] block" style={{ fontFamily: "var(--font-lilita-one), 'Lilita One', cursive, sans-serif" }}>ONE LAST</span>
-              <span className="text-[#FF4FA3] text-[58px] sm:text-[80px] lg:text-[92px] block" style={{ fontFamily: "var(--font-lilita-one), 'Lilita One', cursive, sans-serif" }}>SWEET STOP...</span>
+            <h2 className="font-lilita leading-[0.9] tracking-[-1px] sm:tracking-[-2px] mb-4 sm:mb-6 filter drop-shadow-[2px_2px_0_rgba(255,224,102,0.8)]" style={{ fontFamily: "var(--font-lilita-one), 'Lilita One', cursive, sans-serif" }}>
+              <span className="text-[#111111] text-[38px] xs:text-[48px] sm:text-[72px] lg:text-[84px] block" style={{ fontFamily: "var(--font-lilita-one), 'Lilita One', cursive, sans-serif" }}>ONE LAST</span>
+              <span className="text-[#FF4FA3] text-[42px] xs:text-[54px] sm:text-[80px] lg:text-[92px] block" style={{ fontFamily: "var(--font-lilita-one), 'Lilita One', cursive, sans-serif" }}>SWEET STOP...</span>
             </h2>
 
             {/* 2. Description: Caveat (Weight 500, Size 26px, Line Height 1.7, Letter Spacing 0.3px) */}
-            <p className="font-caveat font-medium text-[22px] sm:text-[26px] text-[#444444] leading-[1.7] tracking-[0.3px] max-w-[480px] mb-6">
+            <p className="font-caveat font-medium text-[18px] xs:text-[22px] sm:text-[26px] text-[#444444] leading-[1.6] sm:leading-[1.7] tracking-[0.3px] max-w-[480px] mb-5 sm:mb-6">
               Fresh bakes. Behind-the-scenes moments. New flavours. Tiny baking chaos. Follow us and never miss a sweet surprise.
             </p>
 
             {/* 3. Quote Strip: Pacifico (19px, Regular) */}
-            <div className="w-full max-w-[390px] h-[52px] bg-[#FFF9F5] rounded-[16px] border-l-[6px] border-[#FF5DAE] shadow-[0_8px_24px_rgba(0,0,0,0.06)] px-[22px] flex items-center mb-8">
-              <p className="font-pacifico text-[19px] font-normal text-[#FF4FA3]">
+            <div className="w-full max-w-[390px] min-h-[48px] sm:h-[52px] bg-[#FFF9F5] rounded-[16px] border-l-[6px] border-[#FF5DAE] shadow-[0_8px_24px_rgba(0,0,0,0.06)] px-4 sm:px-[22px] py-2 flex items-center mb-6 sm:mb-8">
+              <p className="font-pacifico text-[15px] sm:text-[19px] font-normal text-[#FF4FA3]">
                 &ldquo;Every dessert has a story. Come watch ours.&rdquo;
               </p>
             </div>
 
             {/* CTA Button & Instagram Polaroid Card Container */}
-            <div className="flex flex-col sm:flex-row items-center gap-8 lg:gap-10 w-full justify-center lg:justify-start">
+            <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 lg:gap-10 w-full justify-center lg:justify-start">
               
               {/* 4 & 5. FOLLOW Button: Baloo 2 ExtraBold (800 weight, 46px FOLLOW, 24px Username) */}
               <a
                 href={INSTAGRAM_PROFILE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`bg-[#FF4FA3] text-white border-[4px] border-[#111111] shadow-[8px_8px_0px_#111111] hover:shadow-[12px_12px_0px_#111111] hover:-translate-y-1.5 hover:rotate-[-2deg] hover:scale-[1.04] active:translate-y-0 active:shadow-[4px_4px_0px_#111111] px-7 py-4 rounded-[20px] uppercase flex items-center justify-between gap-4 transition-all duration-300 cursor-pointer focus-visible:outline-none ${
+                className={`w-full sm:w-auto min-h-[56px] bg-[#FF4FA3] text-white border-[3.5px] sm:border-[4px] border-[#111111] shadow-[6px_6px_0px_#111111] sm:shadow-[8px_8px_0px_#111111] hover:shadow-[12px_12px_0px_#111111] hover:-translate-y-1.5 hover:rotate-[-2deg] hover:scale-[1.04] active:translate-y-0 active:shadow-[3px_3px_0px_#111111] px-5 sm:px-7 py-3 sm:py-4 rounded-[20px] uppercase flex items-center justify-between gap-4 transition-all duration-300 cursor-pointer focus-visible:outline-none ${
                   wiggle ? "animate-wiggle" : ""
                 }`}
                 aria-label="Follow @PLOTTWIST24X on Instagram (opens in a new tab)"
               >
                 <span className="leading-none text-left">
-                  <span className="font-baloo font-extrabold text-[36px] sm:text-[46px] text-white block">FOLLOW</span>
-                  <span className="font-baloo font-bold text-[18px] sm:text-[24px] text-[#FFE36A] block mt-1">@PLOTTWIST24X</span>
+                  <span className="font-baloo font-extrabold text-[28px] xs:text-[36px] sm:text-[46px] text-white block">FOLLOW</span>
+                  <span className="font-baloo font-bold text-[15px] xs:text-[18px] sm:text-[24px] text-[#FFE36A] block mt-0.5 sm:mt-1">@PLOTTWIST24X</span>
                 </span>
-                <div className="w-10 h-10 rounded-full bg-[#FFE066] border-2 border-[#111111] flex items-center justify-center text-[#111111] font-bold text-lg shrink-0 shadow-sm">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#FFE066] border-2 border-[#111111] flex items-center justify-center text-[#111111] font-bold text-base sm:text-lg shrink-0 shadow-sm">
                   ↗
                 </div>
               </a>
@@ -288,7 +291,7 @@ export const InstagramCTA: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Visit @plottwist24x Instagram profile (opens in a new tab)"
-                className="w-[280px] sm:w-[310px] bg-white border-[4px] border-[#111111] shadow-[8px_8px_0_#111111] rounded-2xl p-5 relative transform rotate-[4deg] hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer group shrink-0 block"
+                className="w-full max-w-[280px] sm:w-[310px] bg-white border-[3.5px] sm:border-[4px] border-[#111111] shadow-[6px_6px_0_#111111] sm:shadow-[8px_8px_0_#111111] rounded-2xl p-4 sm:p-5 relative transform rotate-[2deg] sm:rotate-[4deg] hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer group shrink-0 block"
               >
                 {/* Top Masking Tape */}
                 <MaskingTape color="pink" width={56} height={18} rotate={-8} className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30 opacity-90" />

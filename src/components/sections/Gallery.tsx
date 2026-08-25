@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { GALLERY_PHOTOS } from "./Gallery/GalleryData";
@@ -385,8 +386,98 @@ export default function Gallery() {
         </svg>
       </div>
 
-      {/* Two-Column Flex Layout - Prevents absolute positioned canvas overflow on medium/large screens */}
-      <div className="w-full max-w-7xl flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 z-10 relative">
+      {/* ========================================================================= */}
+      {/* MOBILE GALLERY SECTION (≤768px): Centered 2-Column Grid with Bottom CTA */}
+      {/* ========================================================================= */}
+      <div className="block lg:hidden w-full relative z-10 px-4 py-8 select-none">
+        
+        {/* Centered Mobile Header */}
+        <div className="flex flex-col items-center text-center mb-6 relative">
+          <div className="inline-flex items-center gap-1.5 mb-2.5">
+            <span className="font-manrope text-[11px] font-extrabold uppercase tracking-[0.2em] bg-[#FFE066] text-[#3B2A22] px-3.5 py-1 rounded-full border-2 border-[#3B2A22] shadow-[2px_2px_0_#3B2A22] rotate-[-1deg]">
+              ✨ SWEET MEMORIES
+            </span>
+          </div>
+          
+          <h2 className="font-cherry text-4xl xs:text-5xl text-[#3B2A22] uppercase leading-[0.95] tracking-[0.02em] font-bold mb-2">
+            OUR GALLERY
+          </h2>
+          
+          <p className="font-manrope text-xs xs:text-sm text-[#3B2A22]/85 leading-relaxed max-w-xs mx-auto font-medium">
+            Moments, memories & magic from our kitchen to yours ♡
+          </p>
+        </div>
+
+        {/* 2-Column Gallery Grid (16px gap, 24px top & bottom margins) */}
+        <div className="grid grid-cols-2 gap-3.5 sm:gap-4 w-full max-w-lg mx-auto mt-6 mb-6">
+          {activePhotos.map((photo, index) => {
+            const tapeColors = ["beige", "pink", "blue", "yellow-grid", "brown", "striped", "beige", "pink"];
+            const tapeColor = photo.attachment?.color || tapeColors[index % tapeColors.length];
+            
+            return (
+              <div
+                key={photo.id}
+                className="relative bg-white border-[3px] border-[#3D2E25] rounded-2xl shadow-[4px_4px_0_#3D2E25] p-1.5 xs:p-2 pb-2.5 flex flex-col items-center justify-between transition-transform duration-200 h-full"
+              >
+                {/* Centered Top Masking Tape */}
+                <MaskingTape color={tapeColor} />
+
+                {/* Proportional Image Container - 10-15% more prominent while maintaining aspect ratio */}
+                <div className="relative w-full aspect-[1/1] rounded-[10px] xs:rounded-xl overflow-hidden bg-[#FAF5EE] border border-[#3D2E25]/15 shadow-inner">
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt || photo.label}
+                    fill
+                    sizes="(max-width: 640px) 48vw, 220px"
+                    loading="lazy"
+                    className="object-cover object-center scale-102"
+                    unoptimized={photo.src.startsWith("data:")}
+                  />
+                  {/* Number Badge */}
+                  <div className="absolute top-1.5 right-1.5 bg-[#3D2E25]/90 text-[#FAF9F6] font-bubble text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded-md shadow-xs z-10 pointer-events-none">
+                    № 0{index + 1}
+                  </div>
+                </div>
+
+                {/* Center-aligned Caption with consistent vertical alignment */}
+                <div className="w-full text-center mt-2 px-0.5 min-h-[38px] flex flex-col justify-center items-center">
+                  <h3 className="font-fasthand text-base xs:text-lg text-[#3B2A22] font-bold leading-tight truncate w-full">
+                    {photo.label}
+                  </h3>
+                  <p className="font-bubble text-[9px] xs:text-[10px] text-[#3D2E25]/70 uppercase tracking-wider mt-0.5">
+                    Fresh Bakes ♡
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Centered Primary Button below Gallery Grid (Full width minus 32px padding, 32px bottom space) */}
+        <div className="w-full flex justify-center mb-8">
+          <button 
+            className="w-full max-w-sm h-[52px] sm:h-[56px] px-6 bg-[#2D6DFF] text-[#FAF9F6] border-4 border-[#3B2A22] shadow-[5px_5px_0px_0px_#3B2A22] sm:shadow-[6px_6px_0px_0px_#3B2A22] active:shadow-[2px_2px_0px_0px_#3B2A22] active:translate-x-[2px] active:translate-y-[2px] rounded-full font-manrope font-bold text-xs xs:text-sm uppercase tracking-wider flex items-center justify-center gap-3 transition-all duration-200 cursor-pointer"
+            aria-label="Explore our flavors"
+            onClick={() => {
+              const target = document.getElementById("bakes");
+              if (target) target.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            <span>EXPLORE OUR FLAVORS</span>
+            <div className="w-9 h-9 rounded-full bg-[#F4FF18] border-2 sm:border-3 border-[#3B2A22] flex items-center justify-center text-[#3B2A22] shrink-0" aria-hidden="true">
+              <svg className="w-4 h-4 text-[#3B2A22]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M5 3l14 9-14 9z" />
+              </svg>
+            </div>
+          </button>
+        </div>
+
+      </div>
+
+      {/* ========================================================================= */}
+      {/* DESKTOP GALLERY SECTION (lg+): 100% Pixel-Identical Two-Column Layout */}
+      {/* ========================================================================= */}
+      <div className="hidden lg:flex w-full max-w-7xl flex-row items-center justify-between gap-12 lg:gap-16 z-10 relative">
         
         {/* ========================================================================= */}
         {/* LEFT COLUMN: Clean Editorial Copy Column (35% Width) */}
@@ -406,7 +497,7 @@ export default function Gallery() {
           
           {/* Red heart sticker next to heading */}
           <Sticker type="heart" className="absolute top-[18px] left-[150px] w-5 h-5 rotate-[-10deg] scrapbook-canvas-sticker" />
-
+          
           <h2 id="gallery-title" className="font-cherry text-6xl lg:text-7xl text-[#3B2A22] uppercase leading-[0.92] tracking-[0.03em] font-bold mb-8 max-w-[430px] w-full">
             OUR <br />
             GALLERY
@@ -420,23 +511,15 @@ export default function Gallery() {
           <svg className="absolute bottom-[-15px] left-[150px] w-20 h-20 text-[#E66B7B] pointer-events-none z-0" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" aria-hidden="true">
             <defs>
               <mask id="scribble-mask">
-                <path
+                {/* Reveal mask animated via GSAP */}
+                <path 
+                  d="M 10 10 C 30 10, 50 40, 45 70 C 40 90, 70 80, 85 65 L 82 50" 
                   className="scribble-mask-path"
-                  d="M 10 10 C 30 10, 50 40, 45 70 C 40 90, 70 80, 85 65"
-                  fill="none"
-                  stroke="#FFFFFF"
-                  strokeWidth="10"
-                  strokeDasharray="150"
-                  strokeDashoffset="150"
-                />
-                <path
-                  className="scribble-mask-arrow"
-                  d="M 72 65 L 85 65 L 82 50"
-                  fill="none"
-                  stroke="#FFFFFF"
-                  strokeWidth="10"
-                  strokeDasharray="40"
-                  strokeDashoffset="40"
+                  stroke="#FFFFFF" 
+                  strokeWidth="16" 
+                  fill="none" 
+                  strokeDasharray="220" 
+                  strokeDashoffset="220" 
                 />
               </mask>
             </defs>
@@ -455,8 +538,12 @@ export default function Gallery() {
 
           {/* Premium Blue CTA Button */}
           <button 
-            className="h-[56px] px-8 bg-[#2D6DFF] text-[#FAF9F6] border-4 border-[#3B2A22] shadow-[6px_6px_0px_0px_#3B2A22] hover:shadow-[8px_8px_0px_0px_#3B2A22] hover:translate-x-[-2px] hover:translate-y-[-2px] active:shadow-[2px_2px_0px_0px_#3B2A22] active:translate-x-[2px] active:translate-y-[2px] rounded-full font-manrope font-bold text-sm uppercase tracking-wider flex items-center gap-3.5 transition-all duration-250 ease-out relative z-10 group"
+            className="h-[56px] px-8 bg-[#2D6DFF] text-[#FAF9F6] border-4 border-[#3B2A22] shadow-[6px_6px_0px_0px_#3B2A22] hover:shadow-[8px_8px_0px_0px_#3B2A22] hover:translate-x-[-2px] hover:translate-y-[-2px] active:shadow-[2px_2px_0px_0px_#3B2A22] active:translate-x-[2px] active:translate-y-[2px] rounded-full font-manrope font-bold text-sm uppercase tracking-wider flex items-center gap-3.5 transition-all duration-250 ease-out relative z-10 group cursor-pointer"
             aria-label="Explore our flavors"
+            onClick={() => {
+              const target = document.getElementById("bakes");
+              if (target) target.scrollIntoView({ behavior: "smooth" });
+            }}
           >
             <span>EXPLORE OUR FLAVORS</span>
             <div className="w-11 h-11 rounded-full bg-[#F4FF18] border-3 border-[#3B2A22] flex items-center justify-center group-hover:rotate-8 transition-transform duration-250 ease-out" aria-hidden="true">
@@ -470,10 +557,10 @@ export default function Gallery() {
         {/* ========================================================================= */}
         {/* RIGHT COLUMN: Stable Collage Canvas Wrapper (65% Width) */}
         {/* ========================================================================= */}
-        <div className="w-full lg:w-[65%] flex justify-center lg:justify-end relative h-[450px] sm:h-[530px] md:h-[580px] lg:h-[620px] overflow-visible">
+        <div className="w-full lg:w-[65%] flex justify-center lg:justify-end relative h-[360px] xs:h-[400px] sm:h-[530px] md:h-[580px] lg:h-[620px] overflow-hidden lg:overflow-visible">
           
-          {/* DESKTOP/MOBILE CANVAS: Scaled proportionally on viewports with group/canvas hover dimming (Enlarged by 18% per Master Prompt) */}
-          <div ref={canvasRef} className="group/canvas relative w-[910px] h-[530px] select-none transform scale-[0.50] xs:scale-[0.55] sm:scale-[0.74] md:scale-[0.87] lg:scale-[1.10] lg:-translate-x-6 origin-center lg:origin-right">
+          {/* DESKTOP CANVAS: Scaled proportionally on viewports with group/canvas hover dimming */}
+          <div ref={canvasRef} className="group/canvas relative w-[910px] h-[530px] select-none transform scale-[0.40] xs:scale-[0.46] sm:scale-[0.70] md:scale-[0.87] lg:scale-[1.10] lg:-translate-x-6 origin-center lg:origin-right">
             
             {/* Render 8 Photo Cards from config */}
             {activePhotos.map((photo) => (
@@ -497,17 +584,13 @@ export default function Gallery() {
             {/* VISUAL HIERARCHY DECORATION SYSTEM */}
             {/* ========================================================================= */}
             
-            {/* ------------------------------------------------------------------------- */}
             {/* ⭐ TIER 1: 3-4 PRIMARY STICKERS (Slightly Larger, Prominent Focal Points - 44px-56px) */}
-            {/* ------------------------------------------------------------------------- */}
             <Sticker type="seal" className="absolute top-[20px] right-[40px] z-12 w-14 h-14" />
             <Sticker type="smiley-yellow" className="absolute top-[195px] left-[215px] z-12 w-12 h-12 scrapbook-canvas-sticker" />
             <Sticker type="heart" className="absolute top-[-30px] left-[80px] z-12 w-11 h-11 rotate-[-15deg] scrapbook-canvas-sticker" />
             <Sticker type="flower" className="absolute bottom-[40px] right-[280px] z-12 w-11 h-11 rotate-[-8deg]" />
 
-            {/* ------------------------------------------------------------------------- */}
             {/* ✨ TIER 2: 6-8 MEDIUM DOODLES (Supporting Accents - 28px-36px) */}
-            {/* ------------------------------------------------------------------------- */}
             <CroissantDoodle className="absolute top-[-25px] left-[190px] w-8 h-8 rotate-[-15deg] z-12" />
             <RollingPinDoodle className="absolute top-[40px] right-[140px] w-9 h-9 rotate-[25deg] z-12" />
             <WhiskDoodle className="absolute bottom-[30px] left-[60px] w-8 h-8 rotate-[-30deg] z-12" />
@@ -517,22 +600,17 @@ export default function Gallery() {
             <Decoration type="arrow-down" className="absolute bottom-[290px] left-[320px] z-12" />
             <Sticker type="diamond" className="absolute top-[180px] left-[100px] z-12 w-8 h-8 rotate-[15deg]" />
 
-            {/* ------------------------------------------------------------------------- */}
             {/* • TIER 3: 10-12 TINY SPARKLES / HEARTS / DUSTING (Micro Accents - 14px-20px) */}
-            {/* ------------------------------------------------------------------------- */}
-            {/* Tiny Red/Pink Hearts */}
             <Sticker type="heart" className="absolute top-[110px] left-[260px] z-12 w-4.5 h-4.5 rotate-[12deg]" />
             <Sticker type="heart" className="absolute top-[15px] right-[180px] z-12 w-4 h-4 rotate-[-8deg]" />
             <Sticker type="heart" className="absolute bottom-[80px] left-[20px] z-12 w-4.5 h-4.5 rotate-[18deg]" />
             <Sticker type="heart" className="absolute bottom-[200px] right-[40px] z-12 w-4 h-4 rotate-[-12deg]" />
 
-            {/* Tiny Yellow Sparkles */}
             <Sticker type="sparkle" className="absolute top-[80px] left-[420px] z-12 w-5 h-5" />
             <Sticker type="sparkle" className="absolute bottom-[185px] right-[230px] z-12 w-4.5 h-4.5" />
             <Sticker type="sparkle" className="absolute top-[20px] right-[350px] z-12 w-4 h-4 rotate-[15deg]" />
             <Sticker type="sparkle" className="absolute bottom-[100px] left-[440px] z-12 w-4.5 h-4.5" />
 
-            {/* Micro 8-Pointed Star Specks */}
             <svg className="absolute top-[120px] left-[15px] w-4 h-4 text-[#3B2A22]/60 pointer-events-none rotate-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               <line x1="12" y1="2" x2="12" y2="22" /><line x1="2" y1="12" x2="22" y2="12" />
               <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" /><line x1="19.07" y1="4.93" x2="4.93" y2="19.07" />
@@ -543,13 +621,11 @@ export default function Gallery() {
               <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" /><line x1="19.07" y1="4.93" x2="4.93" y2="19.07" />
             </svg>
 
-            {/* Coffee Beans & Chocolate Crumbs */}
             <Decoration type="coffee" className="absolute top-[20px] left-[430px] z-12 rotate-[-12deg]" />
             <Decoration type="coffee" className="absolute bottom-[100px] right-[430px] z-12 rotate-[35deg]" />
             <Decoration type="chocolate" className="absolute top-[350px] left-[30px] z-12" />
             <Decoration type="chocolate" className="absolute top-[280px] left-[210px] z-12 rotate-[-15deg]" />
 
-            {/* Steam Swirls */}
             <SteamSwirlsDoodle className="absolute top-[160px] left-[380px] w-6 h-6 z-12 opacity-60" />
 
           </div>

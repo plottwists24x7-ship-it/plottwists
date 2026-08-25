@@ -9,7 +9,7 @@ interface HeroContainerProps {
 
 export const HeroContainer: React.FC<HeroContainerProps> = React.memo(({ onExploreClick = () => {}, onStoryClick = () => {} }) => {
   return (
-    <div className="HeroContainer relative w-full max-w-[1480px] mx-auto px-8 md:px-[64px] min-h-[calc(100vh-80px)] flex items-center justify-center pt-28 pb-12 overflow-hidden">
+    <div className="HeroContainer relative w-full max-w-[1480px] mx-auto px-4 sm:px-8 md:px-[64px] min-h-auto md:min-h-[calc(100vh-80px)] flex items-center justify-center pt-20 sm:pt-24 md:pt-28 pb-8 md:pb-12 overflow-hidden">
       <HeroEditorialLayer />
       <HeroGrid onExploreClick={onExploreClick} onStoryClick={onStoryClick} />
     </div>

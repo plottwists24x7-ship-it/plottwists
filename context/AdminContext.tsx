@@ -8,12 +8,14 @@ import {
   HeroConfig,
   StoryConfig,
   StoryImagesConfig,
+  InstagramCTAConfig,
   INITIAL_PRODUCTS, 
   INITIAL_GALLERY_PHOTOS, 
   INITIAL_REVIEWS_LIST,
   INITIAL_HERO,
   INITIAL_STORY,
-  INITIAL_STORY_IMAGES 
+  INITIAL_STORY_IMAGES,
+  INITIAL_INSTAGRAM_CTA
 } from "@/lib/mock-data";
 
 export interface AdminStats {
@@ -31,6 +33,7 @@ export interface AdminContextType {
   hero: HeroConfig;
   story: StoryConfig;
   storyImages: StoryImagesConfig;
+  instagramCTA: InstagramCTAConfig;
   stats: AdminStats;
   
   // Hero Actions
@@ -39,6 +42,9 @@ export interface AdminContextType {
   // Story Actions
   updateStory: (updates: Partial<StoryConfig>) => void;
   updateStoryImages: (updates: Partial<StoryImagesConfig>) => void;
+
+  // Instagram CTA Actions
+  updateInstagramCTA: (updates: Partial<InstagramCTAConfig>) => void;
   
   // Bake Actions
   addBake: (bake: Omit<SharedProduct, "id" | "createdAt" | "updatedAt">) => SharedProduct;
@@ -67,6 +73,7 @@ const STORAGE_KEYS = {
   HERO: "plottwist_shared_hero_v2",
   STORY: "plottwist_shared_story_v2",
   STORY_IMAGES: "plottwist_shared_story_images_v2",
+  INSTAGRAM_CTA: "plottwist_shared_instagram_cta_v2",
   LAST_UPDATED: "plottwist_shared_last_updated_v2",
 };
 
@@ -79,6 +86,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [hero, setHero] = useState<HeroConfig>(INITIAL_HERO);
   const [story, setStory] = useState<StoryConfig>(INITIAL_STORY);
   const [storyImages, setStoryImages] = useState<StoryImagesConfig>(INITIAL_STORY_IMAGES);
+  const [instagramCTA, setInstagramCTA] = useState<InstagramCTAConfig>(INITIAL_INSTAGRAM_CTA);
   const [lastUpdated, setLastUpdated] = useState<string>("Just now");
 
   // Synchronize on mount from localStorage
@@ -90,6 +98,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       const storedHero = localStorage.getItem(STORAGE_KEYS.HERO);
       const storedStory = localStorage.getItem(STORAGE_KEYS.STORY);
       const storedStoryImages = localStorage.getItem(STORAGE_KEYS.STORY_IMAGES);
+      const storedInstagramCTA = localStorage.getItem(STORAGE_KEYS.INSTAGRAM_CTA);
       const storedUpdated = localStorage.getItem(STORAGE_KEYS.LAST_UPDATED);
 
       if (storedBakes) setBakes(JSON.parse(storedBakes));
@@ -98,6 +107,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       if (storedHero) setHero(JSON.parse(storedHero));
       if (storedStory) setStory(JSON.parse(storedStory));
       if (storedStoryImages) setStoryImages(JSON.parse(storedStoryImages));
+      if (storedInstagramCTA) setInstagramCTA(JSON.parse(storedInstagramCTA));
       if (storedUpdated) setLastUpdated(storedUpdated);
     } catch (e) {
       console.warn("Using shared initial mock data:", e);
@@ -325,6 +335,18 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     });
   }, [persistUpdate]);
 
+  const updateInstagramCTA = useCallback((updates: Partial<InstagramCTAConfig>) => {
+    setInstagramCTA((prev) => {
+      const next: InstagramCTAConfig = {
+        ...prev,
+        ...updates,
+        updatedAt: new Date().toISOString(),
+      };
+      persistUpdate(STORAGE_KEYS.INSTAGRAM_CTA, next);
+      return next;
+    });
+  }, [persistUpdate]);
+
   // ─── RESET ───
   const resetToDefaults = useCallback(() => {
     setBakes(INITIAL_PRODUCTS);
@@ -333,6 +355,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     setHero(INITIAL_HERO);
     setStory(INITIAL_STORY);
     setStoryImages(INITIAL_STORY_IMAGES);
+    setInstagramCTA(INITIAL_INSTAGRAM_CTA);
     setLastUpdated("Reset to initial master dataset");
 
     localStorage.removeItem(STORAGE_KEYS.BAKES);
@@ -341,6 +364,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem(STORAGE_KEYS.HERO);
     localStorage.removeItem(STORAGE_KEYS.STORY);
     localStorage.removeItem(STORAGE_KEYS.STORY_IMAGES);
+    localStorage.removeItem(STORAGE_KEYS.INSTAGRAM_CTA);
     localStorage.removeItem(STORAGE_KEYS.LAST_UPDATED);
   }, []);
 
@@ -358,10 +382,12 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     hero,
     story,
     storyImages,
+    instagramCTA,
     stats,
     updateHero,
     updateStory,
     updateStoryImages,
+    updateInstagramCTA,
     addBake,
     updateBake,
     deleteBake,
@@ -380,10 +406,12 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     hero,
     story,
     storyImages,
+    instagramCTA,
     stats,
     updateHero,
     updateStory,
     updateStoryImages,
+    updateInstagramCTA,
     addBake,
     updateBake,
     deleteBake,

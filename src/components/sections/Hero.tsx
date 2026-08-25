@@ -14,7 +14,7 @@ export default function Hero({ onExploreClick, onStoryClick }: HeroProps) {
   return (
     <section
       id="hero"
-      className="HeroBackground relative min-h-[900px] max-h-[1080px] h-screen w-full bg-[#BFF0E1] border-b-4 border-[#3D2E25] overflow-hidden"
+      className="HeroBackground relative min-h-[100svh] md:min-h-[900px] md:max-h-[1080px] h-auto md:h-screen w-full bg-[#BFF0E1] border-b-4 border-[#3D2E25] overflow-hidden"
     >
       {/* Background Dot Pattern Layer */}
       <div className="absolute inset-0 z-0 opacity-10 bg-[radial-gradient(#3D2E25_2px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />

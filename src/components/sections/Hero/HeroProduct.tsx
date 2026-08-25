@@ -7,16 +7,16 @@ import { HeroStickyNote } from "./HeroStickyNote";
 
 export const HeroProduct: React.FC = React.memo(() => {
   return (
-    <div className="HeroRightContent md:col-span-7 flex items-center justify-center relative mt-6 md:mt-0 md:-translate-x-[15%]">
-      {/* 9-Tier Z-Index Stacking Context Anchor (clamp(360px,41vw,680px)) */}
-      <div className="relative w-[clamp(360px,41vw,680px)] h-[clamp(360px,41vw,680px)] flex items-center justify-center">
+    <div className="HeroRightContent md:col-span-7 flex items-center justify-center relative mt-4 sm:mt-6 md:mt-0 md:-translate-x-[15%]">
+      {/* 9-Tier Z-Index Stacking Context Anchor */}
+      <div className="relative w-[clamp(260px,70vw,380px)] h-[clamp(260px,70vw,380px)] md:w-[clamp(360px,41vw,680px)] md:h-[clamp(360px,41vw,680px)] flex items-center justify-center">
         {/* z-5: 4-Layer Paper Stack */}
         <HeroPaperStack />
 
         {/* z-10: Organic Torn Paper Frame Mounted Around Cheesecake */}
         <HeroTornPaperMask />
 
-        {/* z-20: Circular Cheesecake Dessert Anchor (~41% Viewport Width, 15s Calm Breathe) */}
+        {/* z-20: Circular Cheesecake Dessert Anchor */}
         <div 
           className="HeroProduct relative w-full h-full rounded-full border-4 border-[#3D2E25] overflow-hidden shadow-[0_24px_60px_rgba(61,46,37,0.10)] z-20 flex-shrink-0 animate-cheesecake-breathe"
           style={{ animationDelay: "1s" }}

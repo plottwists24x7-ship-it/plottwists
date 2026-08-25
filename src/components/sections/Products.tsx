@@ -561,59 +561,64 @@ export default function Products() {
       </div>
 
       {/* ========================================================================= */}
-      {/* MOBILE VERTICAL SHOWCASE SECTION */}
+      {/* MOBILE VERTICAL SHOWCASE SECTION (Premium, Thumb-Friendly, Conversion-Focused) */}
       {/* ========================================================================= */}
-      <div className="w-full py-16 px-6 block lg:hidden relative z-10">
+      <div className="w-full py-12 xs:py-16 px-4 xs:px-6 block lg:hidden relative z-10">
         
-        <div className="text-center mb-12 select-none">
+        <div className="text-center mb-8 xs:mb-12 select-none">
           <h2
             style={{ fontFamily: "var(--font-fasthand-g), 'FastHand', 'Fasthand', cursive, sans-serif" }}
-            className="text-5xl text-[#6B2C12] uppercase leading-[0.9] tracking-tight mb-3 font-bold"
+            className="text-4xl xs:text-5xl text-[#6B2C12] uppercase leading-[0.9] tracking-tight mb-2.5 font-bold"
           >
             OUR BAKES
           </h2>
           <p
             style={{ fontFamily: "var(--font-workforce-g), 'Workforce', sans-serif" }}
-            className="text-sm text-[#4A4A4A] max-w-sm mx-auto font-medium"
+            className="text-xs xs:text-sm text-[#4A4A4A] max-w-sm mx-auto font-medium"
           >
             Scroll to discover our fresh handcrafted creations.
           </p>
         </div>
 
-        <div className="mobile-showcase-container max-w-xl mx-auto flex flex-col gap-10">
+        <div className="mobile-showcase-container max-w-xl mx-auto flex flex-col gap-6 xs:gap-8">
           {activeProducts.map((product) => (
             <div
               key={product.id}
-              className="mobile-product-card w-full p-6 bg-white border-4 border-[#6B2C12] shadow-[6px_6px_0px_0px_#6B2C12] rounded-3xl flex flex-col items-center gap-6 relative overflow-hidden"
+              className="mobile-product-card w-full p-5 xs:p-6 bg-white border-[3.5px] border-[#6B2C12] shadow-[5px_5px_0px_0px_#6B2C12] xs:shadow-[6px_6px_0px_0px_#6B2C12] rounded-3xl flex flex-col items-center gap-5 relative overflow-hidden"
             >
-              <div className="relative w-48 h-48 flex-shrink-0 p-2 bg-[#FFF400] rounded-2xl">
+              <div className="relative w-40 h-40 xs:w-48 xs:h-48 flex-shrink-0 p-2 bg-[#FFF400] rounded-2xl shadow-inner">
                 <div className="relative w-full h-full rounded-xl overflow-hidden bg-white border-2 border-white shadow-xs">
                   <Image
                     src={product.image}
                     alt={product.name}
                     fill
                     loading="lazy"
-                    sizes="192px"
+                    sizes="(max-width: 640px) 192px, 300px"
                     className="object-cover scale-105"
                   />
                 </div>
+                {product.badgeText && (
+                  <div className="absolute -top-2.5 -right-2.5 bg-[#FFE63B] text-[#6B2C12] border-2 border-[#6B2C12] shadow-sm px-2.5 py-0.5 rounded-full font-bold text-[10px] uppercase tracking-wider transform rotate-6">
+                    {product.badgeText}
+                  </div>
+                )}
               </div>
 
               <div className="w-full flex flex-col items-center text-center">
-                <span className="text-[0.65rem] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#6B2C12] text-[#FFFCEB] mb-3">
-                  {product.serial}
+                <span className="text-[0.65rem] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full bg-[#6B2C12] text-[#FFFCEB] mb-2.5">
+                  {product.serial || "SPECIAL"}
                 </span>
                 
                 <h4
                   style={{ fontFamily: "var(--font-fasthand-g), 'FastHand', 'Fasthand', cursive, sans-serif" }}
-                  className="text-3xl uppercase tracking-wider text-[#6B2C12] mb-2 font-bold"
+                  className="text-2xl xs:text-3xl uppercase tracking-wider text-[#6B2C12] mb-1.5 font-bold"
                 >
                   {product.name}
                 </h4>
 
                 <p
                   style={{ fontFamily: "var(--font-workforce-g), 'Workforce', sans-serif" }}
-                  className="text-sm leading-relaxed text-[#4A4A4A] font-medium mb-6"
+                  className="text-xs xs:text-sm leading-relaxed text-[#4A4A4A] font-medium mb-5 max-w-sm"
                 >
                   {product.description}
                 </p>
@@ -621,9 +626,10 @@ export default function Products() {
                 <button
                   onClick={scrollToInstagramCTA}
                   aria-label={`Try this bake: ${product.name}`}
-                  className="bg-[#1E63D5] text-white px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-widest shadow-xs cursor-pointer hover:bg-[#1853b3] transition-colors focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFE63B]"
+                  className="w-full max-w-xs min-h-[48px] bg-[#1E63D5] hover:bg-[#1853b3] active:scale-[0.98] text-white px-6 py-3 rounded-full text-xs xs:text-sm font-bold uppercase tracking-wider shadow-[3px_3px_0_#6B2C12] flex items-center justify-center gap-2 transition-all cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFE63B]"
                 >
-                  Try this bake
+                  <span>Try This Bake</span>
+                  <span className="text-sm">↗</span>
                 </button>
               </div>
             </div>

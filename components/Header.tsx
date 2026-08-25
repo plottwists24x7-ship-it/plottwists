@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,7 @@ export function Header() {
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("story");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Admin password modal state
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
@@ -281,9 +282,126 @@ export function Header() {
               <Lock className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#3B2A22]" />
             </button>
 
+            {/* Mobile Menu Toggle Button (Visible only on < md screens) */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMobileMenuOpen}
+              className="md:hidden w-9 h-9 bg-[#FAF4E8] hover:bg-[#FFE066] border-2 border-[#3B2A22] rounded-xl shadow-[2.5px_2.5px_0_#3B2A22] flex items-center justify-center text-[#3B2A22] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_#3B2A22] transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4FA3]"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-5 h-5 text-[#3B2A22]" />
+              ) : (
+                <svg className="w-5 h-5 text-[#3B2A22]" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" viewBox="0 0 24 24">
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+              )}
+            </button>
+
           </div>
 
         </div>
+
+        {/* ========================================================================= */}
+        {/* MOBILE SCRAPBOOK FLYOUT / DRAWER (Thumb-Friendly, Accessible) */}
+        {/* ========================================================================= */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden mt-2 bg-[#FFFDF8] border-[3px] border-[#3B2A22] rounded-2xl shadow-[8px_8px_0_rgba(59,42,34,0.3)] p-4 select-none animate-in slide-in-from-top-4 duration-200 relative overflow-hidden">
+            {/* Top Masking Tape */}
+            <MaskingTape color="pink" width={50} height={16} rotate={-6} className="absolute -top-2.5 left-8 z-30 opacity-90" />
+            
+            <div className="text-center pb-2 border-b border-[#3B2A22]/15 mb-3 flex items-center justify-between">
+              <span className="font-cherry text-sm text-[#3B2A22] font-bold">
+                BAKERY DIRECTORY
+              </span>
+              <span className="font-fasthand text-xs text-[#EF5B5B] font-bold">
+                Tap to jump 🥐
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2.5">
+              {/* Story */}
+              <button
+                onClick={() => {
+                  scrollToSection("story");
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`min-h-[48px] px-3 py-2 rounded-xl border-2 border-[#3B2A22] text-xs font-fredoka font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[2px_2px_0_#3B2A22] active:translate-y-0.5 transition-all ${
+                  activeTab === "story" ? "bg-[#EF5B5B] text-white" : "bg-[#EFE6CE] text-[#3B2A22]"
+                }`}
+              >
+                <span>📖 STORY</span>
+              </button>
+
+              {/* Bakes */}
+              <button
+                onClick={() => {
+                  scrollToSection("bakes");
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`min-h-[48px] px-3 py-2 rounded-xl border-2 border-[#3B2A22] text-xs font-cherry font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[2px_2px_0_#3B2A22] active:translate-y-0.5 transition-all ${
+                  activeTab === "bakes" ? "bg-[#EF5B5B] text-white" : "bg-[#FFE066] text-[#3B2A22]"
+                }`}
+              >
+                <span>🧁 BAKES</span>
+              </button>
+
+              {/* Gallery */}
+              <button
+                onClick={() => {
+                  scrollToSection("gallery");
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`min-h-[48px] px-3 py-2 rounded-xl border-2 border-[#3B2A22] text-xs font-fraunces font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[2px_2px_0_#3B2A22] active:translate-y-0.5 transition-all ${
+                  activeTab === "gallery" ? "bg-[#EF5B5B] text-white" : "bg-[#E3EFE9] text-[#3B2A22]"
+                }`}
+              >
+                <span>📸 GALLERY</span>
+              </button>
+
+              {/* Reviews */}
+              <button
+                onClick={() => {
+                  scrollToSection("reviews");
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`min-h-[48px] px-3 py-2 rounded-xl border-2 border-[#3B2A22] text-xs font-fasthand font-bold tracking-wide flex items-center justify-center gap-2 shadow-[2px_2px_0_#3B2A22] active:translate-y-0.5 transition-all ${
+                  activeTab === "reviews" ? "bg-[#EF5B5B] text-white" : "bg-[#F7D6D6] text-[#3B2A22]"
+                }`}
+              >
+                <span>⭐ REVIEWS</span>
+              </button>
+            </div>
+
+            {/* Bottom Full-Width Order CTA in Drawer */}
+            <div className="mt-3 pt-2.5 border-t border-[#3B2A22]/15 flex items-center gap-2">
+              <button
+                onClick={() => {
+                  scrollToSection("bakes");
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex-1 min-h-[48px] bg-[#FFE066] hover:bg-[#ffd83d] text-[#3B2A22] font-fredoka font-bold text-xs uppercase tracking-widest rounded-xl border-2 border-[#3B2A22] shadow-[3px_3px_0_#3B2A22] active:translate-y-0.5 flex items-center justify-center gap-2 transition-all cursor-pointer"
+              >
+                <span>ORDER FRESH BAKES NOW</span>
+                <span>→</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsAdminModalOpen(true);
+                }}
+                aria-label="Admin Portal"
+                className="w-12 h-12 bg-white border-2 border-[#3B2A22] rounded-xl shadow-[2px_2px_0_#3B2A22] flex items-center justify-center text-[#3B2A22] active:translate-y-0.5 shrink-0"
+              >
+                <Lock className="w-4 h-4" />
+              </button>
+            </div>
+
+          </div>
+        )}
       </header>
 
       {/* ========================================================================= */}

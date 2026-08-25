@@ -527,7 +527,148 @@ export default function Story() {
         {/* ========================================================================= */}
         {/* SAFE CONTENT CONTAINER WITH MASTER ALIGNMENT AXIS */}
         {/* ========================================================================= */}
-        <div className="relative w-full z-10 story-safe-content select-none px-12 pt-10 pb-14 md:px-16 md:pt-12 md:pb-16">
+        {/* ========================================================================= */}
+        {/* MOBILE-ONLY LUXURY SCRAPBOOK STORY CARDS (Rebuilt for 320px–768px) */}
+        {/* ========================================================================= */}
+        <div className="block lg:hidden w-full relative z-20 px-4 py-8 select-none">
+          {/* Mobile Story Header */}
+          <div className="flex flex-col items-center text-center mb-6">
+            <span
+              style={{ fontFamily: "var(--font-federo-g), 'Federo', var(--font-quicksand-g), 'Quicksand', sans-serif" }}
+              className="text-[11px] uppercase tracking-[0.2em] font-extrabold bg-[#FFD95B] text-[#2B1824] px-4 py-1.5 rounded-full border-2 border-[#2B1824] shadow-[2.5px_2.5px_0_#2B1824] inline-block mb-3 rotate-[-1deg]"
+            >
+              ✨ ABOUT OUR BAKERY
+            </span>
+            
+            <h2
+              className="font-fasthand font-bold text-4xl xs:text-5xl text-[#FFF7EF] leading-none tracking-tight mb-2 drop-shadow-[0_3px_8px_rgba(0,0,0,0.18)]"
+            >
+              PLOTTWIST24X7
+            </h2>
+            
+            <span className="text-[#F6AFCF] font-workforce text-lg font-bold transform -rotate-2 tracking-wide block">
+              made with love ♡
+            </span>
+          </div>
+
+          {/* Mobile Story Cards Stack (16px gap, 16-20px padding) */}
+          <div className="flex flex-col gap-4 max-w-md mx-auto">
+            
+            {/* Card 1: Sourdough Craft & Heritage */}
+            <div className="story-card-mobile group bg-[#FAF4E8] border-[3px] border-[#3B2A22] rounded-2xl p-4 xs:p-5 shadow-[5px_5px_0_#3B2A22] relative overflow-hidden transition-all duration-300 active:scale-[0.99]">
+              {/* Top Masking Tape */}
+              <div className="absolute -top-3 left-6 w-20 h-5 bg-[#E8C59A]/90 border-x border-[#3B2A22]/30 rotate-[-4deg] z-20 shadow-xs pointer-events-none" />
+              
+              {/* Fixed Aspect Ratio Image */}
+              <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border-2 border-[#3B2A22]/20 bg-[#F5EDDC] shadow-inner mb-3">
+                <Image
+                  src={storyImages?.mainPolaroid || "/images/baker-where/hero_bakery.jpg"}
+                  alt="Artisan bakery kitchen sourdough prep"
+                  fill
+                  sizes="(max-width: 640px) 360px, 450px"
+                  loading="lazy"
+                  className="object-cover scale-102 group-hover:scale-105 transition-transform duration-500 ease-out"
+                  unoptimized={storyImages?.mainPolaroid?.startsWith("data:")}
+                />
+                <div className="absolute top-2 right-2 bg-[#FF6A63] text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-[#2B1824] shadow-xs">
+                  № 01 • OUR CRAFT
+                </div>
+              </div>
+
+              {/* Heading (12px gap from image) */}
+              <h3 className="font-fraunces text-xl font-bold text-[#3B2A22] leading-tight mb-2">
+                Slow-Fermented Sourdough
+              </h3>
+
+              {/* 2-3 lines of text (8px gap from title) */}
+              <p className="font-manrope text-xs xs:text-sm text-[#5C4332] leading-relaxed font-medium line-clamp-3">
+                Every morning begins at dawn, nurturing our heirloom sourdough starter to create artisan loaves and flaky pastries with rich texture and natural crispness.
+              </p>
+            </div>
+
+            {/* Card 2: Pure Ingredients */}
+            <div className="story-card-mobile group bg-[#FAF4E8] border-[3px] border-[#3B2A22] rounded-2xl p-4 xs:p-5 shadow-[5px_5px_0_#3B2A22] relative overflow-hidden transition-all duration-300 active:scale-[0.99]">
+              {/* Top Masking Tape */}
+              <div className="absolute -top-3 right-6 w-20 h-5 bg-[#C5E1A5]/90 border-x border-[#3B2A22]/30 rotate-[3deg] z-20 shadow-xs pointer-events-none" />
+              
+              {/* Fixed Aspect Ratio Image */}
+              <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border-2 border-[#3B2A22]/20 bg-[#F5EDDC] shadow-inner mb-3">
+                <Image
+                  src={storyImages?.badge1 || "/images/baker-where/prod_pancakes.jpg"}
+                  alt="Clean wholesome pancake bakes"
+                  fill
+                  sizes="(max-width: 640px) 360px, 450px"
+                  loading="lazy"
+                  className="object-cover scale-102 group-hover:scale-105 transition-transform duration-500 ease-out"
+                  unoptimized={storyImages?.badge1?.startsWith("data:")}
+                />
+                <div className="absolute top-2 right-2 bg-[#A8D8FF] text-[#2B1824] text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-[#2B1824] shadow-xs">
+                  № 02 • WHOLESOME
+                </div>
+              </div>
+
+              {/* Heading */}
+              <h3 className="font-fraunces text-xl font-bold text-[#3B2A22] leading-tight mb-2">
+                100% Real Ingredients
+              </h3>
+
+              {/* Text */}
+              <p className="font-manrope text-xs xs:text-sm text-[#5C4332] leading-relaxed font-medium line-clamp-3">
+                We carefully source real dairy, unrefined sugars, and organic flours. No shortcuts or heavy preservatives—just guilt-free treats made for a happier you.
+              </p>
+            </div>
+
+            {/* Card 3: Small-Batch Love */}
+            <div className="story-card-mobile group bg-[#FAF4E8] border-[3px] border-[#3B2A22] rounded-2xl p-4 xs:p-5 shadow-[5px_5px_0_#3B2A22] relative overflow-hidden transition-all duration-300 active:scale-[0.99]">
+              {/* Top Masking Tape */}
+              <div className="absolute -top-3 left-8 w-20 h-5 bg-[#F8BBD0]/90 border-x border-[#3B2A22]/30 rotate-[-2deg] z-20 shadow-xs pointer-events-none" />
+              
+              {/* Fixed Aspect Ratio Image */}
+              <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border-2 border-[#3B2A22]/20 bg-[#F5EDDC] shadow-inner mb-3">
+                <Image
+                  src={storyImages?.badge2 || "/images/baker-where/prod_tiramisu.jpg"}
+                  alt="Fresh baked tiramisu and treats"
+                  fill
+                  sizes="(max-width: 640px) 360px, 450px"
+                  loading="lazy"
+                  className="object-cover scale-102 group-hover:scale-105 transition-transform duration-500 ease-out"
+                  unoptimized={storyImages?.badge2?.startsWith("data:")}
+                />
+                <div className="absolute top-2 right-2 bg-[#FFD95B] text-[#2B1824] text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-[#2B1824] shadow-xs">
+                  № 03 • HANDMADE
+                </div>
+              </div>
+
+              {/* Heading */}
+              <h3 className="font-fraunces text-xl font-bold text-[#3B2A22] leading-tight mb-2">
+                Small Batches, Big Heart
+              </h3>
+
+              {/* Text */}
+              <p className="font-manrope text-xs xs:text-sm text-[#5C4332] leading-relaxed font-medium line-clamp-3">
+                Every bake is crafted in boutique batches and cooled naturally, packing the cozy warmth of home-baked comfort into every single gift box.
+              </p>
+            </div>
+
+            {/* Mobile CTA Action Button */}
+            <div className="pt-2">
+              <button
+                onClick={scrollToBakes}
+                style={{ fontFamily: "var(--font-federo-g), 'Federo', var(--font-quicksand-g), 'Quicksand', sans-serif" }}
+                className="ticket-edge group bg-[#FFD95B] text-[#2B1824] border-3 border-[#2B1824] shadow-[4px_4px_0_#2B1824] active:shadow-[1px_1px_0_#2B1824] active:translate-x-0.5 active:translate-y-0.5 active:scale-[0.98] w-full min-h-[50px] justify-center px-6 py-3.5 rounded-full text-xs xs:text-sm uppercase tracking-[0.14em] transition-all duration-200 cursor-pointer font-extrabold flex items-center gap-2"
+              >
+                <span>SEE ALL BAKES</span>
+                <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* DESKTOP-ONLY LAYOUT (Preserved 100% pixel-identical) */}
+        {/* ========================================================================= */}
+        <div className="hidden lg:block relative w-full z-10 story-safe-content select-none px-16 pt-12 pb-16">
           
           {/* TOP PINNED TAPE NOTES (AMBENT FLOAT ANIMATION) */}
           <div ref={topNotesRef} className="pointer-events-none">
@@ -547,12 +688,12 @@ export default function Story() {
           </div>
 
           {/* 2-COLUMN MAIN COMPOSITION GRID (LEFT CONTENT: 58-60% WIDTH ALLOCATION) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          <div className="grid grid-cols-12 gap-10 items-center">
             
             {/* ========================================================================= */}
             {/* LEFT COLUMN: SHIFTED ~50px RIGHT INSIDE PURPLE CANVAS (.story-left) */}
             {/* ========================================================================= */}
-            <div className="lg:col-span-7 story-left flex flex-col items-start text-left w-full max-w-2xl pl-4 md:pl-10 lg:pl-14">
+            <div className="col-span-7 story-left flex flex-col items-start text-left w-full max-w-2xl pl-14">
               
               {/* 1. ABOUT OUR BAKERY PILL (Outer left edge aligned to master axis, 26px above headline) */}
               <div ref={headingBoxRef} className="mb-[26px] pt-2">
@@ -576,7 +717,7 @@ export default function Story() {
                   </svg>
                 </div>
 
-                <div className="absolute -top-4 right-0 sm:right-2 lg:right-4 z-20 pointer-events-none sparkle-pink">
+                <div className="absolute -top-4 right-4 z-20 pointer-events-none sparkle-pink">
                   <svg className="w-7 h-7" viewBox="0 0 30 30" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                     <line x1="12" y1="13" x2="5" y2="6" />
                     <line x1="15" y1="12" x2="15" y2="3" />
@@ -595,7 +736,7 @@ export default function Story() {
 
               {/* 4. "made with love ♡" HANDWRITTEN SCRIPT (WORKFORCE) IN SOFT BABY PINK (#F6AFCF) + SVG UNDERLINE */}
               <div ref={madeWithLoveRef} className="mb-[18px] relative inline-block">
-                <span className="text-[#F6AFCF] font-workforce text-xl sm:text-2xl font-bold transform -rotate-2 tracking-wide text-left pointer-events-none leading-none pl-0.5 block">
+                <span className="text-[#F6AFCF] font-workforce text-2xl font-bold transform -rotate-2 tracking-wide text-left pointer-events-none leading-none pl-0.5 block">
                   made with love ♡
                 </span>
                 
@@ -606,16 +747,16 @@ export default function Story() {
               </div>
 
               {/* 5. REPOSITIONED FEATURE BADGES (PLACED BELOW CIRCULAR IMAGES, 100% VISIBLE!) */}
-              <div ref={bakesRef} className="grid grid-cols-3 gap-3.5 sm:gap-5 w-full mb-[32px] items-center justify-items-center max-w-xl">
+              <div ref={bakesRef} className="grid grid-cols-3 gap-5 w-full mb-[32px] items-center justify-items-center max-w-xl">
                 
                 {/* Badge 1: 24 Countries (Image fully visible, Capsule Badge below) */}
-                <div className="relative flex flex-col items-center select-none w-22 sm:w-26 lg:w-28 transform rotate-[-2deg] hover:scale-[1.04] transition-transform duration-300">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 lg:w-26 lg:h-26 rounded-full overflow-hidden border-3 border-[#2B1824] shadow-[0_6px_12px_rgba(0,0,0,0.12)] bg-white relative">
+                <div className="relative flex flex-col items-center select-none w-28 transform rotate-[-2deg] hover:scale-[1.04] transition-transform duration-300">
+                  <div className="w-26 h-26 rounded-full overflow-hidden border-3 border-[#2B1824] shadow-[0_6px_12px_rgba(0,0,0,0.12)] bg-white relative">
                     <Image
                       src={storyImages?.badge1 || "/images/baker-where/prod_pancakes.jpg"}
                       alt="Pancakes background stats bakes"
                       fill
-                      sizes="(max-width: 768px) 80px, 128px"
+                      sizes="128px"
                       loading="lazy"
                       className="object-cover scale-110"
                       unoptimized={storyImages?.badge1?.startsWith("data:")}
@@ -624,20 +765,20 @@ export default function Story() {
                   {/* Badge Capsule sit BELOW image, overlapping bottom edge by only 6-8px */}
                   <div
                     style={{ fontFamily: "var(--font-federo-g), 'Federo', var(--font-quicksand-g), 'Quicksand', sans-serif" }}
-                    className="bg-[#A8D8FF] text-[#2B1824] border-2 border-[#2B1824] shadow-[2px_2px_0_#2B1824] px-2.5 py-1 rounded-full text-[0.6rem] sm:text-xs uppercase tracking-wider -translate-y-2 z-20 text-center font-extrabold whitespace-nowrap"
+                    className="bg-[#A8D8FF] text-[#2B1824] border-2 border-[#2B1824] shadow-[2px_2px_0_#2B1824] px-2.5 py-1 rounded-full text-xs uppercase tracking-wider -translate-y-2 z-20 text-center font-extrabold whitespace-nowrap"
                   >
                     24 countries
                   </div>
                 </div>
 
                 {/* Badge 2: 100% Wholesome (Image fully visible, Capsule Badge below) */}
-                <div className="relative flex flex-col items-center select-none w-24 sm:w-28 lg:w-30 transform rotate-[3deg] hover:scale-[1.04] transition-transform duration-300">
-                  <div className="w-22 h-22 sm:w-26 sm:h-26 lg:w-28 lg:h-28 rounded-full overflow-hidden border-3 border-[#2B1824] shadow-[0_8px_16px_rgba(0,0,0,0.16)] bg-white relative">
+                <div className="relative flex flex-col items-center select-none w-30 transform rotate-[3deg] hover:scale-[1.04] transition-transform duration-300">
+                  <div className="w-28 h-28 rounded-full overflow-hidden border-3 border-[#2B1824] shadow-[0_8px_16px_rgba(0,0,0,0.16)] bg-white relative">
                     <Image
                       src={storyImages?.badge2 || "/images/baker-where/prod_tiramisu.jpg"}
                       alt="Tiramisu background stats bakes"
                       fill
-                      sizes="(max-width: 768px) 80px, 128px"
+                      sizes="128px"
                       loading="lazy"
                       className="object-cover scale-110"
                       unoptimized={storyImages?.badge2?.startsWith("data:")}
@@ -646,20 +787,20 @@ export default function Story() {
                   {/* Badge Capsule sit BELOW image, overlapping bottom edge by only 6-8px */}
                   <div
                     style={{ fontFamily: "var(--font-federo-g), 'Federo', var(--font-quicksand-g), 'Quicksand', sans-serif" }}
-                    className="bg-[#FFD95B] text-[#2B1824] border-2 border-[#2B1824] shadow-[2px_2px_0_#2B1824] px-2.5 py-1 rounded-full text-[0.6rem] sm:text-xs uppercase tracking-wider -translate-y-2 z-20 text-center font-extrabold whitespace-nowrap"
+                    className="bg-[#FFD95B] text-[#2B1824] border-2 border-[#2B1824] shadow-[2px_2px_0_#2B1824] px-2.5 py-1 rounded-full text-xs uppercase tracking-wider -translate-y-2 z-20 text-center font-extrabold whitespace-nowrap"
                   >
                     100% wholesome
                   </div>
                 </div>
 
                 {/* Badge 3: Trusted Quality (Image fully visible, Capsule Badge below) */}
-                <div className="relative flex flex-col items-center select-none w-22 sm:w-26 lg:w-28 transform rotate-[-2deg] hover:scale-[1.04] transition-transform duration-300">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 lg:w-26 lg:h-26 rounded-full overflow-hidden border-3 border-[#2B1824] shadow-[0_6px_14px_rgba(0,0,0,0.10)] bg-white relative">
+                <div className="relative flex flex-col items-center select-none w-28 transform rotate-[-2deg] hover:scale-[1.04] transition-transform duration-300">
+                  <div className="w-26 h-26 rounded-full overflow-hidden border-3 border-[#2B1824] shadow-[0_6px_14px_rgba(0,0,0,0.10)] bg-white relative">
                     <Image
                       src={storyImages?.badge3 || "/images/baker-where/prod_biscoff_brownie.jpg"}
                       alt="Brownie background stats bakes"
                       fill
-                      sizes="(max-width: 768px) 80px, 128px"
+                      sizes="128px"
                       loading="lazy"
                       className="object-cover scale-110"
                       unoptimized={storyImages?.badge3?.startsWith("data:")}
@@ -668,7 +809,7 @@ export default function Story() {
                   {/* Badge Capsule sit BELOW image, overlapping bottom edge by only 6-8px */}
                   <div
                     style={{ fontFamily: "var(--font-federo-g), 'Federo', var(--font-quicksand-g), 'Quicksand', sans-serif" }}
-                    className="bg-[#FF6A63] text-[#FAF9F6] border-2 border-[#2B1824] shadow-[2px_2px_0_#2B1824] px-2.5 py-1 rounded-full text-[0.6rem] sm:text-xs uppercase tracking-wider -translate-y-2 z-20 text-center font-extrabold whitespace-nowrap"
+                    className="bg-[#FF6A63] text-[#FAF9F6] border-2 border-[#2B1824] shadow-[2px_2px_0_#2B1824] px-2.5 py-1 rounded-full text-xs uppercase tracking-wider -translate-y-2 z-20 text-center font-extrabold whitespace-nowrap"
                   >
                     trusted quality
                   </div>
@@ -679,7 +820,7 @@ export default function Story() {
               {/* 6. AGED RECIPE CARD (Neue Montreal Bold heading, Aesthet body 170% line-height, 520px max-width) */}
               <div
                 ref={descTextRef}
-                className="relative bg-[#F6EEDB] text-[#5C4332] p-6 sm:p-7 rounded-2xl border-2 border-[#A17A5B] shadow-[0_8px_20px_rgba(0,0,0,0.12)] hover:-translate-y-1.5 hover:shadow-[0_16px_32px_rgba(0,0,0,0.18)] transition-all duration-300 transform rotate-[-1deg] mb-[26px] w-full max-w-[520px]"
+                className="relative bg-[#F6EEDB] text-[#5C4332] p-7 rounded-2xl border-2 border-[#A17A5B] shadow-[0_8px_20px_rgba(0,0,0,0.12)] hover:-translate-y-1.5 hover:shadow-[0_16px_32px_rgba(0,0,0,0.18)] transition-all duration-300 transform rotate-[-1deg] mb-[26px] w-full max-w-[520px]"
               >
                 {/* Hand-drawn swirl doodle */}
                 <svg className="absolute -top-5 -left-5 w-7 h-7 text-[#6B2C12] opacity-85 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -701,7 +842,7 @@ export default function Story() {
 
                 <p
                   style={{ fontFamily: "var(--font-kalam-g), 'Kalam', var(--font-quicksand-g), 'Quicksand', 'Patrick Hand', cursive, sans-serif" }}
-                  className="text-[#3E332B] text-base sm:text-lg leading-[170%] font-bold text-left"
+                  className="text-[#3E332B] text-lg leading-[170%] font-bold text-left"
                 >
                   Plotwist makes small-batch desserts with familiar ingredients, soft textures, and care that feels personal. We believe in taking time—nurturing sourdough starter, slow rising, and cooling pastries naturally.
                 </p>
@@ -715,7 +856,7 @@ export default function Story() {
                   ref={ctaButtonRef}
                   onClick={scrollToBakes}
                   style={{ fontFamily: "var(--font-federo-g), 'Federo', var(--font-quicksand-g), 'Quicksand', sans-serif" }}
-                  className="ticket-edge group bg-[#FFD95B] text-[#2B1824] border-3 border-[#2B1824] shadow-[3px_3px_0_#2B1824] hover:bg-[#FFE7A3] hover:-translate-y-0.5 hover:scale-[1.02] active:scale-[0.97] px-8 py-3.5 rounded-full text-sm sm:text-base uppercase tracking-[0.14em] transition-all duration-200 cursor-pointer focus-visible:outline-none font-extrabold flex items-center gap-2"
+                  className="ticket-edge group bg-[#FFD95B] text-[#2B1824] border-3 border-[#2B1824] shadow-[3px_3px_0_#2B1824] hover:bg-[#FFE7A3] hover:-translate-y-0.5 hover:scale-[1.02] active:scale-[0.97] px-8 py-3.5 rounded-full text-base uppercase tracking-[0.14em] transition-all duration-200 cursor-pointer focus-visible:outline-none font-extrabold flex items-center gap-2"
                 >
                   <span>SEE ALL BAKES</span>
                   <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
@@ -725,7 +866,7 @@ export default function Story() {
             </div>
 
             {/* RIGHT COLUMN: POLAROID POSTCARD SCRAPBOOK CLUSTER WITH 3D MOUSE TILT */}
-            <div className="lg:col-span-5 relative w-full min-h-[380px] flex items-center justify-center pr-2 lg:pr-6">
+            <div className="col-span-5 relative w-full min-h-[380px] flex items-center justify-center pr-6">
               
               {/* ORGANIC MORPHING SVG BLOB BEHIND POLAROID PHOTO (#FFD95B Fill) */}
               <div ref={splatRef} className="absolute inset-0 w-full h-full flex items-center justify-center select-none z-0">
@@ -749,7 +890,7 @@ export default function Story() {
               >
                 
                 {/* Polaroid Card Frame with Large Soft Shadow */}
-                <div className="relative w-64 h-76 sm:w-72 sm:h-84 bg-[#F9F3E6] p-3 pb-11 rounded-lg border-2 border-[#A17A5B]/40 shadow-[0_16px_36px_rgba(0,0,0,0.18)] transform rotate-[-2deg]">
+                <div className="relative w-72 h-84 bg-[#F9F3E6] p-3 pb-11 rounded-lg border-2 border-[#A17A5B]/40 shadow-[0_16px_36px_rgba(0,0,0,0.18)] transform rotate-[-2deg]">
                   
                   {/* Paper clips with hover spring animation */}
                   <div className="absolute -top-4 left-5 w-22 h-6.5 bg-[#F6EEDB] border-x border-[#3E332B]/30 rotate-[-6deg] z-30 opacity-92 shadow-xs cursor-pointer hover:rotate-12 hover:-translate-y-1 transition-transform duration-300" />
@@ -762,7 +903,7 @@ export default function Story() {
                       src={storyImages?.mainPolaroid || "/images/baker-where/hero_bakery.jpg"}
                       alt="Artisan bakery kitchen prep"
                       fill
-                      sizes="(max-width: 768px) 256px, 288px"
+                      sizes="288px"
                       loading="lazy"
                       className="object-cover"
                       unoptimized={storyImages?.mainPolaroid?.startsWith("data:")}
@@ -803,13 +944,13 @@ export default function Story() {
                 <div
                   ref={chefsPickRef}
                   style={{ fontFamily: "var(--font-kalam-g), 'Kalam', var(--font-workforce-g), 'Caveat', cursive, sans-serif" }}
-                  className="hidden md:block absolute -top-5 right-0 z-30 bg-[#FFD8C2] text-[#5C4332] px-3 py-1 rounded border border-[#3E332B]/30 shadow-[0_4px_10px_rgba(0,0,0,0.12)] transform -rotate-3 text-sm font-bold tracking-wide animate-float-a hover:rotate-2 hover:-translate-y-0.5 transition-transform duration-200 cursor-pointer"
+                  className="absolute -top-5 right-0 z-30 bg-[#FFD8C2] text-[#5C4332] px-3 py-1 rounded border border-[#3E332B]/30 shadow-[0_4px_10px_rgba(0,0,0,0.12)] transform -rotate-3 text-sm font-bold tracking-wide animate-float-a hover:rotate-2 hover:-translate-y-0.5 transition-transform duration-200 cursor-pointer"
                 >
                   "chef's pick" 🔥
                 </div>
 
                 {/* STICKY NOTE TYPOGRAPHY: Federo label & Kalam checklist */}
-                <div ref={todaysBatchRef} className="hidden md:block absolute -bottom-9 -left-10 lg:-left-14 z-30 bg-[#F9F3E6] border-2 border-[#F8A9C7] p-3 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.12)] transform rotate-[3deg] max-w-[180px] animate-float-c hover:rotate-6 hover:-translate-y-1 transition-transform duration-300">
+                <div ref={todaysBatchRef} className="absolute -bottom-9 -left-14 z-30 bg-[#F9F3E6] border-2 border-[#F8A9C7] p-3 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.12)] transform rotate-[3deg] max-w-[180px] animate-float-c hover:rotate-6 hover:-translate-y-1 transition-transform duration-300">
                   <div className="w-full border-b border-[#F8A9C7]/50 pb-0.5 mb-1 text-left">
                     <span
                       style={{ fontFamily: "var(--font-federo-g), 'Federo', sans-serif" }}
@@ -834,7 +975,7 @@ export default function Story() {
 
           </div>
 
-          <div ref={bakedWithCareRef} className="hidden sm:block absolute bottom-3 left-[46%] -translate-x-1/2 z-20 border-2 border-dashed border-[#FFD95B]/40 px-3.5 py-1 rounded text-[#FFD95B]/80 font-mono text-[0.6rem] font-bold tracking-[0.2em] uppercase transform rotate-1 pointer-events-none animate-float-c">
+          <div ref={bakedWithCareRef} className="absolute bottom-3 left-[46%] -translate-x-1/2 z-20 border-2 border-dashed border-[#FFD95B]/40 px-3.5 py-1 rounded text-[#FFD95B]/80 font-mono text-[0.6rem] font-bold tracking-[0.2em] uppercase transform rotate-1 pointer-events-none animate-float-c">
             ═ BAKED WITH CARE ═
           </div>
 

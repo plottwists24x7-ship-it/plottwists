@@ -118,7 +118,7 @@ export default function AdminDashboardPage() {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
           <Link
             href="/admin/hero"
             className="p-4 rounded-2xl bg-[#FFF9F5] hover:bg-[#FFECC8] border-[3px] border-[#3E2A24] shadow-[3px_3px_0_#3E2A24] hover:shadow-[5px_5px_0_#3E2A24] hover:-translate-y-0.5 flex items-center gap-3 font-bricolage font-bold text-sm text-[#3E2A24] transition-all cursor-pointer text-left"
@@ -145,6 +145,19 @@ export default function AdminDashboardPage() {
             </div>
           </Link>
 
+          <Link
+            href="/admin/instagram"
+            className="p-4 rounded-2xl bg-[#FFF9F5] hover:bg-[#FFECC8] border-[3px] border-[#3E2A24] shadow-[3px_3px_0_#3E2A24] hover:shadow-[5px_5px_0_#3E2A24] hover:-translate-y-0.5 flex items-center gap-3 font-bricolage font-bold text-sm text-[#3E2A24] transition-all cursor-pointer text-left"
+          >
+            <div className="w-10 h-10 rounded-xl bg-white border-2 border-[#3E2A24] flex items-center justify-center text-xl shrink-0">
+              <span className="text-lg">📸</span>
+            </div>
+            <div>
+              <p className="font-black text-sm">Instagram CTA</p>
+              <p className="font-kalam text-xs text-[#5F4A3A]">Live dessert photo</p>
+            </div>
+          </Link>
+
           <button
             onClick={() => setBakeModalOpen(true)}
             className="p-4 rounded-2xl bg-[#FFE26E] hover:bg-[#ffd633] border-[3px] border-[#3E2A24] shadow-[3px_3px_0_#3E2A24] hover:shadow-[5px_5px_0_#3E2A24] hover:-translate-y-0.5 flex items-center gap-3 font-bricolage font-bold text-sm text-[#3E2A24] transition-all cursor-pointer text-left"
@@ -154,7 +167,7 @@ export default function AdminDashboardPage() {
             </div>
             <div>
               <p className="font-black text-sm">Add New Bake</p>
-              <p className="font-kalam text-xs text-[#5F4A3A]">Post a dessert product</p>
+              <p className="font-kalam text-xs text-[#5F4A3A]">Post a dessert</p>
             </div>
           </button>
 
@@ -180,7 +193,7 @@ export default function AdminDashboardPage() {
             </div>
             <div>
               <p className="font-black text-sm">Add Review</p>
-              <p className="font-kalam text-xs text-[#5F4A3A]">Record guest feedback</p>
+              <p className="font-kalam text-xs text-[#5F4A3A]">Record feedback</p>
             </div>
           </button>
         </div>

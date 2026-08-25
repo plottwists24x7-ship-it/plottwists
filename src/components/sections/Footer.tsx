@@ -138,51 +138,51 @@ export default function Footer() {
         <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.9, 0.4] }} transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.7 }} className="absolute bottom-28 left-[12%] text-[#FF8DBE] opacity-60 text-[18px]">✨</motion.div>
       </div>
 
-      {/* ─── INNER MAIN CONTAINER (MAX WIDTH 1400PX, 120PX GAP DESKTOP 50/50 LAYOUT) ─── */}
-      <div className="max-w-[1400px] mx-auto relative z-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-[120px] items-center">
+      {/* ─── MAIN FOOTER CONTENT CONTAINER ─── */}
+      <div className="max-w-[1360px] mx-auto relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-20 items-center">
           
           {/* ═════════════════════════════════════════════════════════
-              LEFT COLUMN (50% DESKTOP): LOGO -> HEADING -> DESCRIPTION -> BUTTONS
+              LEFT COLUMN (50% DESKTOP): EDITORIAL COPY & CONTACT BUTTONS
              ═════════════════════════════════════════════════════════ */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
             
             {/* 1. Small Label / Logo */}
             <motion.div 
               whileHover={{ rotate: 2 }}
-              className="flex items-center gap-3 mb-6 cursor-pointer"
+              className="flex items-center gap-3 mb-4 sm:mb-6 cursor-pointer"
             >
               <LogoIcon />
-              <span className="font-bricolage font-bold text-[18px] text-[#3E2A24] uppercase tracking-[1px]">
+              <span className="font-bricolage font-bold text-[16px] sm:text-[18px] text-[#3E2A24] uppercase tracking-[1px]">
                 PlotTwist24x Bakery
               </span>
             </motion.div>
 
-            {/* 2. Main Heading: Bowlby One (72px Desktop / 56px Tablet / 44px Mobile, Color #3E2A24, Line Height 0.92, Letter Spacing -1px) */}
+            {/* 2. Main Heading: Bowlby One (72px Desktop / 56px Tablet / 34-44px Mobile, Color #3E2A24, Line Height 0.92, Letter Spacing -1px) */}
             <motion.h2
               whileHover={{ rotate: 2 }}
               transition={{ duration: 0.2 }}
-              className="font-bowlby font-normal text-[44px] sm:text-[56px] lg:text-[72px] text-[#3E2A24] leading-[0.92] tracking-[-1px] mb-6 max-w-xl"
+              className="font-bowlby font-normal text-[32px] xs:text-[40px] sm:text-[56px] lg:text-[72px] text-[#3E2A24] leading-[0.92] tracking-[-1px] mb-4 sm:mb-6 max-w-xl"
               style={{ fontFamily: "var(--font-bowlby-one), 'Bowlby One', 'Titan One', cursive, sans-serif" }}
             >
               TASTE THE LOVE IN EVERY BITE
             </motion.h2>
 
             {/* 3. Short Description: Kalam (24px, Max Width 520px, Color #5F4A3A) */}
-            <p className="font-kalam text-[20px] sm:text-[24px] text-[#5F4A3A] leading-[1.6] max-w-[520px] mb-8 font-normal">
+            <p className="font-kalam text-[17px] xs:text-[20px] sm:text-[24px] text-[#5F4A3A] leading-[1.6] max-w-[520px] mb-6 sm:mb-8 font-normal">
               Freshly baked joy, handmade desserts and sweet memories—crafted with love for every celebration.
             </p>
 
             {/* 4. Contact Buttons (Background #FFFDF8, Border 4px solid #3E2A24, Radius 999px, Height 74px, Padding 32px, Shadow 6px 6px 0 #3E2A24) */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-8">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-6 sm:mb-8 w-full sm:w-auto">
               
               {/* Phone Button */}
               <a
                 href="tel:+918008922410"
-                className="h-[74px] bg-[#FFFDF8] text-[#3E2A24] border-[4px] border-[#3E2A24] shadow-[6px_6px_0px_#3E2A24] hover:shadow-[10px_10px_0px_#3E2A24] hover:-translate-y-[6px] hover:rotate-[-1deg] active:translate-y-0 active:shadow-[3px_3px_0px_#3E2A24] px-8 rounded-full font-bricolage font-semibold text-[18px] sm:text-[22px] flex items-center gap-3 transition-all duration-300 cursor-pointer focus-visible:outline-none"
+                className="w-full sm:w-auto h-[60px] xs:h-[68px] sm:h-[74px] bg-[#FFFDF8] text-[#3E2A24] border-[3.5px] sm:border-[4px] border-[#3E2A24] shadow-[4px_4px_0px_#3E2A24] sm:shadow-[6px_6px_0px_#3E2A24] hover:shadow-[10px_10px_0px_#3E2A24] hover:-translate-y-[6px] hover:rotate-[-1deg] active:translate-y-0 active:shadow-[3px_3px_0px_#3E2A24] px-5 sm:px-8 rounded-full font-bricolage font-semibold text-[16px] xs:text-[18px] sm:text-[22px] flex items-center justify-center sm:justify-start gap-3 transition-all duration-300 cursor-pointer focus-visible:outline-none"
                 aria-label="Call PlotTwist Bakery at +91 80089 22410"
               >
-                <div className="w-11 h-11 rounded-full bg-[#FFE26E] border-2 border-[#3E2A24] flex items-center justify-center shrink-0 shadow-sm">
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#FFE26E] border-2 border-[#3E2A24] flex items-center justify-center shrink-0 shadow-sm">
                   <PhoneIcon />
                 </div>
                 <span>+91 80089 22410</span>
@@ -191,19 +191,19 @@ export default function Footer() {
               {/* Email Button */}
               <a
                 href="mailto:plottwists24x7@gmail.com"
-                className="h-[74px] bg-[#FFFDF8] text-[#3E2A24] border-[4px] border-[#3E2A24] shadow-[6px_6px_0px_#3E2A24] hover:shadow-[10px_10px_0px_#3E2A24] hover:-translate-y-[6px] hover:rotate-[1deg] active:translate-y-0 active:shadow-[3px_3px_0px_#3E2A24] px-8 rounded-full font-bricolage font-semibold text-[18px] sm:text-[22px] flex items-center gap-3 transition-all duration-300 cursor-pointer focus-visible:outline-none"
+                className="w-full sm:w-auto h-[60px] xs:h-[68px] sm:h-[74px] bg-[#FFFDF8] text-[#3E2A24] border-[3.5px] sm:border-[4px] border-[#3E2A24] shadow-[4px_4px_0px_#3E2A24] sm:shadow-[6px_6px_0px_#3E2A24] hover:shadow-[10px_10px_0px_#3E2A24] hover:-translate-y-[6px] hover:rotate-[1deg] active:translate-y-0 active:shadow-[3px_3px_0px_#3E2A24] px-5 sm:px-8 rounded-full font-bricolage font-semibold text-[14px] xs:text-[17px] sm:text-[22px] flex items-center justify-center sm:justify-start gap-2.5 sm:gap-3 transition-all duration-300 cursor-pointer focus-visible:outline-none"
                 aria-label="Email PlotTwist Bakery at plottwists24x7@gmail.com"
               >
-                <div className="w-11 h-11 rounded-full bg-[#FFE26E] border-2 border-[#3E2A24] flex items-center justify-center shrink-0 shadow-sm">
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#FFE26E] border-2 border-[#3E2A24] flex items-center justify-center shrink-0 shadow-sm">
                   <MailIcon />
                 </div>
-                <span>plottwists24x7@gmail.com</span>
+                <span className="truncate">plottwists24x7@gmail.com</span>
               </a>
 
             </div>
 
             {/* Copyright & Bakery Stamp Note */}
-            <p className="font-kalam text-[18px] sm:text-[20px] text-[#6E5446]">
+            <p className="font-kalam text-[15px] sm:text-[20px] text-[#6E5446]">
               © {new Date().getFullYear()} PlotTwist24x Bakery. All rights reserved. ♡
             </p>
 
