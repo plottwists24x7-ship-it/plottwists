@@ -2,76 +2,12 @@ import { MaskingTape } from '@/components/paper/MaskingTape'
 import { StickyNote } from '@/components/paper/StickyNote'
 import { TornPaper } from '@/components/paper/TornPaper'
 
-const CandyWrapperDoodle = ({ className = "w-8 h-8" }: { className?: string }) => (
-  <svg className={`${className} text-[#3B2A22] pointer-events-none opacity-80`} viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 12 L4 6 L6 18 Z" />
-    <path d="M24 24 L32 18 L30 30 Z" />
-    <rect x="11" y="11" width="14" height="14" rx="3" transform="rotate(-15 18 18)" />
-    <line x1="14" y1="14" x2="22" y2="22" strokeWidth="1.5" strokeDasharray="3 3" />
-  </svg>
-);
-
-const PencilHeartDoodle = ({ className = "w-7 h-7" }: { className?: string }) => (
-  <svg className={`${className} text-[#3B2A22] pointer-events-none opacity-80`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-    <path d="M8 9 Q 12 13 16 9" strokeWidth="1.5" strokeDasharray="2 2" />
-  </svg>
-);
-
-const PencilStarDoodle = ({ className = "w-7 h-7" }: { className?: string }) => (
-  <svg className={`${className} text-[#3B2A22] pointer-events-none opacity-80`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 2 Q12 12 2 12 Q12 12 12 22 Q12 12 22 12 Q12 12 12 2 Z" />
-  </svg>
-);
-
 export function DecorativeElements() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-[3]">
       {/* Ink-dot scatter, top right corner */}
       <div className="absolute top-0 right-0 w-40 h-40 dot-scatter opacity-70" style={{ maskImage: 'radial-gradient(circle at top right, black, transparent 70%)' }} />
       <div className="absolute top-0 left-0 w-28 h-28 dot-scatter opacity-40" style={{ maskImage: 'radial-gradient(circle at top left, black, transparent 70%)' }} />
-
-      {/* ---- FLOATING PENCIL SCRIBBLED HEARTS ♡ ---- */}
-      <div className="absolute top-[14%] left-[12%] animate-paper-float z-10">
-        <PencilHeartDoodle className="w-8 h-8" />
-      </div>
-
-      <div className="absolute top-[22%] right-[18%] animate-paper-float z-10" style={{ animationDelay: '1.2s' }}>
-        <PencilHeartDoodle className="w-7 h-7 rotate-[12deg]" />
-      </div>
-
-      <div className="absolute top-[50%] left-[6%] animate-paper-float z-10" style={{ animationDelay: '2.4s' }}>
-        <PencilHeartDoodle className="w-6 h-6 rotate-[-10deg]" />
-      </div>
-
-      <div className="absolute bottom-[28%] right-[15%] animate-paper-float z-10" style={{ animationDelay: '0.8s' }}>
-        <PencilHeartDoodle className="w-7 h-7 rotate-[8deg]" />
-      </div>
-
-      {/* ---- FLOATING PENCIL CELEBRATION CANDY WRAPPERS 🍬 ---- */}
-      <div className="absolute top-[18%] left-[28%] animate-paper-wobble z-10">
-        <CandyWrapperDoodle className="w-9 h-9 rotate-[-15deg]" />
-      </div>
-
-      <div className="absolute top-[42%] right-[22%] animate-paper-wobble z-10" style={{ animationDelay: '1.5s' }}>
-        <CandyWrapperDoodle className="w-8 h-8 rotate-[20deg]" />
-      </div>
-
-      <div className="absolute bottom-[18%] left-[32%] animate-paper-wobble z-10" style={{ animationDelay: '2.8s' }}>
-        <CandyWrapperDoodle className="w-9 h-9 rotate-[-8deg]" />
-      </div>
-
-      {/* ---- FLOATING PENCIL SPARKLE STARS ✨ ---- */}
-      <div className="absolute top-[12%] right-[12%] animate-paper-wobble z-10">
-        <PencilStarDoodle className="w-8 h-8" />
-      </div>
-
-      <div className="absolute top-[32%] left-[18%] text-[#3B2A22] opacity-75 animate-paper-float z-10">
-        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-          <line x1="12" y1="2" x2="12" y2="22" /><line x1="2" y1="12" x2="22" y2="12" />
-          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" /><line x1="19.07" y1="4.93" x2="4.93" y2="19.07" />
-        </svg>
-      </div>
 
       {/* ---- Masking tape system: 12 pieces scattered, "holding" nearby paper ---- */}
       <MaskingTape color="pink" width={70} height={20} rotate={-10} className="absolute top-[9%] left-[7%]" />
@@ -91,6 +27,14 @@ export function DecorativeElements() {
       <StickyNote text="Chef's Pick" color="sage" size={72} rotate={-8} className="absolute top-[52%] left-[3%]" />
       <StickyNote text="Baked Today" color="pink" size={72} rotate={6} className="absolute top-[8%] left-[44%]" />
       <StickyNote text="Recipe #12" color="cream" size={68} rotate={-4} className="absolute bottom-[8%] right-[42%]" />
+
+      {/* Scattered hearts */}
+      <svg className="absolute top-[26%] right-[33%] w-8 h-8 text-[#2D1810] opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 8.25c0-1.085-.672-2.022-1.6-2.5.092-.31.14-.641.14-.981 0-2.21-1.79-4-4-4-1.405 0-2.64.713-3.37 1.789a4.994 4.994 0 00-1.175-.745C11.07 2.713 9.828 2 8.4 2 6.19 2 4.4 3.79 4.4 6c0 .34.048.671.14.981C3.672 6.228 3 7.165 3 8.25v12c0 1.104.896 2 2 2h14c1.104 0 2-.896 2-2V8.25z" />
+      </svg>
+      <svg className="absolute top-[37%] right-[24%] w-6 h-6 text-[#2D1810] opacity-25" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 8.25c0-1.085-.672-2.022-1.6-2.5.092-.31.14-.641.14-.981 0-2.21-1.79-4-4-4-1.405 0-2.64.713-3.37 1.789a4.994 4.994 0 00-1.175-.745C11.07 2.713 9.828 2 8.4 2 6.19 2 4.4 3.79 4.4 6c0 .34.048.671.14.981C3.672 6.228 3 7.165 3 8.25v12c0 1.104.896 2 2 2h14c1.104 0 2-.896 2-2V8.25z" />
+      </svg>
 
       {/* Curved arrow, near CTA area */}
       <svg className="absolute bottom-[33%] left-[38%] w-10 h-10 text-[#2D1810] opacity-40" fill="none" viewBox="0 0 40 40" stroke="currentColor">

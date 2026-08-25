@@ -30,18 +30,14 @@ function buildField(count: number, seed: number): Doodle[] {
   const rnd = mulberry32(seed)
   const doodles: Doodle[] = []
   for (let i = 0; i < count; i++) {
-    const scaleRnd = rnd()
-    // Tiered sizing: Tiny (0.45-0.6), Small (0.7-0.9), Medium (1.0-1.3)
-    const scale = scaleRnd < 0.4 ? (0.45 + rnd() * 0.15) : scaleRnd < 0.8 ? (0.7 + rnd() * 0.2) : (1.0 + rnd() * 0.3)
     doodles.push({
       kind: KINDS[Math.floor(rnd() * KINDS.length)],
       x: 4 + rnd() * 92,
       y: 4 + rnd() * 92,
       rotate: Math.floor(rnd() * 360),
-      scale: scale,
-      // Refined background opacity: 20-30% range for designed whitespace
-      opacity: 0.18 + rnd() * 0.12,
-      accent: rnd() > 0.85,
+      scale: 0.6 + rnd() * 0.9,
+      opacity: 0.12 + rnd() * 0.26,
+      accent: rnd() > 0.82,
     })
   }
   return doodles
