@@ -383,7 +383,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to insert product into Supabase:", error.message || error);
-        showToast("error", "Failed to create product. Please try again.");
+        showToast("error", "Failed to create bake. Please try again.");
         return null;
       }
 
@@ -391,7 +391,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         const inserted = mapProductRowToShared(data as ProductRow, 0, bakes.length + 1);
         setBakes((prev) => [inserted, ...prev]);
         triggerTimestampUpdate();
-        showToast("success", "Product created successfully.");
+        showToast("success", "Bake created successfully!");
         return inserted;
       }
     } catch (err) {
@@ -421,7 +421,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to update product in Supabase:", error.message || error);
-        showToast("error", "Failed to update product. Please try again.");
+        showToast("error", "Failed to update bake. Please try again.");
         return false;
       }
 
@@ -434,7 +434,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
           )
         );
         triggerTimestampUpdate();
-        showToast("success", "Product updated successfully.");
+        showToast("success", "Bake updated successfully!");
         return true;
       }
     } catch (err) {
@@ -455,13 +455,13 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to delete product from Supabase:", error.message || error);
-        showToast("error", "Failed to delete product. Please try again.");
+        showToast("error", "Failed to delete bake. Please try again.");
         return false;
       }
 
       setBakes((prev) => prev.filter((item) => item.id !== id));
       triggerTimestampUpdate();
-      showToast("success", "Product deleted successfully.");
+      showToast("success", "Bake deleted successfully!");
       return true;
     } catch (err) {
       console.error("Unexpected error in deleteBake:", err);
