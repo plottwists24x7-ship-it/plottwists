@@ -228,6 +228,8 @@ export interface AdminContextType {
   
   // Reset
   resetToDefaults: () => void;
+  showToast: (type: "success" | "error" | "info" | "warning", message: string) => void;
+  toast: { success: (msg: string) => void; error: (msg: string) => void; info: (msg: string) => void; };
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
@@ -242,6 +244,27 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [instagramCTA, setInstagramCTA] = useState<InstagramCTAConfig>(INITIAL_INSTAGRAM_CTA);
   const [lastUpdated, setLastUpdated] = useState<string>("Just now");
 
+  const [toasts, setToasts] = useState<ToastItem[]>([]);
+
+  const showToast = useCallback((type: ToastItem["type"], message: string) => {
+    const id = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    setToasts((prev) => [...prev, { id, type, message }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 3200);
+  }, []);
+
+  const dismissToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
+
+  const toast = useMemo(() => ({
+    success: (msg: string) => showToast("success", msg),
+    error: (msg: string) => showToast("error", msg),
+    info: (msg: string) => showToast("info", msg),
+  }), [showToast]);
+
+
   // Keep track of database singleton IDs
   const [heroDbId, setHeroDbId] = useState<string>("00000000-0000-0000-0000-000000000001");
   const [instagramDbId, setInstagramDbId] = useState<string>("00000000-0000-0000-0000-000000000003");
@@ -254,70 +277,55 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
     async function loadAllFromSupabase() {
       try {
+        // Execute all 6 initial data queries concurrently in parallel
+        const [pRes, gRes, rRes, hRes, iRes, sRes] = await Promise.all([
+          supabase.from("products").select("*").order("display_order", { ascending: true }),
+          supabase.from("gallery_images").select("*").order("display_order", { ascending: true }),
+          supabase.from("reviews").select("*").order("created_at", { ascending: false }),
+          supabase.from("site_hero").select("*").limit(1).maybeSingle(),
+          supabase.from("site_instagram").select("*").limit(1).maybeSingle(),
+          supabase.from("story_images").select("*").limit(1).maybeSingle(),
+        ]);
+
+        if (!isMounted) return;
+
         // 1. Products
-        const { data: pData, error: pErr } = await supabase
-          .from("products")
-          .select("*")
-          .order("display_order", { ascending: true });
-        if (pErr) console.error("Supabase products fetch error:", pErr.message || pErr);
-        else if (pData && isMounted) {
-          setBakes((pData as ProductRow[]).map((row, idx, arr) => mapProductRowToShared(row, idx, arr.length)));
+        if (pRes.error) console.error("Supabase products fetch error:", pRes.error.message || pRes.error);
+        else if (pRes.data) {
+          setBakes((pRes.data as ProductRow[]).map((row, idx, arr) => mapProductRowToShared(row, idx, arr.length)));
         }
 
         // 2. Gallery Images
-        const { data: gData, error: gErr } = await supabase
-          .from("gallery_images")
-          .select("*")
-          .order("display_order", { ascending: true });
-        if (gErr) console.error("Supabase gallery fetch error:", gErr.message || gErr);
-        else if (gData && isMounted) {
-          setGallery((gData as GalleryRow[]).map(mapGalleryRowToShared));
+        if (gRes.error) console.error("Supabase gallery fetch error:", gRes.error.message || gRes.error);
+        else if (gRes.data) {
+          setGallery((gRes.data as GalleryRow[]).map(mapGalleryRowToShared));
         }
 
         // 3. Reviews
-        const { data: rData, error: rErr } = await supabase
-          .from("reviews")
-          .select("*")
-          .order("created_at", { ascending: false });
-        if (rErr) console.error("Supabase reviews fetch error:", rErr.message || rErr);
-        else if (rData && isMounted) {
-          setReviews((rData as ReviewRow[]).map(mapReviewRowToShared));
+        if (rRes.error) console.error("Supabase reviews fetch error:", rRes.error.message || rRes.error);
+        else if (rRes.data) {
+          setReviews((rRes.data as ReviewRow[]).map(mapReviewRowToShared));
         }
 
         // 4. Site Hero
-        const { data: hData, error: hErr } = await supabase
-          .from("site_hero")
-          .select("*")
-          .limit(1)
-          .maybeSingle();
-        if (hErr) console.error("Supabase site_hero fetch error:", hErr.message || hErr);
-        else if (hData && isMounted) {
-          setHeroDbId(hData.id);
-          setHero(mapHeroRowToConfig(hData as HeroRow));
+        if (hRes.error) console.error("Supabase site_hero fetch error:", hRes.error.message || hRes.error);
+        else if (hRes.data) {
+          setHeroDbId(hRes.data.id);
+          setHero(mapHeroRowToConfig(hRes.data as HeroRow));
         }
 
         // 5. Site Instagram
-        const { data: iData, error: iErr } = await supabase
-          .from("site_instagram")
-          .select("*")
-          .limit(1)
-          .maybeSingle();
-        if (iErr) console.error("Supabase site_instagram fetch error:", iErr.message || iErr);
-        else if (iData && isMounted) {
-          setInstagramDbId(iData.id);
-          setInstagramCTA(mapInstagramRowToConfig(iData as InstagramRow));
+        if (iRes.error) console.error("Supabase site_instagram fetch error:", iRes.error.message || iRes.error);
+        else if (iRes.data) {
+          setInstagramDbId(iRes.data.id);
+          setInstagramCTA(mapInstagramRowToConfig(iRes.data as InstagramRow));
         }
 
         // 6. Story Images
-        const { data: sData, error: sErr } = await supabase
-          .from("story_images")
-          .select("*")
-          .limit(1)
-          .maybeSingle();
-        if (sErr) console.error("Supabase story_images fetch error:", sErr.message || sErr);
-        else if (sData && isMounted) {
-          setStoryImagesDbId(sData.id);
-          setStoryImages(mapStoryImagesRowToConfig(sData as StoryImagesRow));
+        if (sRes.error) console.error("Supabase story_images fetch error:", sRes.error.message || sRes.error);
+        else if (sRes.data) {
+          setStoryImagesDbId(sRes.data.id);
+          setStoryImages(mapStoryImagesRowToConfig(sRes.data as StoryImagesRow));
         }
       } catch (err) {
         console.error("Unexpected error fetching initial data from Supabase:", err);
@@ -366,6 +374,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to insert product into Supabase:", error.message || error);
+        showToast("error", "Failed to create product. Please try again.");
         return null;
       }
 
@@ -373,6 +382,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         const inserted = mapProductRowToShared(data as ProductRow, 0, bakes.length + 1);
         setBakes((prev) => [inserted, ...prev]);
         triggerTimestampUpdate();
+        showToast("success", "Product created successfully.");
         return inserted;
       }
     } catch (err) {
@@ -402,6 +412,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to update product in Supabase:", error.message || error);
+        showToast("error", "Failed to update product. Please try again.");
         return false;
       }
 
@@ -414,6 +425,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
           )
         );
         triggerTimestampUpdate();
+        showToast("success", "Product updated successfully.");
         return true;
       }
     } catch (err) {
@@ -434,11 +446,13 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to delete product from Supabase:", error.message || error);
+        showToast("error", "Failed to delete product. Please try again.");
         return false;
       }
 
       setBakes((prev) => prev.filter((item) => item.id !== id));
       triggerTimestampUpdate();
+      showToast("success", "Product deleted successfully.");
       return true;
     } catch (err) {
       console.error("Unexpected error in deleteBake:", err);
@@ -468,6 +482,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to insert gallery image into Supabase:", error.message || error);
+        showToast("error", "Failed to add gallery image. Please try again.");
         return null;
       }
 
@@ -569,6 +584,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       setGallery((prev) => prev.filter((item) => item.id !== id));
       triggerTimestampUpdate();
+      showToast("success", "Gallery image deleted successfully.");
       return true;
     } catch (err) {
       console.error("Unexpected error in deleteGalleryImage:", err);
@@ -604,6 +620,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         const newReview = mapReviewRowToShared(data as ReviewRow);
         setReviews((prev) => [newReview, ...prev]);
         triggerTimestampUpdate();
+        showToast("success", "Review added successfully.");
         return newReview;
       }
     } catch (err) {
@@ -643,6 +660,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
           prev.map((item) => (item.id === id ? mapReviewRowToShared(data as ReviewRow) : item))
         );
         triggerTimestampUpdate();
+        showToast("success", "Review updated successfully.");
         return true;
       }
     } catch (err) {
@@ -668,6 +686,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       setReviews((prev) => prev.filter((item) => item.id !== id));
       triggerTimestampUpdate();
+      showToast("success", "Review deleted successfully.");
       return true;
     } catch (err) {
       console.error("Unexpected error in deleteReview:", err);
@@ -697,12 +716,14 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to update site_hero in Supabase:", error.message || error);
+        showToast("error", "Failed to update hero section. Please try again.");
         return false;
       }
 
       if (data) {
         setHero(mapHeroRowToConfig(data as HeroRow));
         triggerTimestampUpdate();
+        showToast("success", "Hero section updated successfully.");
         return true;
       }
     } catch (err) {
@@ -740,12 +761,14 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to update story_images in Supabase:", error.message || error);
+        showToast("error", "Failed to update story images. Please try again.");
         return false;
       }
 
       if (data) {
         setStoryImages(mapStoryImagesRowToConfig(data as StoryImagesRow));
         triggerTimestampUpdate();
+        showToast("success", "Story images updated successfully.");
         return true;
       }
     } catch (err) {
@@ -771,12 +794,14 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to update site_instagram in Supabase:", error.message || error);
+        showToast("error", "Failed to update Instagram section. Please try again.");
         return false;
       }
 
       if (data) {
         setInstagramCTA(mapInstagramRowToConfig(data as InstagramRow));
         triggerTimestampUpdate();
+        showToast("success", "Instagram section updated successfully.");
         return true;
       }
     } catch (err) {

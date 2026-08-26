@@ -90,38 +90,17 @@ export default function AdminInstagramPage() {
     setErrorMsg("");
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsSaving(true);
-    setShowSuccessToast(false);
-
-    setTimeout(() => {
-      updateInstagramCTA({
-        image,
-        alt: alt.trim() || "PlotTwist24x signature gourmet cake dessert",
-      });
-
-      setIsSaving(false);
-      setShowSuccessToast(true);
-      setTimeout(() => setShowSuccessToast(false), 4000);
-    }, 400);
+    await updateInstagramCTA({
+      image,
+      alt: alt.trim() || "PlotTwist24x signature gourmet cake dessert",
+    });
+    setIsSaving(false);
   };
 
   return (
     <div className="space-y-8 pb-12">
-      {/* ─── TOAST NOTIFICATION ─── */}
-      {showSuccessToast && (
-        <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-5 duration-300">
-          <div className="px-5 py-3.5 rounded-2xl bg-[#FFE26E] border-[3px] border-[#3E2A24] shadow-[6px_6px_0_#3E2A24] flex items-center gap-3 text-[#3E2A24]">
-            <div className="w-8 h-8 rounded-full bg-[#10B981] border-2 border-[#3E2A24] flex items-center justify-center text-white shrink-0">
-              <CheckCircle2 className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="font-bricolage font-extrabold text-sm">Instagram CTA image updated successfully!</p>
-              <p className="font-kalam text-xs text-[#5F4A3A]">Your live website reflects the new image immediately.</p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ─── TOP ACTION BAR ─── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl bg-[#FFFDF8] border-[4px] border-[#3E2A24] shadow-[6px_6px_0_#3E2A24]">

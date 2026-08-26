@@ -114,65 +114,35 @@ export default function AdminStoryImagesPage() {
     reader.readAsDataURL(file);
   };
 
-  const handleSaveItem = (key: keyof Omit<StoryImagesConfig, "updatedAt">) => {
+  const handleSaveItem = async (key: keyof Omit<StoryImagesConfig, "updatedAt">) => {
     setActiveSavingKey(key);
-    setTimeout(() => {
-      updateStoryImages({ [key]: formData[key] });
-      setActiveSavingKey(null);
-      setToastMessage("Story image updated successfully.");
-      setShowSuccessToast(true);
-      setTimeout(() => setShowSuccessToast(false), 4000);
-    }, 400);
+    await updateStoryImages({ [key]: formData[key] });
+    setActiveSavingKey(null);
   };
 
-  const handleSaveAll = () => {
+  const handleSaveAll = async () => {
     setIsSaving(true);
-    setTimeout(() => {
-      updateStoryImages(formData);
-      setIsSaving(false);
-      setToastMessage("Story images updated successfully.");
-      setShowSuccessToast(true);
-      setTimeout(() => setShowSuccessToast(false), 4000);
-    }, 450);
+    await updateStoryImages(formData);
+    setIsSaving(false);
   };
 
-  const handleResetSingle = (key: keyof Omit<StoryImagesConfig, "updatedAt">, defaultSrc: string) => {
+  const handleResetSingle = async (key: keyof Omit<StoryImagesConfig, "updatedAt">, defaultSrc: string) => {
     if (confirm("Reset this image back to its original default?")) {
       const updated = { ...formData, [key]: defaultSrc };
       setFormData(updated);
-      updateStoryImages({ [key]: defaultSrc });
-      setToastMessage("Story image reset to default.");
-      setShowSuccessToast(true);
-      setTimeout(() => setShowSuccessToast(false), 3500);
+      await updateStoryImages({ [key]: defaultSrc });
     }
   };
 
-  const handleResetAll = () => {
+  const handleResetAll = async () => {
     if (confirm("Reset all 4 Story Section images back to initial defaults?")) {
       setFormData(INITIAL_STORY_IMAGES);
-      updateStoryImages(INITIAL_STORY_IMAGES);
-      setToastMessage("All Story images reset to defaults.");
-      setShowSuccessToast(true);
-      setTimeout(() => setShowSuccessToast(false), 3500);
+      await updateStoryImages(INITIAL_STORY_IMAGES);
     }
   };
 
   return (
     <div className="space-y-8 pb-12">
-      {/* ─── TOAST NOTIFICATION ─── */}
-      {showSuccessToast && (
-        <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-5 duration-300">
-          <div className="px-5 py-3.5 rounded-2xl bg-[#FFE26E] border-[3px] border-[#3E2A24] shadow-[6px_6px_0_#3E2A24] flex items-center gap-3 text-[#3E2A24]">
-            <div className="w-8 h-8 rounded-full bg-[#10B981] border-2 border-[#3E2A24] flex items-center justify-center text-white shrink-0">
-              <CheckCircle2 className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="font-bricolage font-extrabold text-sm">{toastMessage}</p>
-              <p className="font-kalam text-xs text-[#5F4A3A]">Your live Story section displays the new image immediately!</p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ─── TOP ACTION BAR ─── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl bg-[#FFFDF8] border-[4px] border-[#3E2A24] shadow-[6px_6px_0_#3E2A24]">

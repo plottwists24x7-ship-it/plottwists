@@ -562,13 +562,14 @@ export default function Story() {
               {/* Fixed Aspect Ratio Image */}
               <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border-2 border-[#3B2A22]/20 bg-[#F5EDDC] shadow-inner mb-3">
                 <Image
+                  key={storyImages?.mainPolaroid || "story-mob-main"}
                   src={storyImages?.mainPolaroid || "/images/baker-where/hero_bakery.jpg"}
                   alt="Artisan bakery kitchen sourdough prep"
                   fill
                   sizes="(max-width: 640px) 360px, 450px"
-                  loading="lazy"
+                  priority
                   className="object-cover scale-102 group-hover:scale-105 transition-transform duration-500 ease-out"
-                  unoptimized={storyImages?.mainPolaroid?.startsWith("data:")}
+                  unoptimized={true}
                 />
                 <div className="absolute top-2 right-2 bg-[#FF6A63] text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-[#2B1824] shadow-xs">
                   № 01 • OUR CRAFT
@@ -594,13 +595,13 @@ export default function Story() {
               {/* Fixed Aspect Ratio Image */}
               <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border-2 border-[#3B2A22]/20 bg-[#F5EDDC] shadow-inner mb-3">
                 <Image
+                  key={storyImages?.badge1 || "story-mob-b1"}
                   src={storyImages?.badge1 || "/images/baker-where/prod_pancakes.jpg"}
                   alt="Clean wholesome pancake bakes"
                   fill
                   sizes="(max-width: 640px) 360px, 450px"
-                  loading="lazy"
                   className="object-cover scale-102 group-hover:scale-105 transition-transform duration-500 ease-out"
-                  unoptimized={storyImages?.badge1?.startsWith("data:")}
+                  unoptimized={true}
                 />
                 <div className="absolute top-2 right-2 bg-[#A8D8FF] text-[#2B1824] text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-[#2B1824] shadow-xs">
                   № 02 • WHOLESOME
@@ -626,13 +627,13 @@ export default function Story() {
               {/* Fixed Aspect Ratio Image */}
               <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border-2 border-[#3B2A22]/20 bg-[#F5EDDC] shadow-inner mb-3">
                 <Image
+                  key={storyImages?.badge2 || "story-mob-b2"}
                   src={storyImages?.badge2 || "/images/baker-where/prod_tiramisu.jpg"}
                   alt="Fresh baked tiramisu and treats"
                   fill
                   sizes="(max-width: 640px) 360px, 450px"
-                  loading="lazy"
                   className="object-cover scale-102 group-hover:scale-105 transition-transform duration-500 ease-out"
-                  unoptimized={storyImages?.badge2?.startsWith("data:")}
+                  unoptimized={true}
                 />
                 <div className="absolute top-2 right-2 bg-[#FFD95B] text-[#2B1824] text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-[#2B1824] shadow-xs">
                   № 03 • HANDMADE
@@ -753,13 +754,13 @@ export default function Story() {
                 <div className="relative flex flex-col items-center select-none w-28 transform rotate-[-2deg] hover:scale-[1.04] transition-transform duration-300">
                   <div className="w-26 h-26 rounded-full overflow-hidden border-3 border-[#2B1824] shadow-[0_6px_12px_rgba(0,0,0,0.12)] bg-white relative">
                     <Image
+                      key={storyImages?.badge1 || "story-desk-b1"}
                       src={storyImages?.badge1 || "/images/baker-where/prod_pancakes.jpg"}
                       alt="Pancakes background stats bakes"
                       fill
                       sizes="128px"
-                      loading="lazy"
                       className="object-cover scale-110"
-                      unoptimized={storyImages?.badge1?.startsWith("data:")}
+                      unoptimized={true}
                     />
                   </div>
                   {/* Badge Capsule sit BELOW image, overlapping bottom edge by only 6-8px */}
@@ -775,13 +776,13 @@ export default function Story() {
                 <div className="relative flex flex-col items-center select-none w-30 transform rotate-[3deg] hover:scale-[1.04] transition-transform duration-300">
                   <div className="w-28 h-28 rounded-full overflow-hidden border-3 border-[#2B1824] shadow-[0_8px_16px_rgba(0,0,0,0.16)] bg-white relative">
                     <Image
+                      key={storyImages?.badge2 || "story-desk-b2"}
                       src={storyImages?.badge2 || "/images/baker-where/prod_tiramisu.jpg"}
                       alt="Tiramisu background stats bakes"
                       fill
                       sizes="128px"
-                      loading="lazy"
                       className="object-cover scale-110"
-                      unoptimized={storyImages?.badge2?.startsWith("data:")}
+                      unoptimized={true}
                     />
                   </div>
                   {/* Badge Capsule sit BELOW image, overlapping bottom edge by only 6-8px */}
@@ -797,13 +798,13 @@ export default function Story() {
                 <div className="relative flex flex-col items-center select-none w-28 transform rotate-[-2deg] hover:scale-[1.04] transition-transform duration-300">
                   <div className="w-26 h-26 rounded-full overflow-hidden border-3 border-[#2B1824] shadow-[0_6px_14px_rgba(0,0,0,0.10)] bg-white relative">
                     <Image
+                      key={storyImages?.badge3 || "story-desk-b3"}
                       src={storyImages?.badge3 || "/images/baker-where/prod_biscoff_brownie.jpg"}
                       alt="Brownie background stats bakes"
                       fill
                       sizes="128px"
-                      loading="lazy"
                       className="object-cover scale-110"
-                      unoptimized={storyImages?.badge3?.startsWith("data:")}
+                      unoptimized={true}
                     />
                   </div>
                   {/* Badge Capsule sit BELOW image, overlapping bottom edge by only 6-8px */}
@@ -900,13 +901,14 @@ export default function Story() {
                   {/* Photo Container */}
                   <div className="relative w-full h-[80%] rounded border border-[#2B1824]/20 overflow-hidden bg-white">
                     <Image
+                      key={storyImages?.mainPolaroid || "story-desk-main"}
                       src={storyImages?.mainPolaroid || "/images/baker-where/hero_bakery.jpg"}
                       alt="Artisan bakery kitchen prep"
                       fill
                       sizes="288px"
-                      loading="lazy"
+                      priority
                       className="object-cover"
-                      unoptimized={storyImages?.mainPolaroid?.startsWith("data:")}
+                      unoptimized={true}
                     />
                   </div>
 

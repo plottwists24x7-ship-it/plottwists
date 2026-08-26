@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
@@ -96,25 +96,18 @@ export default function AdminHeroPage() {
     setScale(1.03);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsSaving(true);
-    setShowSuccessToast(false);
-
-    setTimeout(() => {
-      updateHero({
-        image,
-        alt: alt.trim() || "Signature Artisanal Cheesecake",
-        captionTitle: captionTitle.trim() || "today's batch ♡",
-        captionSubtitle: captionSubtitle.trim() || "Mom's Special",
-        aspectRatio,
-        objectFit,
-        scale,
-      });
-
-      setIsSaving(false);
-      setShowSuccessToast(true);
-      setTimeout(() => setShowSuccessToast(false), 4000);
-    }, 450);
+    await updateHero({
+      image,
+      alt: alt.trim() || "Signature Artisanal Cheesecake",
+      captionTitle: captionTitle.trim() || "today's batch ♡",
+      captionSubtitle: captionSubtitle.trim() || "Mom's Special",
+      aspectRatio,
+      objectFit,
+      scale,
+    });
+    setIsSaving(false);
   };
 
   return (
