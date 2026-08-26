@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X, Clock, ExternalLink } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, X, Clock, ExternalLink, LogOut } from "lucide-react";
 import { useAdmin } from "@/context/AdminContext";
 import { AdminSidebar } from "./AdminSidebar";
 
@@ -36,8 +36,19 @@ const TITLE_MAP: Record<string, { title: string; subtitle: string }> = {
 
 export function AdminHeader() {
   const pathname = usePathname();
+  const router = useRouter();
   const { stats } = useAdmin();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/admin/logout", { method: "POST" });
+    } catch (e) {
+      console.error("Logout error:", e);
+    }
+    router.push("/admin/login");
+    router.refresh();
+  };
 
   const activeMeta = TITLE_MAP[pathname] || {
     title: "Admin Portal",
@@ -46,42 +57,53 @@ export function AdminHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 bg-[#FFFDF8]/90 backdrop-blur-md border-b-[4px] border-[#3E2A24] px-6 sm:px-8 py-4 flex items-center justify-between">
-        {/* Left: Mobile Toggle & Page Title */}
-        <div className="flex items-center gap-4">
+      <header className="sticky top-0 z-30 bg-[#FFFDF8]/95 backdrop-blur-md border-b-[3px] border-[#3E2A24] px-4 sm:px-6 py-2.5 sm:py-2.5 flex items-center justify-between min-h-[52px]">
+        {/* Left: Mobile Toggle, Page Title & Subtitle in Single Row */}
+        <div className="flex items-center gap-3 min-w-0">
           <button
             onClick={() => setMobileMenuOpen(true)}
-            className="lg:hidden w-10 h-10 rounded-xl bg-[#FFE26E] border-2 border-[#3E2A24] shadow-[2px_2px_0_#3E2A24] flex items-center justify-center text-[#3E2A24] cursor-pointer"
+            className="lg:hidden w-8 h-8 rounded-lg bg-[#FFE26E] border-2 border-[#3E2A24] shadow-[1.5px_1.5px_0_#3E2A24] flex items-center justify-center text-[#3E2A24] cursor-pointer shrink-0"
             aria-label="Open menu"
           >
-            <Menu className="w-5 h-5" />
+            <Menu className="w-4 h-4" />
           </button>
 
-          <div>
-            <h1 className="font-bowlby text-xl sm:text-2xl text-[#3E2A24] tracking-tight flex items-center gap-2">
-              <span>{activeMeta.title}</span>
+          <div className="flex items-baseline gap-2.5 truncate">
+            <h1 className="font-bowlby text-base sm:text-lg text-[#3E2A24] tracking-tight truncate">
+              {activeMeta.title}
             </h1>
-            <p className="font-kalam text-xs sm:text-sm text-[#5F4A3A] hidden sm:block">
+            <span className="text-[#3E2A24]/30 hidden md:inline text-xs">•</span>
+            <p className="font-kalam text-xs text-[#5F4A3A] hidden md:inline truncate">
               {activeMeta.subtitle}
             </p>
           </div>
         </div>
 
-        {/* Right: Quick Stats Status & Storefront Shortcut */}
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FFECC8] border-2 border-[#3E2A24] text-xs font-bricolage font-bold text-[#3E2A24]">
-            <Clock className="w-3.5 h-3.5 text-[#FF4FA3]" />
+        {/* Right: Quick Stats Status, Storefront & Logout */}
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FFECC8] border-2 border-[#3E2A24] text-[11px] font-bricolage font-bold text-[#3E2A24]">
+            <Clock className="w-3 h-3 text-[#FF4FA3]" />
             <span>Updated: {stats.lastUpdated}</span>
           </div>
 
           <Link
             href="/"
             target="_blank"
-            className="px-3.5 py-2 rounded-xl bg-[#FF4FA3] text-white border-[2.5px] border-[#3E2A24] shadow-[3px_3px_0_#3E2A24] hover:bg-[#ff3b99] hover:translate-y-[-1px] font-bricolage font-bold text-xs flex items-center gap-1.5 transition-all"
+            className="px-3 py-1.5 rounded-xl bg-[#FF4FA3] text-white border-2 border-[#3E2A24] shadow-[2px_2px_0_#3E2A24] hover:bg-[#ff3b99] hover:translate-y-[-1px] font-bricolage font-bold text-xs flex items-center gap-1.5 transition-all"
           >
             <span className="hidden sm:inline">Storefront</span>
-            <ExternalLink className="w-3.5 h-3.5" />
+            <ExternalLink className="w-3 h-3" />
           </Link>
+
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="p-1.5 rounded-xl bg-[#FFFDF8] hover:bg-[#FFECC8] text-[#5F4A3A] hover:text-[#3E2A24] border-2 border-[#3E2A24] shadow-[1.5px_1.5px_0_#3E2A24] flex items-center justify-center cursor-pointer transition-all"
+            title="Logout"
+            aria-label="Logout"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+          </button>
         </div>
       </header>
 

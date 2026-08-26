@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import { AdminProvider } from "@/context/AdminContext";
@@ -15,7 +15,7 @@ export default function AdminLayout({
   const isLoginPage = pathname === "/admin/login";
 
   return (
-    <AdminProvider>
+    <>
       {isLoginPage ? (
         <div className="min-h-screen bg-[#FFF6E8] text-[#3E2A24]">
           {children}
@@ -30,7 +30,7 @@ export default function AdminLayout({
           {/* Main Content Area */}
           <div className="flex-1 flex flex-col min-w-0 min-h-screen">
             <AdminHeader />
-            <main className="flex-1 p-4 sm:p-8 lg:p-10 relative">
+            <main className="flex-1 p-3 sm:p-5 lg:p-6 relative">
               {/* Subtle Paper Dot Grid */}
               <svg className="absolute inset-0 w-full h-full opacity-30 pointer-events-none" width="100%" height="100%">
                 <pattern id="admin-bg-dots" width="24" height="24" patternUnits="userSpaceOnUse">
@@ -46,6 +46,6 @@ export default function AdminLayout({
           </div>
         </div>
       )}
-    </AdminProvider>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { MaskingTape } from "@/components/paper/MaskingTape";
-import { Lock, KeyRound, X, ArrowRight, Sparkles } from "lucide-react";
+import { Lock, KeyRound, X, ArrowRight, Sparkles, Eye, EyeOff } from "lucide-react";
 
 export function Header() {
   const router = useRouter();
@@ -14,6 +14,7 @@ export function Header() {
   // Admin password modal state
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [adminPassword, setAdminPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [adminError, setAdminError] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -68,30 +69,43 @@ export function Header() {
     }
   };
 
-  const handleAdminSubmit = (e: React.FormEvent) => {
+  const handleAdminSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!adminPassword.trim() || isVerifying) return;
     setIsVerifying(true);
     setAdminError("");
 
-    const configuredPass = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "admin123";
-    const entered = adminPassword.trim();
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: adminPassword.trim() }),
+      });
 
-    setTimeout(() => {
-      if (entered === configuredPass || entered === "admin123" || entered === "plottwist") {
-        setIsAdminModalOpen(false);
-        setAdminPassword("");
-        router.push("/admin/dashboard");
-      } else {
-        setAdminError("Incorrect owner passphrase. Please try again.");
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setAdminError(data.message || "Incorrect owner password. Please try again.");
         setIsVerifying(false);
         passwordInputRef.current?.select();
+        return;
       }
-    }, 200);
+
+      setIsAdminModalOpen(false);
+      setAdminPassword("");
+      router.push("/admin/dashboard");
+      router.refresh();
+    } catch (err) {
+      console.error("Login verification failed:", err);
+      setAdminError("Network error. Please try again.");
+      setIsVerifying(false);
+    }
   };
 
   const closeAdminModal = () => {
     setIsAdminModalOpen(false);
     setAdminPassword("");
+    setShowPassword(false);
     setAdminError("");
   };
 
@@ -449,7 +463,7 @@ export function Header() {
             </div>
 
             {/* Form */}
-            <form onSubmit={handleAdminSubmit} className="space-y-3.5">
+            <form onSubmit={handleAdminSubmit} className="space-y-4">
               <div>
                 <label htmlFor="admin-pass-input" className="block text-[11px] font-fredoka font-bold uppercase tracking-wider text-[#3B2A22] mb-1.5">
                   Passphrase
@@ -458,7 +472,7 @@ export function Header() {
                   <input
                     id="admin-pass-input"
                     ref={passwordInputRef}
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     value={adminPassword}
                     onChange={(e) => {
                       setAdminPassword(e.target.value);
@@ -466,9 +480,21 @@ export function Header() {
                     }}
                     placeholder="Enter passphrase..."
                     autoComplete="current-password"
-                    className="w-full pl-9 pr-3.5 py-2.5 rounded-xl bg-white border-2 border-[#3B2A22] text-sm font-manrope font-bold text-[#3B2A22] focus:outline-none focus:bg-[#FAF4E8] shadow-inner"
+                    className="w-full pl-9 pr-10 py-2.5 rounded-xl bg-white border-2 border-[#3B2A22] text-sm font-manrope font-bold text-[#3B2A22] focus:outline-none focus:bg-[#FAF4E8] shadow-inner transition-all"
                   />
                   <Lock className="w-4 h-4 text-[#3B2A22]/60 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#3B2A22]/60 hover:text-[#3B2A22] cursor-pointer"
+                    title={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
+                  </button>
                 </div>
 
                 {adminError && (
@@ -488,12 +514,6 @@ export function Header() {
                   <span>{isVerifying ? "Verifying..." : "Unlock Portal"}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
-              </div>
-
-              <div className="text-center pt-2 border-t border-[#3B2A22]/15">
-                <p className="text-[11px] font-fasthand text-[#3B2A22]/60">
-                  Default demo key: <span className="font-mono font-bold bg-[#FAF4E8] px-1.5 py-0.5 rounded border border-[#3B2A22]/30 text-[#3B2A22]">admin123</span>
-                </p>
               </div>
             </form>
           </div>

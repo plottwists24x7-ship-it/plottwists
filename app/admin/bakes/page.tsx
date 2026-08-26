@@ -54,13 +54,13 @@ export default function AdminBakesPage() {
     setInlineDesc(bake.description);
   };
 
-  const saveInlineEdit = (id: string) => {
-    updateBake(id, {
+  const saveInlineEdit = async (id: string) => {
+    const saved = await updateBake(id, {
       name: inlineName.trim(),
       price: inlinePrice.trim() || undefined,
       description: inlineDesc.trim(),
     });
-    setInlineEditId(null);
+    if (saved) setInlineEditId(null);
   };
 
   const cancelInlineEdit = () => {
@@ -337,11 +337,11 @@ export default function AdminBakesPage() {
       <BakeFormModal
         isOpen={modalOpen}
         initialData={editingBake}
-        onSave={(data) => {
+        onSave={async (data) => {
           if (editingBake) {
-            updateBake(editingBake.id, data);
+            return updateBake(editingBake.id, data);
           } else {
-            addBake(data);
+            return (await addBake(data)) !== null;
           }
         }}
         onClose={() => {
@@ -356,10 +356,9 @@ export default function AdminBakesPage() {
         title="Delete Bake Product?"
         message="Are you sure you want to delete this dessert from your menu? It will be removed immediately from your public bakery catalog."
         itemName={deleteTarget?.name}
-        onConfirm={() => {
+        onConfirm={async () => {
           if (deleteTarget) {
-            deleteBake(deleteTarget.id);
-            setDeleteTarget(null);
+            if (await deleteBake(deleteTarget.id)) setDeleteTarget(null);
           }
         }}
         onCancel={() => setDeleteTarget(null)}

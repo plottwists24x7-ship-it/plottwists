@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { UploadCloud, Link as LinkIcon, X, Image as ImageIcon } from "lucide-react";
+import { getProductImageUrl, uploadProductImage } from "@/lib/supabase/client";
 
 interface ImageUploadDropzoneProps {
   value: string;
@@ -22,19 +23,18 @@ export function ImageUploadDropzone({
   const [customUrl, setCustomUrl] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFile = (file: File) => {
+  const handleFile = async (file: File) => {
     if (!file.type.startsWith("image/")) {
       alert("Please upload an image file (PNG, JPG, WEBP)");
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target?.result) {
-        onChange(e.target.result as string);
-      }
-    };
-    reader.readAsDataURL(file);
+    try {
+      onChange(await uploadProductImage(file));
+    } catch (error) {
+      console.error("Product image upload failed:", error);
+      alert("We couldn't upload that image. Please try again.");
+    }
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -99,9 +99,9 @@ export function ImageUploadDropzone({
         /* Preview Card */
         <div className="relative rounded-2xl border-[3px] border-[#3E2A24] overflow-hidden bg-[#FFECC8]/40 p-2 flex items-center gap-4">
           <div className="relative w-24 h-24 rounded-xl border-2 border-[#3E2A24] overflow-hidden bg-white shrink-0">
-            {value.startsWith("data:") || value.startsWith("http") || value.startsWith("/") ? (
+            {value ? (
               <Image
-                src={value}
+                src={getProductImageUrl(value)}
                 alt="Upload preview"
                 fill
                 className="object-cover"

@@ -3,6 +3,8 @@ export interface SharedProduct {
   name: string;
   description: string;
   image: string;
+  /** Original `products.image_url` value when it is a Supabase Storage object path. */
+  imagePath?: string;
   serial?: string;
   price?: string;
   category: string;

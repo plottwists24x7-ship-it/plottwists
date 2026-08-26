@@ -37,37 +37,37 @@ export default function AdminDashboardPage() {
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
 
   return (
-    <div className="space-y-8 pb-12">
-      {/* ─── WELCOME BANNER ─── */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-[#FFECC8] border-[4px] border-[#3E2A24] shadow-[8px_8px_0_#3E2A24] flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative overflow-hidden">
+    <div className="space-y-5 pb-10">
+      {/* ─── WELCOME BANNER (COMPACT) ─── */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-[#FFECC8] border-[3px] border-[#3E2A24] shadow-[4px_4px_0_#3E2A24] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative overflow-hidden">
         {/* Decorative Stamp */}
-        <div className="absolute top-2 right-4 text-7xl opacity-10 pointer-events-none select-none">
+        <div className="absolute top-1 right-3 text-6xl opacity-10 pointer-events-none select-none">
           🧁
         </div>
 
         <div className="relative z-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#FF4FA3] text-white border-2 border-[#3E2A24] text-xs font-bricolage font-black uppercase shadow-sm mb-2">
-            <Sparkles className="w-3 h-3" />
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FF4FA3] text-white border-2 border-[#3E2A24] text-[10px] font-bricolage font-black uppercase shadow-sm mb-1.5">
+            <Sparkles className="w-2.5 h-2.5" />
             <span>PlotTwist24x Bakery Manager</span>
           </div>
-          <h2 className="font-bowlby text-2xl sm:text-3xl text-[#3E2A24] tracking-tight">
+          <h2 className="font-bowlby text-lg sm:text-xl text-[#3E2A24] tracking-tight">
             Welcome back, Head Baker!
           </h2>
-          <p className="font-kalam text-sm sm:text-base text-[#5F4A3A] font-semibold mt-1">
-            Update dessert offerings, manage kitchen gallery moments, and curate 5-star customer reviews.
+          <p className="font-kalam text-xs sm:text-sm text-[#5F4A3A] font-semibold mt-0.5">
+            Manage dessert bakes, kitchen gallery photos & 5-star customer reviews
           </p>
         </div>
 
         {/* Quick Reset & Storefront Actions */}
-        <div className="relative z-10 flex flex-wrap items-center gap-3 shrink-0">
+        <div className="relative z-10 flex flex-wrap items-center gap-2.5 shrink-0">
           <button
             type="button"
             onClick={resetToDefaults}
-            className="px-4 py-2.5 rounded-2xl bg-[#FFFDF8] hover:bg-[#FFF6E8] text-[#3E2A24] font-bricolage font-bold text-xs border-[2.5px] border-[#3E2A24] shadow-[2px_2px_0_#3E2A24] flex items-center gap-1.5 cursor-pointer transition-all"
+            className="px-3.5 py-2 rounded-xl bg-[#FFFDF8] hover:bg-[#FFF6E8] text-[#3E2A24] font-bricolage font-bold text-xs border-2 border-[#3E2A24] shadow-[1.5px_1.5px_0_#3E2A24] flex items-center gap-1.5 cursor-pointer transition-all"
             title="Reset to default initial bakery demo data"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
-            <span>Reset Demo Data</span>
+            <RefreshCw className="w-3 h-3" />
+            <span>Refresh Data</span>
           </button>
         </div>
       </div>

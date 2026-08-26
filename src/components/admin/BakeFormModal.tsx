@@ -8,7 +8,7 @@ import { X, Save, Sparkles } from "lucide-react";
 interface BakeFormModalProps {
   isOpen: boolean;
   initialData?: Bake | null;
-  onSave: (bake: Omit<Bake, "id" | "createdAt" | "updatedAt">) => void;
+  onSave: (bake: Omit<Bake, "id" | "createdAt" | "updatedAt">) => Promise<boolean>;
   onClose: () => void;
 }
 
@@ -53,7 +53,7 @@ export function BakeFormModal({
       setDescription(initialData.description || "");
       setPrice(initialData.price || "");
       setCategory(initialData.category || "Cheesecakes");
-      setImage(initialData.image || "");
+      setImage(initialData.imagePath || initialData.image || "");
       setBadge(initialData.badge || "");
       setIsPopular(initialData.isPopular || false);
     } else {
@@ -79,11 +79,11 @@ export function BakeFormModal({
     return Object.keys(errs).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
-    onSave({
+    const saved = await onSave({
       name: name.trim(),
       description: description.trim(),
       price: price.trim() || undefined,
@@ -93,7 +93,7 @@ export function BakeFormModal({
       isPopular,
     });
 
-    onClose();
+    if (saved) onClose();
   };
 
   return (

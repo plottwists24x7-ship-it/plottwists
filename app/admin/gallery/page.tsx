@@ -1,17 +1,20 @@
-﻿"use client";
+"use client";
 
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import { useAdmin } from "@/context/AdminContext";
 import { GalleryImage, GalleryCategory } from "@/types/admin";
+import { GalleryFormModal } from "@/components/admin/GalleryFormModal";
 import { GalleryUploadModal } from "@/components/admin/GalleryUploadModal";
 import { ImagePreviewModal } from "@/components/admin/ImagePreviewModal";
 import { DeleteConfirmDialog } from "@/components/admin/DeleteConfirmDialog";
 import { 
-  UploadCloud, 
+  Plus, 
+  Search, 
+  Edit3, 
   Trash2, 
   Eye, 
-  RefreshCw, 
+  UploadCloud, 
   Sparkles, 
   Tag, 
   Camera 
@@ -28,55 +31,41 @@ const CATEGORIES: Array<GalleryCategory | "All"> = [
 ];
 
 export default function AdminGalleryPage() {
-  const { gallery, addMultipleGalleryImages, updateGalleryImage, deleteGalleryImage } = useAdmin();
+  const { gallery, addGalleryImage, addMultipleGalleryImages, updateGalleryImage, deleteGalleryImage } = useAdmin();
 
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<GalleryCategory | "All">("All");
-  const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  
+  // Modals state
+  const [formModalOpen, setFormModalOpen] = useState(false);
+  const [batchModalOpen, setBatchModalOpen] = useState(false);
+  const [editingImage, setEditingImage] = useState<GalleryImage | null>(null);
   const [previewImage, setPreviewImage] = useState<GalleryImage | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<GalleryImage | null>(null);
 
-  // Hidden file input for Replace Image action
-  const [replacingId, setReplacingId] = useState<string | null>(null);
-  const replaceFileInputRef = useRef<HTMLInputElement>(null);
-
-  const triggerReplaceImage = (id: string) => {
-    setReplacingId(id);
-    replaceFileInputRef.current?.click();
-  };
-
-  const handleReplaceFile = (file: File) => {
-    if (!replacingId || !file.type.startsWith("image/")) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target?.result) {
-        updateGalleryImage(replacingId, {
-          image: e.target.result as string,
-        });
-        setReplacingId(null);
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
-  // Filtered gallery items
+  // Filtered gallery list
   const filteredGallery = useMemo(() => {
     return gallery.filter((item) => {
-      return selectedCategory === "All" || item.category === selectedCategory;
+      const matchCat = selectedCategory === "All" || item.category === selectedCategory;
+      const matchSearch = 
+        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (item.caption && item.caption.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (item.alt && item.alt.toLowerCase().includes(searchQuery.toLowerCase()));
+      return matchCat && matchSearch;
     });
-  }, [gallery, selectedCategory]);
+  }, [gallery, selectedCategory, searchQuery]);
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-6 pb-12">
       {/* ─── TOP ACTION BAR & STATS HEADER ─── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl bg-[#FFFDF8] border-[4px] border-[#3E2A24] shadow-[6px_6px_0_#3E2A24]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 rounded-3xl bg-[#FFFDF8] border-[3.5px] border-[#3E2A24] shadow-[5px_5px_0_#3E2A24]">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="font-bowlby text-2xl text-[#3E2A24]">
+            <h2 className="font-bowlby text-xl sm:text-2xl text-[#3E2A24]">
               Bakery Photo Gallery
             </h2>
             <span className="bg-[#FFE26E] text-[#3E2A24] text-xs font-bricolage font-black px-2.5 py-0.5 rounded-full border-2 border-[#3E2A24]">
-              {gallery.length} Snapshots
+              {gallery.length} Photos
             </span>
           </div>
           <p className="font-kalam text-xs sm:text-sm text-[#5F4A3A] mt-1">
@@ -84,59 +73,95 @@ export default function AdminGalleryPage() {
           </p>
         </div>
 
-        {/* Upload Images Button */}
-        <button
-          onClick={() => setUploadModalOpen(true)}
-          className="px-6 py-3.5 rounded-2xl bg-[#FFE26E] hover:bg-[#ffd633] active:translate-y-0 text-[#3E2A24] font-bricolage font-extrabold text-sm border-[3.5px] border-[#3E2A24] shadow-[4px_4px_0_#3E2A24] hover:shadow-[6px_6px_0_#3E2A24] hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer transition-all shrink-0"
-        >
-          <div className="w-6 h-6 rounded-lg bg-white border border-[#3E2A24] flex items-center justify-center">
-            <UploadCloud className="w-4 h-4 text-[#3E2A24]" />
-          </div>
-          <span>Upload Photos (Batch)</span>
-        </button>
-      </div>
-
-      {/* ─── CATEGORY FILTER PILLS ─── */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-        {CATEGORIES.map((cat) => (
+        {/* Action Buttons: Add Photo & Batch Upload */}
+        <div className="flex items-center gap-2.5 shrink-0">
           <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            className={`px-4 py-2 rounded-xl text-xs font-bricolage font-black whitespace-nowrap transition-all border-2 border-[#3E2A24] cursor-pointer ${
-              selectedCategory === cat
-                ? "bg-[#FF4FA3] text-white shadow-[2.5px_2.5px_0_#3E2A24]"
-                : "bg-[#FFFDF8] text-[#3E2A24] hover:bg-[#FFECC8] shadow-[1.5px_1.5px_0_#3E2A24]"
-            }`}
+            type="button"
+            onClick={() => setBatchModalOpen(true)}
+            className="px-4 py-2.5 rounded-2xl bg-[#FFFDF8] hover:bg-[#FFECC8] text-[#3E2A24] font-bricolage font-bold text-xs border-[2.5px] border-[#3E2A24] shadow-[2px_2px_0_#3E2A24] flex items-center gap-1.5 cursor-pointer transition-all hover:-translate-y-0.5"
+            title="Upload multiple photos simultaneously"
           >
-            {cat}
+            <UploadCloud className="w-4 h-4 text-[#FF4FA3]" />
+            <span className="hidden sm:inline">Batch Upload</span>
           </button>
-        ))}
+
+          <button
+            type="button"
+            onClick={() => {
+              setEditingImage(null);
+              setFormModalOpen(true);
+            }}
+            className="px-5 py-2.5 rounded-2xl bg-[#FFE26E] hover:bg-[#ffd633] active:translate-y-0 text-[#3E2A24] font-bricolage font-extrabold text-xs sm:text-sm border-[3px] border-[#3E2A24] shadow-[3.5px_3.5px_0_#3E2A24] hover:shadow-[5px_5px_0_#3E2A24] hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer transition-all shrink-0"
+          >
+            <div className="w-5 h-5 rounded-lg bg-white border border-[#3E2A24] flex items-center justify-center">
+              <Plus className="w-3.5 h-3.5 text-[#3E2A24]" />
+            </div>
+            <span>Add Photo</span>
+          </button>
+        </div>
       </div>
 
-      {/* ─── GALLERY GRID / MASONRY ─── */}
+      {/* ─── FILTERS & SEARCH ROW ─── */}
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+        {/* Search Bar */}
+        <div className="relative flex-1 max-w-md">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search gallery photos by title or keyword..."
+            className="w-full pl-10 pr-4 py-2 rounded-2xl bg-[#FFFDF8] border-[3px] border-[#3E2A24] text-xs sm:text-sm font-bricolage text-[#3E2A24] placeholder:text-[#5F4A3A]/40 focus:outline-none focus:bg-[#FFECC8]/30 shadow-[2px_2px_0_#3E2A24]"
+          />
+          <Search className="w-4 h-4 text-[#5F4A3A] absolute left-3.5 top-1/2 -translate-y-1/2" />
+        </div>
+
+        {/* Category Filter Pills */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bricolage font-bold whitespace-nowrap transition-all border-2 border-[#3E2A24] cursor-pointer ${
+                selectedCategory === cat
+                  ? "bg-[#FF4FA3] text-white shadow-[2px_2px_0_#3E2A24]"
+                  : "bg-[#FFFDF8] text-[#3E2A24] hover:bg-[#FFECC8] shadow-[1.5px_1.5px_0_#3E2A24]"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ─── GALLERY CARDS GRID ─── */}
       {filteredGallery.length === 0 ? (
-        <div className="p-12 text-center rounded-3xl bg-[#FFFDF8] border-[4px] border-[#3E2A24] shadow-[6px_6px_0_#3E2A24]">
+        <div className="p-12 text-center rounded-3xl bg-[#FFFDF8] border-[3.5px] border-[#3E2A24] shadow-[5px_5px_0_#3E2A24]">
           <div className="text-5xl mb-3">🖼️</div>
-          <h3 className="font-bowlby text-xl text-[#3E2A24]">No Photos in This Category</h3>
-          <p className="font-kalam text-sm text-[#5F4A3A] mt-1 mb-4">
-            Upload new moments or switch category filters
+          <h3 className="font-bowlby text-xl text-[#3E2A24]">No Photos Found</h3>
+          <p className="font-kalam text-xs sm:text-sm text-[#5F4A3A] mt-1 mb-4">
+            {searchQuery ? "Try refining your search terms" : "Upload your first photo for this category"}
           </p>
           <button
-            onClick={() => setSelectedCategory("All")}
-            className="px-4 py-2 rounded-xl bg-[#FFE26E] border-2 border-[#3E2A24] font-bricolage font-bold text-xs shadow-[2px_2px_0_#3E2A24]"
+            type="button"
+            onClick={() => {
+              setSearchQuery("");
+              setSelectedCategory("All");
+            }}
+            className="px-4 py-2 rounded-xl bg-[#FFE26E] border-2 border-[#3E2A24] font-bricolage font-bold text-xs shadow-[2px_2px_0_#3E2A24] cursor-pointer"
           >
-            Show All Photos
+            Clear Filters
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredGallery.map((item) => (
             <div
               key={item.id}
-              className="bg-[#FFFDF8] rounded-3xl border-[4px] border-[#3E2A24] shadow-[6px_6px_0_#3E2A24] hover:shadow-[8px_8px_0_#3E2A24] transition-all flex flex-col justify-between overflow-hidden group"
+              className="bg-[#FFFDF8] rounded-3xl border-[3.5px] border-[#3E2A24] shadow-[5px_5px_0_#3E2A24] hover:shadow-[7px_7px_0_#3E2A24] transition-all flex flex-col justify-between overflow-hidden group"
             >
               {/* Photo Frame Container */}
-              <div className="relative w-full h-64 bg-[#FFECC8]/40 border-b-[3px] border-[#3E2A24] overflow-hidden">
+              <div className="relative w-full h-56 bg-[#FFECC8]/40 border-b-[3px] border-[#3E2A24] overflow-hidden">
                 <Image
                   src={item.image}
                   alt={item.title}
@@ -163,28 +188,38 @@ export default function AdminGalleryPage() {
               </div>
 
               {/* Card Meta Body */}
-              <div className="p-5 space-y-1.5 flex-1">
-                <h3 className="font-bowlby text-lg text-[#3E2A24] leading-tight">
-                  {item.title}
-                </h3>
-                {item.caption && (
-                  <p className="font-kalam text-xs text-[#5F4A3A] line-clamp-2">
+              <div className="p-4 space-y-1.5 flex-1">
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="font-bowlby text-base sm:text-lg text-[#3E2A24] leading-tight">
+                    {item.title}
+                  </h3>
+                </div>
+
+                {item.caption ? (
+                  <p className="font-kalam text-xs text-[#5F4A3A] line-clamp-2 leading-relaxed">
                     "{item.caption}"
+                  </p>
+                ) : (
+                  <p className="font-kalam text-xs text-[#5F4A3A]/50 italic">
+                    No caption note provided
                   </p>
                 )}
               </div>
 
-              {/* Bottom Action Strip: Replace Image, Delete, Preview */}
-              <div className="p-3 bg-[#FFF9F5] border-t-[3px] border-[#3E2A24]/20 flex items-center justify-between gap-2">
+              {/* Bottom Action Strip: Edit, Preview, Delete */}
+              <div className="p-3 bg-[#FFF9F5] border-t-[2.5px] border-[#3E2A24]/20 flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                  {/* Replace Image Button */}
+                  {/* Edit Photo Button */}
                   <button
                     type="button"
-                    onClick={() => triggerReplaceImage(item.id)}
+                    onClick={() => {
+                      setEditingImage(item);
+                      setFormModalOpen(true);
+                    }}
                     className="px-3 py-1.5 rounded-xl bg-[#FFECC8] hover:bg-[#FFE26E] border-2 border-[#3E2A24] shadow-[1.5px_1.5px_0_#3E2A24] font-bricolage font-bold text-xs text-[#3E2A24] flex items-center gap-1.5 cursor-pointer transition-all hover:translate-y-[-1px]"
                   >
-                    <RefreshCw className="w-3.5 h-3.5 text-[#FF4FA3]" />
-                    <span>Replace Image</span>
+                    <Edit3 className="w-3.5 h-3.5 text-[#FF4FA3]" />
+                    <span>Edit Photo</span>
                   </button>
 
                   {/* Preview Button */}
@@ -213,24 +248,28 @@ export default function AdminGalleryPage() {
         </div>
       )}
 
-      {/* Hidden File Input for Replace Action */}
-      <input
-        ref={replaceFileInputRef}
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={(e) => {
-          if (e.target.files && e.target.files[0]) {
-            handleReplaceFile(e.target.files[0]);
+      {/* ─── SINGLE PHOTO FORM MODAL (ADD / EDIT) ─── */}
+      <GalleryFormModal
+        isOpen={formModalOpen}
+        initialData={editingImage}
+        onSave={async (data) => {
+          if (editingImage) {
+            return await updateGalleryImage(editingImage.id, data);
+          } else {
+            return (await addGalleryImage(data)) !== null;
           }
+        }}
+        onClose={() => {
+          setFormModalOpen(false);
+          setEditingImage(null);
         }}
       />
 
-      {/* ─── MULTI-FILE UPLOAD MODAL ─── */}
+      {/* ─── BATCH UPLOAD MODAL ─── */}
       <GalleryUploadModal
-        isOpen={uploadModalOpen}
+        isOpen={batchModalOpen}
         onUpload={(items) => addMultipleGalleryImages(items)}
-        onClose={() => setUploadModalOpen(false)}
+        onClose={() => setBatchModalOpen(false)}
       />
 
       {/* ─── LIGHTBOX PREVIEW MODAL ─── */}
@@ -243,12 +282,13 @@ export default function AdminGalleryPage() {
       <DeleteConfirmDialog
         isOpen={deleteTarget !== null}
         title="Delete Gallery Photo?"
-        message="Are you sure you want to remove this image from the gallery showcase? This cannot be undone."
+        message="Are you sure you want to remove this image from your bakery gallery showcase? It will be deleted immediately."
         itemName={deleteTarget?.title}
-        onConfirm={() => {
+        onConfirm={async () => {
           if (deleteTarget) {
-            deleteGalleryImage(deleteTarget.id);
-            setDeleteTarget(null);
+            if (await deleteGalleryImage(deleteTarget.id)) {
+              setDeleteTarget(null);
+            }
           }
         }}
         onCancel={() => setDeleteTarget(null)}

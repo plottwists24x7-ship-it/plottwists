@@ -68,9 +68,15 @@ export function AdminSidebar({ onCloseMobile }: AdminSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     if (onCloseMobile) onCloseMobile();
+    try {
+      await fetch("/api/admin/logout", { method: "POST" });
+    } catch (e) {
+      console.error("Logout request failed:", e);
+    }
     router.push("/admin/login");
+    router.refresh();
   };
 
   return (

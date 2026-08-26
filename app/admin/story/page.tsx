@@ -365,7 +365,7 @@ export default function AdminStoryImagesPage() {
                           setFormData((prev) => ({ ...prev, [item.key]: val }));
                         }
                       }}
-                      placeholder="/images/baker-where/photo.jpg"
+                      placeholder="/images/baker-where/hero_bakery.jpg"
                       className="w-full px-3 py-1.5 rounded-xl bg-white border-2 border-[#3E2A24] font-mono text-xs text-[#3E2A24] focus:outline-none focus:bg-[#FFECC8]/30"
                     />
                   </div>
