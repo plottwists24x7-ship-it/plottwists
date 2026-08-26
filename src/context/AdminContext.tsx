@@ -199,6 +199,8 @@ export interface AdminContextType {
   storyImages: StoryImagesConfig;
   instagramCTA: InstagramCTAConfig;
   stats: AdminStats;
+  isLoading: boolean;
+  isLoaded: boolean;
   
   // Hero Actions
   updateHero: (updates: Partial<HeroConfig>) => Promise<boolean> | void;
@@ -243,6 +245,8 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [storyImages, setStoryImages] = useState<StoryImagesConfig>(INITIAL_STORY_IMAGES);
   const [instagramCTA, setInstagramCTA] = useState<InstagramCTAConfig>(INITIAL_INSTAGRAM_CTA);
   const [lastUpdated, setLastUpdated] = useState<string>("Just now");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
@@ -329,6 +333,11 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         }
       } catch (err) {
         console.error("Unexpected error fetching initial data from Supabase:", err);
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+          setIsLoaded(true);
+        }
       }
     }
 
@@ -831,6 +840,8 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     storyImages,
     instagramCTA,
     stats,
+    isLoading,
+    isLoaded,
     updateHero,
     updateStory,
     updateStoryImages,

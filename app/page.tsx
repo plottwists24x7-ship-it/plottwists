@@ -15,14 +15,23 @@ import Reviews from '@/components/sections/Reviews'
 import InstagramCTA from '@/components/sections/InstagramCTA'
 import Footer from '@/components/sections/Footer'
 
+import { useAdmin } from '@/context/AdminContext'
+
 export default function Home() {
   const [mounted, setMounted] = useState(false)
+  const { isLoaded } = useAdmin()
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  if (!mounted) return null
+  if (!mounted || !isLoaded) {
+    return (
+      <main className="min-h-screen bg-[#C7E9E4] overflow-x-hidden relative flex items-center justify-center">
+        <PaperBackground />
+      </main>
+    )
+  }
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)

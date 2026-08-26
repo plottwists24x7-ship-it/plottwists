@@ -146,12 +146,7 @@ export default function Gallery() {
         strokeDashoffset: 0,
         duration: 0.7,
         ease: "power2.inOut"
-      }, "+=0.1")
-      .to(".scribble-mask-arrow", {
-        strokeDashoffset: 0,
-        duration: 0.2,
-        ease: "power2.out"
-      });
+      }, "+=0.1");
 
       // =========================================================================
       // SCENE 4 & 5: Photo Choreography & Tape Fades (Photo lands -> 120ms -> Tape)
@@ -191,7 +186,7 @@ export default function Gallery() {
         const sticker = cardWrapper.querySelector(".scrapbook-sticker");
 
         const cfg = photoConfig[id];
-        const photoData = GALLERY_PHOTOS.find((p) => p.id === id);
+        const photoData = activePhotos.find((p) => p.id === id) || GALLERY_PHOTOS.find((p) => p.id === id);
         const baseRotation = parseFloat(photoData?.rotation || "0");
 
         runningTime += cfg.delay;
