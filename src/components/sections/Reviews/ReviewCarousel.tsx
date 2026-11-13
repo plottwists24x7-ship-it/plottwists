@@ -7,8 +7,8 @@ interface ReviewCarouselProps {
 }
 
 export const ReviewCarousel: React.FC<ReviewCarouselProps> = React.memo(({ reviews }) => {
-  // Duplicate all 10 unique reviews internally 3x for 100% seamless 60fps infinite marquee looping
-  const duplicatedReviews = [...reviews, ...reviews, ...reviews];
+  // Duplicate reviews 2x for exact -50% infinite seamless CSS marquee loop
+  const duplicatedReviews = [...reviews, ...reviews];
 
   return (
     <div className="w-full overflow-hidden py-6 relative select-none">

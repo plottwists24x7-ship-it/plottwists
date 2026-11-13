@@ -1,5 +1,3 @@
-'use client'
-
 import { Header } from '@/components/Header'
 import { ScrapbookHeroRedesign } from '@/components/ScrapbookHeroRedesign'
 import { DecorativeElements } from '@/components/DecorativeElements'
@@ -15,13 +13,6 @@ import InstagramCTA from '@/components/sections/InstagramCTA'
 import Footer from '@/components/sections/Footer'
 
 export default function Home() {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
   return (
     <main className="min-h-screen bg-[#C7E9E4] overflow-x-hidden relative">
       {/* Layer 1 - Paper foundation (grain, watercolor wash, vignette) */}
@@ -47,10 +38,7 @@ export default function Home() {
 
         {/* Layer 4 - Single-Composition Scrapbook Hero Canvas */}
         <div className="w-full relative z-10">
-          <ScrapbookHeroRedesign
-            onExploreClick={() => scrollToSection('bakes')}
-            onStoryClick={() => scrollToSection('story')}
-          />
+          <ScrapbookHeroRedesign />
         </div>
       </section>
 

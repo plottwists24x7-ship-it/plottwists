@@ -214,7 +214,7 @@ export async function verifySessionToken(
     }
 
     return true;
-  } catch (err) {
+  } catch {
     // Fail closed on any JSON parse, base64, or crypto error
     return false;
   }

@@ -72,10 +72,6 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const preventDefault = (e: React.MouseEvent) => {
-    e.preventDefault();
-  };
-
   return (
     <footer
       ref={footerRef}

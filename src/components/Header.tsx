@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { MaskingTape } from "@/components/paper/MaskingTape";
-import { Lock, KeyRound, X, ArrowRight, Sparkles, Eye, EyeOff } from "lucide-react";
+import { Lock, KeyRound, X, ArrowRight, Eye, EyeOff } from "lucide-react";
 
 export function Header() {
   const router = useRouter();
@@ -20,25 +20,44 @@ export function Header() {
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+    let ticking = false;
 
-      // Track active section based on scroll position
-      const sections = ["story", "bakes", "gallery", "reviews"];
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 200 && rect.bottom >= 200) {
-            setActiveTab(section);
-            break;
-          }
-        }
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const isScrolled = window.scrollY > 40;
+          setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Efficient IntersectionObserver for active section tab tracking (Zero forced layout reflows)
+    const sections = ["story", "bakes", "gallery", "reviews"];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveTab(entry.target.id);
+            break;
+          }
+        }
+      },
+      { rootMargin: "-20% 0px -60% 0px", threshold: 0 }
+    );
+
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   // Handle ESC key to close modal & auto focus input

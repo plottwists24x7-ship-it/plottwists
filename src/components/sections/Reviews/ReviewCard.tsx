@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { ReviewItem } from './ReviewsData';
 import { MaskingTape } from '@/components/paper/MaskingTape';
 
@@ -198,10 +199,12 @@ export const ReviewCard: React.FC<ReviewCardProps> = React.memo(({ item, index }
 
           {/* Customer Polaroid Photo Frame */}
           <div className={`w-24 h-28 xs:w-28 xs:h-32 sm:w-36 sm:h-40 rounded-xl sm:rounded-2xl overflow-hidden border-[2.5px] sm:border-[3.5px] border-white bg-[#FAF4E8] shadow-[4px_4px_0_rgba(0,0,0,0.25)] sm:shadow-[6px_6px_0_rgba(0,0,0,0.25)] transform ${variant.photoRotClass} group-hover:rotate-0 transition-transform duration-300 relative z-10`}>
-            <img 
+            <Image 
               src={item.portrait} 
               alt={item.name} 
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 640px) 112px, 144px"
+              className="object-cover"
               loading="lazy"
             />
           </div>

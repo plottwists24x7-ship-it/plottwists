@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Bake, BakeCategory } from "@/types/admin";
 import { ImageUploadDropzone } from "./ImageUploadDropzone";
-import { X, Save, Sparkles, Loader2 } from "lucide-react";
+import { X, Save, Sparkles } from "lucide-react";
 
 interface BakeFormModalProps {
   isOpen: boolean;
@@ -38,17 +38,21 @@ export function BakeFormModal({
   onSave,
   onClose,
 }: BakeFormModalProps) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [category, setCategory] = useState<BakeCategory>("Cheesecakes");
-  const [image, setImage] = useState("");
-  const [badge, setBadge] = useState("");
-  const [isPopular, setIsPopular] = useState(false);
+  const [name, setName] = useState(initialData?.name || "");
+  const [description, setDescription] = useState(initialData?.description || "");
+  const [price, setPrice] = useState(initialData?.price || "");
+  const [category, setCategory] = useState<BakeCategory>(initialData?.category || "Cheesecakes");
+  const [image, setImage] = useState(initialData?.imagePath || initialData?.image || "");
+  const [badge, setBadge] = useState(initialData?.badge || "");
+  const [isPopular, setIsPopular] = useState(initialData?.isPopular || false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  useEffect(() => {
+  const [prevData, setPrevData] = useState(initialData);
+  const [prevOpen, setPrevOpen] = useState(isOpen);
+  if (initialData !== prevData || isOpen !== prevOpen) {
+    setPrevData(initialData);
+    setPrevOpen(isOpen);
     if (initialData) {
       setName(initialData.name || "");
       setDescription(initialData.description || "");
@@ -68,7 +72,7 @@ export function BakeFormModal({
     }
     setErrors({});
     setIsSubmitting(false);
-  }, [initialData, isOpen]);
+  }
 
   if (!isOpen) return null;
 

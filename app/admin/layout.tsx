@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { AdminProvider } from "@/context/AdminContext";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { usePathname } from "next/navigation";

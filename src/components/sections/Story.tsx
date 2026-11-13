@@ -537,17 +537,17 @@ export default function Story() {
               style={{ fontFamily: "var(--font-federo-g), 'Federo', var(--font-quicksand-g), 'Quicksand', sans-serif" }}
               className="text-[11px] uppercase tracking-[0.2em] font-extrabold bg-[#FFD95B] text-[#2B1824] px-4 py-1.5 rounded-full border-2 border-[#2B1824] shadow-[2.5px_2.5px_0_#2B1824] inline-block mb-3 rotate-[-1deg]"
             >
-              ✨ ABOUT OUR BAKERY
+              {story.tagline || "✨ ABOUT OUR BAKERY"}
             </span>
             
             <h2
               className="font-fasthand font-bold text-4xl xs:text-5xl text-[#FFF7EF] leading-none tracking-tight mb-2 drop-shadow-[0_3px_8px_rgba(0,0,0,0.18)]"
             >
-              PLOTTWIST24X7
+              {story.title || "PLOTTWIST24X7"}
             </h2>
             
             <span className="text-[#F6AFCF] font-workforce text-lg font-bold transform -rotate-2 tracking-wide block">
-              made with love ♡
+              {story.subtitleScript || "made with love ♡"}
             </span>
           </div>
 
@@ -569,7 +569,6 @@ export default function Story() {
                   sizes="(max-width: 640px) 360px, 450px"
                   priority
                   className="object-cover scale-102 group-hover:scale-105 transition-transform duration-500 ease-out"
-                  unoptimized={true}
                 />
                 <div className="absolute top-2 right-2 bg-[#FF6A63] text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-[#2B1824] shadow-xs">
                   № 01 • OUR CRAFT
@@ -583,7 +582,7 @@ export default function Story() {
 
               {/* 2-3 lines of text (8px gap from title) */}
               <p className="font-manrope text-xs xs:text-sm text-[#5C4332] leading-relaxed font-medium line-clamp-3">
-                Every morning begins at dawn, nurturing our heirloom sourdough starter to create artisan loaves and flaky pastries with rich texture and natural crispness.
+                {story.description || "Every morning begins at dawn, nurturing our heirloom sourdough starter to create artisan loaves and flaky pastries with rich texture and natural crispness."}
               </p>
             </div>
 
@@ -601,7 +600,6 @@ export default function Story() {
                   fill
                   sizes="(max-width: 640px) 360px, 450px"
                   className="object-cover scale-102 group-hover:scale-105 transition-transform duration-500 ease-out"
-                  unoptimized={true}
                 />
                 <div className="absolute top-2 right-2 bg-[#A8D8FF] text-[#2B1824] text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-[#2B1824] shadow-xs">
                   № 02 • WHOLESOME
@@ -633,7 +631,6 @@ export default function Story() {
                   fill
                   sizes="(max-width: 640px) 360px, 450px"
                   className="object-cover scale-102 group-hover:scale-105 transition-transform duration-500 ease-out"
-                  unoptimized={true}
                 />
                 <div className="absolute top-2 right-2 bg-[#FFD95B] text-[#2B1824] text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-[#2B1824] shadow-xs">
                   № 03 • HANDMADE
@@ -658,7 +655,7 @@ export default function Story() {
                 style={{ fontFamily: "var(--font-federo-g), 'Federo', var(--font-quicksand-g), 'Quicksand', sans-serif" }}
                 className="ticket-edge group bg-[#FFD95B] text-[#2B1824] border-3 border-[#2B1824] shadow-[4px_4px_0_#2B1824] active:shadow-[1px_1px_0_#2B1824] active:translate-x-0.5 active:translate-y-0.5 active:scale-[0.98] w-full min-h-[50px] justify-center px-6 py-3.5 rounded-full text-xs xs:text-sm uppercase tracking-[0.14em] transition-all duration-200 cursor-pointer font-extrabold flex items-center gap-2"
               >
-                <span>SEE ALL BAKES</span>
+                <span>{story.ctaText || "SEE ALL BAKES"}</span>
                 <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
               </button>
             </div>

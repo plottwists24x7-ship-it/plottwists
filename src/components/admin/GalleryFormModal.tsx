@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { GalleryImage, GalleryCategory } from "@/types/admin";
 import { ImageUploadDropzone } from "./ImageUploadDropzone";
-import { X, Save, Loader2 } from "lucide-react";
+import { X, Save } from "lucide-react";
 
 interface GalleryFormModalProps {
   isOpen: boolean;
@@ -33,15 +33,19 @@ export function GalleryFormModal({
   onSave,
   onClose,
 }: GalleryFormModalProps) {
-  const [title, setTitle] = useState("");
-  const [image, setImage] = useState("");
-  const [alt, setAlt] = useState("");
-  const [category, setCategory] = useState<GalleryCategory>("Kitchen & Oven");
-  const [caption, setCaption] = useState("");
+  const [title, setTitle] = useState(initialData?.title || "");
+  const [image, setImage] = useState(initialData?.image || "");
+  const [alt, setAlt] = useState(initialData?.alt || initialData?.title || "");
+  const [category, setCategory] = useState<GalleryCategory>(initialData?.category || "Kitchen & Oven");
+  const [caption, setCaption] = useState(initialData?.caption || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  useEffect(() => {
+  const [prevData, setPrevData] = useState(initialData);
+  const [prevOpen, setPrevOpen] = useState(isOpen);
+  if (initialData !== prevData || isOpen !== prevOpen) {
+    setPrevData(initialData);
+    setPrevOpen(isOpen);
     if (initialData) {
       setTitle(initialData.title || "");
       setImage(initialData.image || "");
@@ -57,7 +61,7 @@ export function GalleryFormModal({
     }
     setErrors({});
     setIsSubmitting(false);
-  }, [initialData, isOpen]);
+  }
 
   if (!isOpen) return null;
 

@@ -109,7 +109,7 @@ export default function Gallery() {
       
       // Setup scribble mask path start values
       gsap.set(".scribble-mask-path, .scribble-mask-arrow", { 
-        strokeDashoffset: (i, el: any) => el.getAttribute("stroke-dasharray") 
+        strokeDashoffset: (_i, el: Element) => parseFloat(el.getAttribute("stroke-dasharray") || "0")
       });
 
       // Hide all elements at load state
@@ -347,7 +347,7 @@ export default function Gallery() {
     ScrollTrigger.refresh();
 
     return () => ctx.revert();
-  }, []);
+  }, [activePhotos]);
 
   return (
     <section

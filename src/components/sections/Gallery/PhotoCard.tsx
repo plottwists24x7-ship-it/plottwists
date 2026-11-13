@@ -41,6 +41,7 @@ export default function PhotoCard({ config, className = "" }: PhotoCardProps) {
       onMouseLeave={handleMouseLeave}
       className={`photo-card relative bg-white border-[10px] border-white border-4 border-[#3D2E25] rounded-[20px] shadow-[8px_8px_0_#3D2E25] group select-none pointer-events-auto transition-all duration-[240ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${className}`}
       style={{
+        zIndex,
         width,
         height,
         // Base rotation + tilt axis transforms + optional elevation

@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { UploadCloud, Link as LinkIcon, Image as ImageIcon, Loader2 } from "lucide-react";
+import { UploadCloud, Link as LinkIcon, Loader2 } from "lucide-react";
 import { getProductImageUrl, uploadProductImage } from "@/lib/supabase/client";
 
 interface ImageUploadDropzoneProps {

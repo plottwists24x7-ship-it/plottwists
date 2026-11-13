@@ -14,7 +14,6 @@ import {
   Save, 
   CheckCircle2, 
   X, 
-  Sparkles,
   Quote
 } from "lucide-react";
 

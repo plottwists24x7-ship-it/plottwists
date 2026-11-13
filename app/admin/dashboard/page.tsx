@@ -23,7 +23,6 @@ import {
 export default function AdminDashboardPage() {
   const { 
     bakes, 
-    gallery, 
     reviews, 
     stats, 
     addBake, 

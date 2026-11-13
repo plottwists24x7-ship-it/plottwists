@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
@@ -13,9 +13,7 @@ import {
   Trash2, 
   Save, 
   Sparkles, 
-  Check, 
-  X, 
-  Tag 
+  X
 } from "lucide-react";
 
 const CATEGORIES: Array<BakeCategory | "All"> = [

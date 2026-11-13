@@ -21,11 +21,6 @@ export const InstagramCTA: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleInstagramClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    window.open(INSTAGRAM_PROFILE_URL, "_blank", "noopener,noreferrer");
-  };
-
   return (
     <section
       id="instagram-cta"

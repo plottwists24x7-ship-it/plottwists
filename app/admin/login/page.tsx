@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { MaskingTape } from "@/components/paper/MaskingTape";
-import { Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Sparkles, Loader2 } from "lucide-react";
+import { Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();

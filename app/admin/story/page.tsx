@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useAdmin } from "@/context/AdminContext";
@@ -9,14 +9,9 @@ import { uploadImage } from "@/lib/supabase/client";
 import { 
   Save, 
   RefreshCw, 
-  CheckCircle2, 
   UploadCloud, 
   ExternalLink, 
-  Sparkles, 
   RotateCcw,
-  Image as ImageIcon,
-  Award,
-  Layers,
   Info
 } from "lucide-react";
 
@@ -75,11 +70,20 @@ export default function AdminStoryImagesPage() {
   // Local state
   const [formData, setFormData] = useState<StoryImagesConfig>(storyImages);
   const [storyText, setStoryText] = useState(story);
+  const [prevStoryImages, setPrevStoryImages] = useState(storyImages);
+  const [prevStory, setPrevStory] = useState(story);
+
+  if (storyImages !== prevStoryImages || story !== prevStory) {
+    setPrevStoryImages(storyImages);
+    setPrevStory(story);
+    setFormData(storyImages);
+    setStoryText(story);
+  }
+
   const [isSaving, setIsSaving] = useState(false);
   const [isSavingText, setIsSavingText] = useState(false);
   const [activeSavingKey, setActiveSavingKey] = useState<string | null>(null);
   const [dragOverKey, setDragOverKey] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
 
   // Hidden file input refs
   const fileInputRefs = {
@@ -89,16 +93,10 @@ export default function AdminStoryImagesPage() {
     badge3: useRef<HTMLInputElement>(null),
   };
 
-  useEffect(() => {
-    setMounted(true);
-    setFormData(storyImages);
-    setStoryText(story);
-  }, [storyImages, story]);
-
-  const handleSaveStoryText = (e: React.FormEvent) => {
+  const handleSaveStoryText = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSavingText(true);
-    updateStory(storyText);
+    await updateStory(storyText);
     setIsSavingText(false);
   };
 
@@ -517,7 +515,7 @@ export default function AdminStoryImagesPage() {
       {/* ─── BOTTOM RESET BAR ─── */}
       <div className="flex items-center justify-between p-4 bg-[#FFFDF8] rounded-2xl border-[3px] border-[#3E2A24] shadow-[4px_4px_0_#3E2A24]">
         <span className="font-kalam text-xs text-[#5F4A3A]" suppressHydrationWarning>
-          Last saved: {mounted && storyImages.updatedAt ? new Date(storyImages.updatedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "Recently"}
+          Last saved: {storyImages.updatedAt ? new Date(storyImages.updatedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "Recently"}
         </span>
         <button
           type="button"

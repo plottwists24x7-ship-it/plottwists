@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Review } from "@/types/admin";
 import { ImageUploadDropzone } from "./ImageUploadDropzone";
-import { X, Save, Star, Loader2 } from "lucide-react";
+import { X, Save, Star } from "lucide-react";
 
 interface ReviewFormModalProps {
   isOpen: boolean;
@@ -18,31 +18,25 @@ export function ReviewFormModal({
   onSave,
   onClose,
 }: ReviewFormModalProps) {
-  const [customerName, setCustomerName] = useState("");
-  const [customerImage, setCustomerImage] = useState("/placeholder-user.jpg");
-  const [review, setReview] = useState("");
-  const [rating, setRating] = useState(5);
-  const [verified, setVerified] = useState(true);
+  const [customerName, setCustomerName] = useState(initialData?.customerName || initialData?.name || "");
+  const [customerImage, setCustomerImage] = useState(initialData?.customerImage || initialData?.portrait || "/placeholder-user.jpg");
+  const [review, setReview] = useState(initialData?.review || "");
+  const [rating, setRating] = useState(initialData?.rating || 5);
+  const [verified, setVerified] = useState(initialData?.verified ?? true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  useEffect(() => {
-    if (initialData) {
-      setCustomerName(initialData.customerName || initialData.name || "");
-      setCustomerImage(initialData.customerImage || initialData.portrait || "/placeholder-user.jpg");
-      setReview(initialData.review || "");
-      setRating(initialData.rating || 5);
-      setVerified(initialData.verified ?? true);
-    } else {
-      setCustomerName("");
-      setCustomerImage("/placeholder-user.jpg");
-      setReview("");
-      setRating(5);
-      setVerified(true);
-    }
+  const [prevData, setPrevData] = useState(initialData);
+  if (initialData !== prevData) {
+    setPrevData(initialData);
+    setCustomerName(initialData?.customerName || initialData?.name || "");
+    setCustomerImage(initialData?.customerImage || initialData?.portrait || "/placeholder-user.jpg");
+    setReview(initialData?.review || "");
+    setRating(initialData?.rating || 5);
+    setVerified(initialData?.verified ?? true);
     setErrors({});
     setIsSubmitting(false);
-  }, [initialData, isOpen]);
+  }
 
   if (!isOpen) return null;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useAdmin } from "@/context/AdminContext";
@@ -10,14 +10,10 @@ import {
   UploadCloud, 
   RefreshCw, 
   Save, 
-  CheckCircle2, 
   Sparkles, 
   ExternalLink, 
   Crop, 
-  ZoomIn, 
-  Image as ImageIcon,
   RotateCcw,
-  Sliders,
   Type
 } from "lucide-react";
 
@@ -35,13 +31,14 @@ export default function AdminHeroPage() {
 
   // UI state
   const [isSaving, setIsSaving] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isUrlMode, setIsUrlMode] = useState(false);
   const [customUrl, setCustomUrl] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
+  const [prevHero, setPrevHero] = useState(hero);
+  if (hero !== prevHero) {
+    setPrevHero(hero);
     setImage(hero.image || "/cheesecake.png");
     setAlt(hero.alt || "Signature Artisanal Cheesecake");
     setCaptionTitle(hero.captionTitle || "today's batch ♡");
@@ -49,7 +46,7 @@ export default function AdminHeroPage() {
     setAspectRatio(hero.aspectRatio || "4:3");
     setObjectFit(hero.objectFit || "cover");
     setScale(hero.scale || 1.03);
-  }, [hero]);
+  }
 
   const handleFile = async (file: File) => {
     try {
@@ -103,21 +100,6 @@ export default function AdminHeroPage() {
 
   return (
     <div className="space-y-8 pb-12">
-      {/* ─── TOAST NOTIFICATION ─── */}
-      {showSuccessToast && (
-        <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-5 duration-300">
-          <div className="px-5 py-3.5 rounded-2xl bg-[#FFE26E] border-[3px] border-[#3E2A24] shadow-[6px_6px_0_#3E2A24] flex items-center gap-3 text-[#3E2A24]">
-            <div className="w-8 h-8 rounded-full bg-[#10B981] border-2 border-[#3E2A24] flex items-center justify-center text-white shrink-0">
-              <CheckCircle2 className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="font-bricolage font-extrabold text-sm">Hero image updated successfully.</p>
-              <p className="font-kalam text-xs text-[#5F4A3A]">Your live storefront is now showing the new featured bake!</p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* ─── TOP ACTION BAR ─── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl bg-[#FFFDF8] border-[4px] border-[#3E2A24] shadow-[6px_6px_0_#3E2A24]">
         <div>

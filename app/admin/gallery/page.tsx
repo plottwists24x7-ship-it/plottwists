@@ -14,10 +14,7 @@ import {
   Edit3, 
   Trash2, 
   Eye, 
-  UploadCloud, 
-  Sparkles, 
-  Tag, 
-  Camera 
+  UploadCloud
 } from "lucide-react";
 
 const CATEGORIES: Array<GalleryCategory | "All"> = [

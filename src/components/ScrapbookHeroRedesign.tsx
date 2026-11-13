@@ -40,6 +40,24 @@ export function ScrapbookHeroRedesign({
 }: ScrapbookHeroRedesignProps) {
   const { hero } = useAdmin();
 
+  const handleExplore = () => {
+    if (onExploreClick) {
+      onExploreClick();
+    } else {
+      const el = document.getElementById("bakes");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleStory = () => {
+    if (onStoryClick) {
+      onStoryClick();
+    } else {
+      const el = document.getElementById("story");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="w-full max-w-7xl mx-auto min-h-[680px] lg:min-h-[740px] relative select-none flex flex-col justify-center py-6">
       
@@ -169,7 +187,7 @@ export function ScrapbookHeroRedesign({
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4.5 mt-5 sm:mt-6 w-full sm:w-auto">
             {/* Primary CTA: EXPLORE BAKES (Fredoka Chunky) */}
             <button 
-              onClick={onExploreClick}
+              onClick={handleExplore}
               className="w-full sm:w-auto min-h-[52px] justify-center px-6 sm:px-8 md:px-9 py-3.5 sm:py-4 md:py-4.5 bg-[#EF5B5B] text-white text-base md:text-lg font-fredoka font-bold rounded-xl border-[3px] border-[#3B2A22] shadow-[4px_4px_0_#3B2A22] sm:shadow-[5px_5px_0_#3B2A22] hover:shadow-[7px_7px_0_#3B2A22] hover:-translate-y-1 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[2px_2px_0_#3B2A22] active:scale-[0.98] transition-all duration-250 ease-out flex items-center gap-3.5 cursor-pointer group z-30 tracking-wider" 
             >
               <span>EXPLORE BAKES</span>
@@ -182,7 +200,7 @@ export function ScrapbookHeroRedesign({
 
             {/* Secondary CTA: READ OUR STORY */}
             <button 
-              onClick={onStoryClick}
+              onClick={handleStory}
               className="w-full sm:w-auto min-h-[48px] justify-center px-5 sm:px-6 md:px-7 py-3 sm:py-3.5 md:py-4 bg-white/90 text-[#3B2A22] text-sm md:text-base font-manrope font-bold rounded-xl border-2 border-[#3B2A22] shadow-[3px_3px_0_#3B2A22] hover:bg-white hover:shadow-[5px_5px_0_#3B2A22] hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_#3B2A22] active:scale-[0.98] transition-all duration-250 ease-out flex items-center gap-2.5 cursor-pointer group z-30" 
             >
               <span>READ OUR STORY</span>

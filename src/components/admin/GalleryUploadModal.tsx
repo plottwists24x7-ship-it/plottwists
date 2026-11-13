@@ -3,7 +3,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { GalleryCategory } from "@/types/admin";
-import { X, UploadCloud, Plus, Trash2, Check } from "lucide-react";
+import { X, UploadCloud, Trash2, Check } from "lucide-react";
 
 interface GalleryUploadModalProps {
   isOpen: boolean;
@@ -34,7 +34,7 @@ export function GalleryUploadModal({
   onClose,
 }: GalleryUploadModalProps) {
   const [items, setItems] = useState<UploadItem[]>([]);
-  const [defaultCategory, setDefaultCategory] = useState<GalleryCategory>("Kitchen & Oven");
+  const defaultCategory: GalleryCategory = "Kitchen & Oven";
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   if (!isOpen) return null;

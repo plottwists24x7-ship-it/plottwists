@@ -1,58 +1,21 @@
-@import url('https://db.onlinewebfonts.com/c/900df1ff35673fe9593bfd802b9d0eaf?family=FilmotypeHoney');
-@import url('https://db.onlinewebfonts.com/c/a13850cbf8632b500cfd24847e30ce07?family=Aesthet+Nova+W05+Bold');
-@import url('https://fonts.googleapis.com/css2?family=Bowlby+One&family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Kalam:wght@300;400;700&family=Pacifico&family=Lilita+One&family=Titan+One&family=Baloo+2:wght@400;500;600;700;800&family=Caveat:wght@400;500;600;700&family=Cherry+Bomb+One&family=Shrikhand&family=Instrument+Serif:ital@0;1&family=Caveat+Brush&family=DynaPuff:wght@600;700;800&family=Mali:wght@500;600;700&family=Fasthand&family=Federo&family=Shantell+Sans:ital,wght@0,600;0,700;0,800;1,700&family=Fredoka:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&family=Patrick+Hand&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=Cormorant+Garamond:wght@600;700&family=IBM+Plex+Sans:wght@500;600;700&family=Instrument+Sans:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Chewy&family=Nunito+Sans:wght@600;700&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-
+/* ─── FONT FAMILY CLASSES (Optimized with self-hosted Next.js CSS variables & zero render-blocking imports) ─── */
 .font-bowlby {
-  font-family: 'Bowlby One', 'Titan One', cursive, sans-serif !important;
+  font-family: var(--font-bowlby-one), 'Bowlby One', cursive, sans-serif !important;
 }
 
 .font-lilita {
-  font-family: 'Lilita One', 'Fredoka', cursive, sans-serif !important;
+  font-family: var(--font-lilita-one), var(--font-fredoka), 'Lilita One', cursive, sans-serif !important;
 }
 
 .font-titan {
-  font-family: 'Titan One', 'Fredoka', cursive, sans-serif !important;
+  font-family: var(--font-bowlby-one), var(--font-fredoka), cursive, sans-serif !important;
 }
 
 .font-baloo {
-  font-family: 'Baloo 2', 'Fredoka', sans-serif !important;
-}
-
-
-
-@font-face {
-  font-family: 'FastHand';
-  src: url('https://fonts.gstatic.com/s/fasthand/v15/0F27EMZ3t85iL4qL1Hk4.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Fasthand';
-  src: url('https://fonts.gstatic.com/s/fasthand/v15/0F27EMZ3t85iL4qL1Hk4.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Federo';
-  src: url('https://fonts.gstatic.com/s/federo/v20/4UaSrW61765l6yJ4Hxs.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Aesthet';
-  src: url('https://db.onlinewebfonts.com/t/a13850cbf8632b500cfd24847e30ce07.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+  font-family: var(--font-fredoka), var(--font-bricolage), sans-serif !important;
 }
 
 @font-face {
@@ -94,69 +57,66 @@
 }
 
 .font-fredoka {
-  font-family: 'Fredoka', 'Shantell Sans', sans-serif !important;
+  font-family: var(--font-fredoka), 'Fredoka', sans-serif !important;
   letter-spacing: 0.02em;
 }
 
 .font-shrikhand {
-  font-family: 'Shrikhand', cursive, display !important;
+  font-family: var(--font-cherry-bomb), 'Cherry Bomb One', cursive !important;
   letter-spacing: 0.02em;
 }
 
 .font-instrument {
-  font-family: 'Instrument Serif', 'Fraunces', serif !important;
+  font-family: var(--font-manrope), sans-serif !important;
 }
 
 .font-caveat-brush {
-  font-family: 'Caveat Brush', 'Caveat', cursive !important;
+  font-family: var(--font-workforce-g), 'Caveat', cursive !important;
 }
 
 .font-fraunces {
-  font-family: 'Fraunces', 'Cormorant Garamond', 'Playfair Display', serif !important;
+  font-family: var(--font-bricolage), serif !important;
 }
 
-
 .font-dynapuff {
-  font-family: 'DynaPuff', cursive, sans-serif !important;
+  font-family: var(--font-fredoka), cursive, sans-serif !important;
   letter-spacing: 0.02em;
 }
 
 .font-mali {
-  font-family: 'Mali', 'Caveat', cursive, sans-serif !important;
+  font-family: var(--font-kalam-g), cursive, sans-serif !important;
 }
 
 .font-caveat {
-  font-family: 'Caveat', 'Patrick Hand', cursive !important;
+  font-family: var(--font-workforce-g), 'Caveat', cursive !important;
 }
 
-
 .font-kalam {
-  font-family: 'Kalam', 'Caveat', cursive !important;
+  font-family: var(--font-kalam-g), 'Kalam', cursive !important;
 }
 
 .font-shantell {
-  font-family: 'Shantell Sans', 'Fredoka', cursive !important;
+  font-family: var(--font-fredoka), cursive !important;
 }
 
 .font-pacifico {
-  font-family: 'Pacifico', 'Caveat', cursive !important;
+  font-family: var(--font-fasthand-g), cursive !important;
 }
 
 .font-workforce {
-  font-family: 'Fredoka', 'Manrope', sans-serif !important;
+  font-family: var(--font-workforce-g), 'Workforce', 'Caveat', cursive, sans-serif !important;
 }
 
-
 .font-aesthet {
-  font-family: 'Fraunces', serif !important;
+  font-family: var(--font-quicksand-g), 'Quicksand', var(--font-kalam-g), sans-serif !important;
 }
 
 .font-cozy-recipe {
-  font-family: 'Caveat', cursive !important;
+  font-family: var(--font-kalam-g), 'Kalam', cursive !important;
 }
 
 .font-federo {
-  font-family: var(--font-cherry-bomb), 'Cherry Bomb One', cursive, sans-serif !important;
+  font-family: var(--font-federo-g), 'Federo', sans-serif !important;
   letter-spacing: 0.03em;
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useAdmin } from "@/context/AdminContext";
@@ -10,7 +10,6 @@ import {
   UploadCloud, 
   RefreshCw, 
   Save, 
-  CheckCircle2, 
   Sparkles, 
   ExternalLink, 
   Image as ImageIcon,
@@ -28,17 +27,18 @@ export default function AdminInstagramPage() {
 
   // UI state
   const [isSaving, setIsSaving] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isUrlMode, setIsUrlMode] = useState(false);
   const [customUrl, setCustomUrl] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
+  const [prevInstagram, setPrevInstagram] = useState(instagramCTA);
+  if (instagramCTA !== prevInstagram) {
+    setPrevInstagram(instagramCTA);
     setImage(instagramCTA?.image || "/images/baker-where/instagram_cta_dessert.jpg");
     setAlt(instagramCTA?.alt || "PlotTwist24x signature gourmet cake dessert");
-  }, [instagramCTA]);
+  }
 
   const handleFile = async (file: File) => {
     setErrorMsg("");

@@ -49,13 +49,9 @@ export function getProductImageUrl(image: string) {
     return "/cheesecake.png";
   }
 
-  // Handle sample prefix paths for gallery, instagram, story, and products
-  if (
-    image.startsWith("gallery/") ||
-    image.startsWith("instagram/") ||
-    image.startsWith("story/") ||
-    image.startsWith("products/")
-  ) {
+  // Handle sample prefix paths for static local sample assets (e.g. products/prod_oreo_fudge.jpg)
+  const isSampleAsset = /^(gallery|instagram|story|products)\/(prod_|gallery_|hero_|instagram_|bakery_|coffee_|story_)/.test(image);
+  if (isSampleAsset) {
     const filename = image.replace(/^(gallery|instagram|story|products)\//, "");
     return `/images/baker-where/${filename}`;
   }

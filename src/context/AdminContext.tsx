@@ -207,7 +207,7 @@ export interface AdminContextType {
   updateHero: (updates: Partial<HeroConfig>) => Promise<boolean> | void;
 
   // Story Actions
-  updateStory: (updates: Partial<StoryConfig>) => void;
+  updateStory: (updates: Partial<StoryConfig>) => Promise<boolean> | void;
   updateStoryImages: (updates: Partial<StoryImagesConfig>) => Promise<boolean> | void;
 
   // Instagram CTA Actions
@@ -348,14 +348,34 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
           }
         }
 
-        // 7. Story Text Content (Rehydrate from localStorage if updated)
-        if (typeof window !== "undefined") {
-          try {
+        // 7. Story Text Content (Fetch from /api/story + localStorage mirror)
+        try {
+          const sTextRes = await fetch("/api/story");
+          if (sTextRes.ok) {
+            const serverStory = await sTextRes.json();
+            if (serverStory && typeof serverStory === "object") {
+              setStory((prev) => ({ ...prev, ...serverStory }));
+              if (typeof window !== "undefined") {
+                try {
+                  localStorage.setItem("plottwist_story_config", JSON.stringify(serverStory));
+                } catch {}
+              }
+            }
+          } else if (typeof window !== "undefined") {
             const cachedStory = localStorage.getItem("plottwist_story_config");
             if (cachedStory) {
               setStory((prev) => ({ ...prev, ...JSON.parse(cachedStory) }));
             }
-          } catch {}
+          }
+        } catch {
+          if (typeof window !== "undefined") {
+            try {
+              const cachedStory = localStorage.getItem("plottwist_story_config");
+              if (cachedStory) {
+                setStory((prev) => ({ ...prev, ...JSON.parse(cachedStory) }));
+              }
+            } catch {}
+          }
         }
       } catch (err) {
         console.error("Unexpected error fetching initial data from Supabase:", err);
@@ -424,7 +444,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       console.error("Unexpected error in addBake:", err);
     }
     return null;
-  }, [bakes, triggerTimestampUpdate]);
+  }, [bakes, triggerTimestampUpdate, showToast]);
 
   const updateBake = useCallback(async (id: string, updates: Partial<Omit<SharedProduct, "id" | "createdAt" | "updatedAt">>): Promise<boolean> => {
     const supabase = createClient();
@@ -467,12 +487,12 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       console.error("Unexpected error in updateBake:", err);
     }
     return false;
-  }, [triggerTimestampUpdate]);
+  }, [triggerTimestampUpdate, showToast]);
 
   const deleteBake = useCallback(async (id: string): Promise<boolean> => {
     const supabase = createClient();
     try {
-      const { data, error } = await supabase
+      const { data: _data, error } = await supabase
         .from("products")
         .delete()
         .eq("id", id)
@@ -493,7 +513,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       console.error("Unexpected error in deleteBake:", err);
     }
     return false;
-  }, [triggerTimestampUpdate]);
+  }, [triggerTimestampUpdate, showToast]);
 
   // ─── GALLERY CRUD (SUPABASE BACKED) ───
   const addGalleryImage = useCallback(async (imageData: Omit<SharedGalleryPhoto, "id" | "createdAt">): Promise<SharedGalleryPhoto | null> => {
@@ -525,13 +545,14 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         const newImg = mapGalleryRowToShared(data as GalleryRow);
         setGallery((prev) => [newImg, ...prev]);
         triggerTimestampUpdate();
+        showToast("success", "Gallery image added successfully.");
         return newImg;
       }
     } catch (err) {
       console.error("Unexpected error in addGalleryImage:", err);
     }
     return null;
-  }, [gallery.length, triggerTimestampUpdate]);
+  }, [gallery.length, triggerTimestampUpdate, showToast]);
 
   const addMultipleGalleryImages = useCallback(async (imagesData: Array<Omit<SharedGalleryPhoto, "id" | "createdAt">>): Promise<boolean> => {
     const supabase = createClient();
@@ -552,6 +573,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to batch insert gallery images into Supabase:", error.message || error);
+        showToast("error", "Failed to batch upload gallery images.");
         return false;
       }
 
@@ -559,13 +581,14 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         const mapped = (data as GalleryRow[]).map(mapGalleryRowToShared);
         setGallery((prev) => [...mapped, ...prev]);
         triggerTimestampUpdate();
+        showToast("success", "Gallery images added successfully.");
         return true;
       }
     } catch (err) {
       console.error("Unexpected error in addMultipleGalleryImages:", err);
     }
     return false;
-  }, [gallery.length, triggerTimestampUpdate]);
+  }, [gallery.length, triggerTimestampUpdate, showToast]);
 
   const updateGalleryImage = useCallback(async (id: string, updates: Partial<Omit<SharedGalleryPhoto, "id" | "createdAt">>): Promise<boolean> => {
     const supabase = createClient();
@@ -586,6 +609,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to update gallery image in Supabase:", error.message || error);
+        showToast("error", "Failed to update gallery image.");
         return false;
       }
 
@@ -594,18 +618,19 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
           prev.map((item) => (item.id === id ? mapGalleryRowToShared(data as GalleryRow) : item))
         );
         triggerTimestampUpdate();
+        showToast("success", "Gallery image updated successfully.");
         return true;
       }
     } catch (err) {
       console.error("Unexpected error in updateGalleryImage:", err);
     }
     return false;
-  }, [triggerTimestampUpdate]);
+  }, [triggerTimestampUpdate, showToast]);
 
   const deleteGalleryImage = useCallback(async (id: string): Promise<boolean> => {
     const supabase = createClient();
     try {
-      const { data, error } = await supabase
+      const { data: _data, error } = await supabase
         .from("gallery_images")
         .delete()
         .eq("id", id)
@@ -614,6 +639,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to delete gallery image from Supabase:", error.message || error);
+        showToast("error", "Failed to delete gallery image.");
         return false;
       }
 
@@ -625,7 +651,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       console.error("Unexpected error in deleteGalleryImage:", err);
     }
     return false;
-  }, [triggerTimestampUpdate]);
+  }, [triggerTimestampUpdate, showToast]);
 
   // ─── REVIEWS CRUD (SUPABASE BACKED) ───
   const addReview = useCallback(async (reviewData: Omit<SharedReview, "id" | "date">): Promise<SharedReview | null> => {
@@ -648,6 +674,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to insert review into Supabase:", error.message || error);
+        showToast("error", "Failed to add review. Please try again.");
         return null;
       }
 
@@ -662,7 +689,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       console.error("Unexpected error in addReview:", err);
     }
     return null;
-  }, [triggerTimestampUpdate]);
+  }, [triggerTimestampUpdate, showToast]);
 
   const updateReview = useCallback(async (id: string, updates: Partial<Omit<SharedReview, "id" | "date">>): Promise<boolean> => {
     const supabase = createClient();
@@ -687,6 +714,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to update review in Supabase:", error.message || error);
+        showToast("error", "Failed to update review. Please try again.");
         return false;
       }
 
@@ -702,12 +730,12 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       console.error("Unexpected error in updateReview:", err);
     }
     return false;
-  }, [triggerTimestampUpdate]);
+  }, [triggerTimestampUpdate, showToast]);
 
   const deleteReview = useCallback(async (id: string): Promise<boolean> => {
     const supabase = createClient();
     try {
-      const { data, error } = await supabase
+      const { data: _data, error } = await supabase
         .from("reviews")
         .delete()
         .eq("id", id)
@@ -716,6 +744,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error("Failed to delete review from Supabase:", error.message || error);
+        showToast("error", "Failed to delete review. Please try again.");
         return false;
       }
 
@@ -727,7 +756,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       console.error("Unexpected error in deleteReview:", err);
     }
     return false;
-  }, [triggerTimestampUpdate]);
+  }, [triggerTimestampUpdate, showToast]);
 
   // ─── HERO ACTIONS (SUPABASE BACKED) ───
   const updateHero = useCallback(async (updates: Partial<HeroConfig>): Promise<boolean> => {
@@ -765,28 +794,45 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       console.error("Unexpected error in updateHero:", err);
     }
     return false;
-  }, [heroDbId, triggerTimestampUpdate]);
+  }, [heroDbId, triggerTimestampUpdate, showToast]);
 
-  // ─── STORY ACTIONS (PERSISTED) ───
-  const updateStory = useCallback((updates: Partial<StoryConfig>) => {
+  // ─── STORY ACTIONS (SERVER PERSISTED + LOCAL MIRROR) ───
+  const updateStory = useCallback(async (updates: Partial<StoryConfig>): Promise<boolean> => {
+    let updatedConfig: StoryConfig = { ...story, ...updates, updatedAt: new Date().toISOString() };
     setStory((prev) => {
-      const updated = {
+      updatedConfig = {
         ...prev,
         ...updates,
         updatedAt: new Date().toISOString(),
       };
       if (typeof window !== "undefined") {
         try {
-          localStorage.setItem("plottwist_story_config", JSON.stringify(updated));
+          localStorage.setItem("plottwist_story_config", JSON.stringify(updatedConfig));
         } catch (e) {
           console.warn("Failed to persist story to localStorage:", e);
         }
       }
-      return updated;
+      return updatedConfig;
     });
+
+    try {
+      const res = await fetch("/api/admin/story", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      });
+
+      if (!res.ok) {
+        console.warn("[Story Update Warning] Failed to persist story to server:", res.statusText);
+      }
+    } catch (err) {
+      console.warn("[Story Update Warning] Error contacting story API:", err);
+    }
+
     triggerTimestampUpdate();
     showToast("success", "Story content updated successfully.");
-  }, [triggerTimestampUpdate, showToast]);
+    return true;
+  }, [story, triggerTimestampUpdate, showToast]);
 
   // ─── STORY IMAGES (SUPABASE BACKED + PERSISTENCE MIRROR) ───
   const updateStoryImages = useCallback(async (updates: Partial<StoryImagesConfig>): Promise<boolean> => {
@@ -863,7 +909,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       console.error("Unexpected error in updateInstagramCTA:", err);
     }
     return false;
-  }, [instagramDbId, triggerTimestampUpdate]);
+  }, [instagramDbId, triggerTimestampUpdate, showToast]);
 
   // ─── RESET ───
   const resetToDefaults = useCallback(() => {
