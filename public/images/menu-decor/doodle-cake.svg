@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Cake slice base -->
+  <path d="M15 90 L105 90 L105 60 L60 30 L15 65 Z" fill="#FFFDF8" stroke="#3B2922" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Cake filling layer (chocolate / pink) -->
+  <path d="M15 78 L105 78 L105 72 L15 72 Z" fill="#F45B73"/>
+  <!-- Top frosting slope -->
+  <path d="M15 65 L60 30 L105 60 L60 55 Z" fill="#F8DC72" stroke="#3B2922" stroke-width="3"/>
+  <!-- Cherry stem -->
+  <path d="M60 22 C64 12 75 8 82 10" stroke="#3B2922" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- Cherry on top -->
+  <circle cx="60" cy="22" r="10" fill="#EF5B5B" stroke="#3B2922" stroke-width="3"/>
+  <circle cx="57" cy="19" r="2.5" fill="#FFFFFF"/>
+</svg>

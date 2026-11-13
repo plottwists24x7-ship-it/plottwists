@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none">
+  <!-- Scalloped flower/cloud sticker outline -->
+  <path d="M80 10 
+    C92 10 100 18 108 22 
+    C118 20 128 26 134 34 
+    C142 38 148 48 148 58 
+    C152 68 150 80 146 90 
+    C146 100 140 110 132 116 
+    C126 124 116 130 106 130 
+    C96 136 86 138 76 136 
+    C66 140 54 136 46 130 
+    C36 128 28 120 24 112 
+    C16 106 12 96 12 86 
+    C10 76 14 64 20 56 
+    C20 46 28 36 36 32 
+    C44 24 56 20 66 22 
+    Z" fill="#FFFDF8" stroke="#3B2922" stroke-width="4.5" stroke-linejoin="round"/>
+  <!-- Handwritten sticker text -->
+  <text x="80" y="62" text-anchor="middle" font-family="'Lilita One', 'Fredoka', cursive, sans-serif" font-size="16" font-weight="900" fill="#3B2922" letter-spacing="1">FRESHLY</text>
+  <text x="80" y="82" text-anchor="middle" font-family="'Lilita One', 'Fredoka', cursive, sans-serif" font-size="15" font-weight="900" fill="#3B2922" letter-spacing="1">MADE,</text>
+  <text x="80" y="102" text-anchor="middle" font-family="'Caveat', 'Kalam', cursive, sans-serif" font-size="17" font-weight="700" fill="#F45B73">JUST FOR YOU ♡</text>
+</svg>

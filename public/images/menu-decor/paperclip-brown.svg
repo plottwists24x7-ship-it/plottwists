@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 120" fill="none">
+  <!-- Stationery wire paperclip -->
+  <path d="M22 108 L22 32 C22 18 38 18 38 32 L38 88 C38 98 48 98 48 88 L48 20 C48 8 12 8 12 24 L12 92 C12 110 32 110 32 94 L32 40" stroke="#3B2922" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <!-- Metallic shine highlight -->
+  <path d="M14 36 L14 84" stroke="#715B4C" stroke-width="2" stroke-linecap="round" fill="none"/>
+</svg>

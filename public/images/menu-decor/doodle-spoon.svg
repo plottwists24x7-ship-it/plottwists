@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 140" fill="none">
+  <!-- Spoon bowl -->
+  <ellipse cx="30" cy="30" rx="18" ry="24" fill="#F8DC72" stroke="#3B2922" stroke-width="4"/>
+  <ellipse cx="26" cy="26" rx="10" ry="14" fill="#FFFFFF" opacity="0.6"/>
+  <!-- Spoon handle -->
+  <path d="M30 54 L30 130 C30 135 24 135 24 130 L27 54" stroke="#3B2922" stroke-width="4.5" stroke-linecap="round" fill="#F8DC72"/>
+  <circle cx="28" cy="126" r="3" fill="#3B2922"/>
+</svg>

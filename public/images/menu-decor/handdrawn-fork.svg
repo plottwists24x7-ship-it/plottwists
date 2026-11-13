@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 160" fill="none">
+  <!-- Fork handle -->
+  <path d="M30 75 L30 148 C30 154 24 154 24 148 L26 75" stroke="#3B2922" stroke-width="4.5" stroke-linecap="round" fill="#F8DC72"/>
+  <circle cx="28" cy="142" r="3" fill="#3B2922"/>
+  <!-- Fork tines -->
+  <path d="M12 20 L12 55 C12 68 44 68 44 55 L44 20" stroke="#3B2922" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <line x1="22.5" y1="20" x2="22.5" y2="58" stroke="#3B2922" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="33.5" y1="20" x2="33.5" y2="58" stroke="#3B2922" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Stem connection -->
+  <path d="M28 66 L28 75" stroke="#3B2922" stroke-width="5" stroke-linecap="round"/>
+</svg>

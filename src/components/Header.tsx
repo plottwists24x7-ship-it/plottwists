@@ -36,7 +36,7 @@ export function Header() {
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     // Efficient IntersectionObserver for active section tab tracking (Zero forced layout reflows)
-    const sections = ["story", "bakes", "gallery", "reviews"];
+    const sections = ["story", "bakes", "menu", "reviews"];
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -239,19 +239,19 @@ export function Header() {
               </button>
             </div>
 
-            {/* TAB 3: GALLERY */}
+            {/* TAB 3: MENU */}
             <div className="relative group">
-              <MaskingTape color="sage" width={32} height={14} rotate={-6} className="absolute -top-2 left-2 z-30 opacity-85 pointer-events-none" />
+              <MaskingTape color="pink" width={32} height={14} rotate={-6} className="absolute -top-2 left-2 z-30 opacity-85 pointer-events-none" />
               <button
-                onClick={() => scrollToSection("gallery")}
-                className={`px-4 py-1.5 md:px-5 md:py-2 border-2 border-[#3B2A22] text-xs md:text-sm font-fraunces font-bold tracking-wider rounded-tl-lg rounded-tr-lg transform rotate-[-1.2deg] transition-all duration-250 cursor-pointer relative z-10 ${
-                  activeTab === "gallery"
-                    ? "bg-[#EF5B5B] text-white shadow-[5px_5px_0_#3B2A22] -translate-y-1.5 md:-translate-y-2"
-                    : "bg-[#E3EFE9] text-[#3B2A22] shadow-[3px_3px_0_#3B2A22] hover:-translate-y-1 hover:shadow-[4.5px_4.5px_0_#3B2A22] hover:rotate-[-1.8deg] hover:bg-[#8FB3A1]/40"
+                onClick={() => scrollToSection("menu")}
+                className={`px-4 py-1.5 md:px-5 md:py-2 border-2 border-[#3B2A22] text-xs md:text-sm font-cherry font-bold tracking-wider rounded-tl-lg rounded-tr-lg transform rotate-[-1.2deg] transition-all duration-250 cursor-pointer relative z-10 ${
+                  activeTab === "menu"
+                    ? "bg-[#F45B73] text-white shadow-[5px_5px_0_#3B2A22] -translate-y-1.5 md:-translate-y-2"
+                    : "bg-[#A9CCF4] text-[#3B2A22] shadow-[3px_3px_0_#3B2A22] hover:-translate-y-1 hover:shadow-[4.5px_4.5px_0_#3B2A22] hover:rotate-[-1.8deg] hover:bg-[#8EC2FF]"
                 }`}
               >
-                <span>GALLERY</span>
-                {activeTab === "gallery" && (
+                <span>MENU</span>
+                {activeTab === "menu" && (
                   <svg className="absolute -bottom-1 left-2 right-2 h-1.5 text-white/90" fill="none" viewBox="0 0 40 6">
                     <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M2 3 Q 20 1, 38 3" />
                   </svg>
@@ -381,17 +381,17 @@ export function Header() {
                 <span>🧁 BAKES</span>
               </button>
 
-              {/* Gallery */}
+              {/* Menu */}
               <button
                 onClick={() => {
-                  scrollToSection("gallery");
+                  scrollToSection("menu");
                   setIsMobileMenuOpen(false);
                 }}
-                className={`min-h-[48px] px-3 py-2 rounded-xl border-2 border-[#3B2A22] text-xs font-fraunces font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[2px_2px_0_#3B2A22] active:translate-y-0.5 transition-all ${
-                  activeTab === "gallery" ? "bg-[#EF5B5B] text-white" : "bg-[#E3EFE9] text-[#3B2A22]"
+                className={`min-h-[48px] px-3 py-2 rounded-xl border-2 border-[#3B2A22] text-xs font-cherry font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[2px_2px_0_#3B2A22] active:translate-y-0.5 transition-all ${
+                  activeTab === "menu" ? "bg-[#F45B73] text-white" : "bg-[#A9CCF4] text-[#3B2A22]"
                 }`}
               >
-                <span>📸 GALLERY</span>
+                <span>📜 MENU</span>
               </button>
 
               {/* Reviews */}

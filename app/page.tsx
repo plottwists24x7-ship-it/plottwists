@@ -7,7 +7,7 @@ import { Scribbles } from '@/components/Scribbles'
 import { ParallaxLayer } from '@/components/ParallaxLayer'
 import Story from '@/components/sections/Story'
 import Products from '@/components/sections/Products'
-import Gallery from '@/components/sections/Gallery'
+import MenuSection from '@/components/menu/MenuSection'
 import Reviews from '@/components/sections/Reviews'
 import InstagramCTA from '@/components/sections/InstagramCTA'
 import Footer from '@/components/sections/Footer'
@@ -52,9 +52,9 @@ export default function Home() {
         <Products />
       </div>
 
-      {/* Our Gallery Section */}
-      <div id="gallery">
-        <Gallery />
+      {/* Our Scrapbook Menu Section */}
+      <div id="menu">
+        <MenuSection />
       </div>
 
       {/* Customer Reviews Section */}

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- 5 petals -->
+  <circle cx="50" cy="24" r="19" fill="#F8DC72" stroke="#3B2922" stroke-width="4"/>
+  <circle cx="75" cy="42" r="19" fill="#F8DC72" stroke="#3B2922" stroke-width="4"/>
+  <circle cx="65" cy="74" r="19" fill="#F8DC72" stroke="#3B2922" stroke-width="4"/>
+  <circle cx="35" cy="74" r="19" fill="#F8DC72" stroke="#3B2922" stroke-width="4"/>
+  <circle cx="25" cy="42" r="19" fill="#F8DC72" stroke="#3B2922" stroke-width="4"/>
+  <!-- Center -->
+  <circle cx="50" cy="50" r="15" fill="#F45B73" stroke="#3B2922" stroke-width="4"/>
+  <circle cx="46" cy="46" r="3" fill="#FFFFFF" opacity="0.9"/>
+</svg>

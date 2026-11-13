@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 48" fill="none">
+  <defs>
+    <pattern id="pink-polka" width="16" height="16" patternUnits="userSpaceOnUse">
+      <rect width="16" height="16" fill="#F45B73"/>
+      <circle cx="8" cy="8" r="3" fill="#FFFFFF" opacity="0.9"/>
+      <circle cx="0" cy="0" r="3" fill="#FFFFFF" opacity="0.9"/>
+      <circle cx="16" cy="0" r="3" fill="#FFFFFF" opacity="0.9"/>
+      <circle cx="0" cy="16" r="3" fill="#FFFFFF" opacity="0.9"/>
+      <circle cx="16" cy="16" r="3" fill="#FFFFFF" opacity="0.9"/>
+    </pattern>
+  </defs>
+  <path d="M4 8 L8 1 L12 8 L16 2 L20 8 L24 2 L28 8 L132 8 L136 2 L140 8 L144 2 L148 8 L152 2 L156 8 L152 40 L148 46 L144 40 L140 46 L136 40 L132 46 L28 46 L24 40 L20 46 L16 40 L12 46 L8 40 L4 46 Z" fill="url(#pink-polka)" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round"/>
+</svg>

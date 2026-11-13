@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" fill="none">
+  <!-- Outer stamp ring -->
+  <circle cx="70" cy="70" r="64" stroke="#3B2922" stroke-width="4.5" stroke-dasharray="14 4" fill="#FFFDF8" fill-opacity="0.8"/>
+  <!-- Inner ring -->
+  <circle cx="70" cy="70" r="54" stroke="#3B2922" stroke-width="2.5" fill="none"/>
+  <!-- Stamp text -->
+  <text x="70" y="44" text-anchor="middle" font-family="'Lilita One', 'Fredoka', cursive, sans-serif" font-size="14" font-weight="900" fill="#3B2922" letter-spacing="2">PLOTTWIST</text>
+  <text x="70" y="66" text-anchor="middle" font-family="'Lilita One', 'Fredoka', cursive, sans-serif" font-size="13" font-weight="900" fill="#3B2922" letter-spacing="3">BAKERY</text>
+  <!-- Decorative stars & heart -->
+  <path d="M46 78 C46 78 48 83 48 83 C48 83 53 83 53 83 C53 83 49 86 49 86 C49 86 51 90 51 90 C51 90 47 88 47 88 C47 88 43 90 43 90 C43 90 45 86 45 86 C45 86 41 83 41 83 C41 83 46 83 46 83 Z" fill="#F8DC72" stroke="#3B2922" stroke-width="1.5"/>
+  <text x="70" y="86" text-anchor="middle" font-family="'Fredoka', sans-serif" font-size="10" font-weight="800" fill="#715B4C" letter-spacing="1">EST. 2024 ♡</text>
+  <path d="M94 78 C94 78 96 83 96 83 C96 83 101 83 101 83 C101 83 97 86 97 86 C97 86 99 90 99 90 C99 90 95 88 95 88 C95 88 91 90 91 90 C91 90 93 86 93 86 C93 86 89 83 89 83 C89 83 94 83 94 83 Z" fill="#F8DC72" stroke="#3B2922" stroke-width="1.5"/>
+  <text x="70" y="104" text-anchor="middle" font-family="'Caveat', cursive, sans-serif" font-size="11" font-weight="700" fill="#F45B73">artisan desserts</text>
+</svg>
