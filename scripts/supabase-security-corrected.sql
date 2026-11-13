@@ -176,3 +176,4 @@ CREATE POLICY "Service role manage products bucket"
   TO service_role
   USING (bucket_id = 'products')
   WITH CHECK (bucket_id = 'products');
+
