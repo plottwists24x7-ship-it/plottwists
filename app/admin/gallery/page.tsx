@@ -197,7 +197,7 @@ export default function AdminGalleryPage() {
 
                 {item.caption ? (
                   <p className="font-kalam text-xs text-[#5F4A3A] line-clamp-2 leading-relaxed">
-                    "{item.caption}"
+                    &quot;{item.caption}&quot;
                   </p>
                 ) : (
                   <p className="font-kalam text-xs text-[#5F4A3A]/50 italic">

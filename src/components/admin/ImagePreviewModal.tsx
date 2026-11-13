@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import Image from "next/image";
@@ -67,7 +67,16 @@ export function ImagePreviewModal({ image, onClose }: ImagePreviewModalProps) {
 
           <div className="pt-6 border-t-2 border-[#3E2A24]/20 flex items-center gap-2 text-xs font-bricolage font-bold text-[#5F4A3A]">
             <Calendar className="w-4 h-4 text-[#FF4FA3]" />
-            <span>Uploaded: {new Date(image.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+            <span>
+              Uploaded:{" "}
+              {image.createdAt
+                ? new Date(image.createdAt).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })
+                : "Recently"}
+            </span>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useAdmin } from "@/context/AdminContext";
 import { StoryImagesConfig, INITIAL_STORY_IMAGES } from "@/lib/mock-data";
+import { uploadImage } from "@/lib/supabase/client";
 import { 
   Save, 
   RefreshCw, 
@@ -93,25 +94,14 @@ export default function AdminStoryImagesPage() {
     setFormData(storyImages);
   }, [storyImages]);
 
-  const handleImageFile = (file: File, key: keyof Omit<StoryImagesConfig, "updatedAt">) => {
-    if (!file.type.startsWith("image/")) {
-      alert("Please upload a valid image file (PNG, JPG, JPEG, WEBP)");
-      return;
+  const handleImageFile = async (file: File, key: keyof Omit<StoryImagesConfig, "updatedAt">) => {
+    try {
+      const uploadedPath = await uploadImage(file, "story");
+      setFormData((prev) => ({ ...prev, [key]: uploadedPath }));
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to process image file.";
+      alert(msg);
     }
-
-    if (file.size > 10 * 1024 * 1024) {
-      alert("File size exceeds 10MB limit. Please upload an image under 10MB.");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target?.result) {
-        const base64 = e.target.result as string;
-        setFormData((prev) => ({ ...prev, [key]: base64 }));
-      }
-    };
-    reader.readAsDataURL(file);
   };
 
   const handleSaveItem = async (key: keyof Omit<StoryImagesConfig, "updatedAt">) => {

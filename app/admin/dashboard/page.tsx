@@ -314,7 +314,7 @@ export default function AdminDashboardPage() {
                   </div>
 
                   <p className="font-kalam text-xs text-[#5F4A3A] line-clamp-2">
-                    "{rev.review}"
+                    &quot;{rev.review}&quot;
                   </p>
                 </div>
               ))}
@@ -336,7 +336,7 @@ export default function AdminDashboardPage() {
       {/* ─── MODALS ─── */}
       <BakeFormModal
         isOpen={bakeModalOpen}
-        onSave={(data) => addBake(data)}
+        onSave={async (data) => Boolean(await addBake(data))}
         onClose={() => setBakeModalOpen(false)}
       />
 
@@ -348,7 +348,7 @@ export default function AdminDashboardPage() {
 
       <ReviewFormModal
         isOpen={reviewModalOpen}
-        onSave={(data) => addReview(data)}
+        onSave={async (data) => Boolean(await addReview(data))}
         onClose={() => setReviewModalOpen(false)}
       />
     </div>

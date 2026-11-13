@@ -62,8 +62,10 @@ export function ReviewFormModal({
 
     setIsSubmitting(true);
     try {
+      const trimmedName = customerName.trim();
       const res = await onSave({
-        customerName: customerName.trim(),
+        name: trimmedName,
+        customerName: trimmedName,
         customerImage,
         review: review.trim(),
         rating,

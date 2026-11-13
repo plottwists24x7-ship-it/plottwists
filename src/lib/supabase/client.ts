@@ -1,16 +1,41 @@
 import { createBrowserClient } from "@supabase/ssr";
 
 // Product records store an object path (for example `products/prod_oreo_fudge.jpg`),
-// not a browser URL.  Keep the bucket configurable because bucket names are part of
+// not a browser URL. Keep the bucket configurable because bucket names are part of
 // a project's Supabase configuration, not the products table schema.
 export const PRODUCT_IMAGE_BUCKET =
   process.env.NEXT_PUBLIC_SUPABASE_PRODUCTS_BUCKET || "products";
 
+const ALLOWED_IMAGE_MIME_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/svg+xml",
+]);
+
+const MAX_IMAGE_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+
+let hasWarnedMissingSupabase = false;
+
 export function createClient() {
-  return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
-  );
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+  if (!url || !key) {
+    if (typeof window !== "undefined" && !hasWarnedMissingSupabase) {
+      console.warn(
+        "Supabase credentials (NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) are missing in environment variables. Falling back to offline client."
+      );
+      hasWarnedMissingSupabase = true;
+    }
+    return createBrowserClient(
+      url || "https://placeholder-offline.supabase.co",
+      key || "placeholder-anon-key"
+    );
+  }
+
+  return createBrowserClient(url, key);
 }
 
 export function getProductImageUrl(image: string) {
@@ -42,30 +67,68 @@ export function getProductImageUrl(image: string) {
   }
 }
 
-export async function uploadProductImage(file: File): Promise<string> {
-  const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
-  const path = `products/${crypto.randomUUID()}.${extension}`;
-  
+/**
+ * Validates and uploads an image to Supabase Storage in the specified folder.
+ * Falls back to an inline Data URL with a warning if the Supabase Storage bucket
+ * has not yet been provisioned in the user's Supabase dashboard.
+ */
+export async function uploadImage(file: File, folder: string = "products"): Promise<string> {
+  // 1. Validate MIME type
+  if (!ALLOWED_IMAGE_MIME_TYPES.has(file.type)) {
+    throw new Error(
+      `Unsupported file format (${file.type || "unknown"}). Please upload a JPG, PNG, WEBP, GIF, or SVG image.`
+    );
+  }
+
+  // 2. Validate file size
+  if (file.size > MAX_IMAGE_FILE_SIZE) {
+    const sizeInMb = (file.size / (1024 * 1024)).toFixed(1);
+    throw new Error(`File size (${sizeInMb} MB) exceeds the 5 MB limit. Please choose a smaller image.`);
+  }
+
+  // 3. Generate secure, unique object storage path
+  const extension = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+  const uniqueId = typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}`;
+  const cleanFolder = folder.replace(/[^a-zA-Z0-9_-]/g, "");
+  const path = `${cleanFolder}/${Date.now()}-${uniqueId}.${extension}`;
+
   try {
-    const { error } = await createClient().storage.from(PRODUCT_IMAGE_BUCKET).upload(path, file, {
+    const supabase = createClient();
+    const { error } = await supabase.storage.from(PRODUCT_IMAGE_BUCKET).upload(path, file, {
       cacheControl: "3600",
       upsert: false,
       contentType: file.type,
     });
 
     if (!error) {
+      // Storage upload succeeded: return public object path
       return path;
     }
-    console.warn("Storage bucket upload failed, falling back to Data URL:", error.message || error);
+    console.warn(
+      `[Storage Upload Warning] Supabase storage upload to bucket '${PRODUCT_IMAGE_BUCKET}' failed:`,
+      error.message || error,
+      "— Falling back to Data URL encoding."
+    );
   } catch (err) {
-    console.warn("Storage upload exception, using Data URL fallback:", err);
+    console.warn(
+      `[Storage Upload Warning] Exception during Supabase storage upload to bucket '${PRODUCT_IMAGE_BUCKET}':`,
+      err,
+      "— Falling back to Data URL encoding."
+    );
   }
 
-  // Fallback: Read file as Data URL so image persists in database image_url column
-  return new Promise((resolve, reject) => {
+  // Fallback: Read file as Data URL so image persists in database row seamlessly
+  return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (err) => reject(err);
+    reader.onerror = (err) => reject(new Error("Failed to read image file as Data URL: " + err));
     reader.readAsDataURL(file);
   });
+}
+
+/**
+ * Backwards-compatible alias for existing callers
+ */
+export async function uploadProductImage(file: File): Promise<string> {
+  return uploadImage(file, "products");
 }

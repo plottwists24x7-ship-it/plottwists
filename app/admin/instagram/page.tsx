@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useAdmin } from "@/context/AdminContext";
 import { MaskingTape } from "@/components/paper/MaskingTape";
+import { uploadImage } from "@/lib/supabase/client";
 import { 
   UploadCloud, 
   RefreshCw, 
@@ -39,32 +40,15 @@ export default function AdminInstagramPage() {
     setAlt(instagramCTA?.alt || "PlotTwist24x signature gourmet cake dessert");
   }, [instagramCTA]);
 
-  const handleFile = (file: File) => {
+  const handleFile = async (file: File) => {
     setErrorMsg("");
-    
-    // Validation: format
-    const validTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
-    if (!validTypes.includes(file.type) && !file.type.startsWith("image/")) {
-      setErrorMsg("Unsupported file format. Please upload a PNG, JPG, JPEG, or WEBP image.");
-      return;
+    try {
+      const uploadedPath = await uploadImage(file, "instagram");
+      setImage(uploadedPath);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to process image file.";
+      setErrorMsg(msg);
     }
-
-    // Validation: max size 5MB
-    if (file.size > 5 * 1024 * 1024) {
-      setErrorMsg("File size exceeds 5MB limit. Please upload an optimized image.");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target?.result) {
-        setImage(e.target.result as string);
-      }
-    };
-    reader.onerror = () => {
-      setErrorMsg("Failed to read the image file. Please try again.");
-    };
-    reader.readAsDataURL(file);
   };
 
   const handleDrop = (e: React.DragEvent) => {

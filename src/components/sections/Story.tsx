@@ -677,14 +677,14 @@ export default function Story() {
               style={{ fontFamily: "var(--font-kalam-g), 'Kalam', var(--font-workforce-g), 'Caveat', cursive, sans-serif" }}
               className="absolute top-6 left-20 z-30 bg-[#FAF9F6] text-[#5C4332] px-3.5 py-1.5 rounded border border-[#A17A5B]/40 shadow-[0_4px_10px_rgba(0,0,0,0.12)] transform -rotate-3 text-sm font-bold tracking-wide animate-float-a hover:rotate-2 hover:-translate-y-0.5 transition-transform duration-200 pointer-events-auto cursor-pointer"
             >
-              "fresh every morning" 🥐
+              &quot;fresh every morning&quot; 🥐
             </div>
 
             <div
               style={{ fontFamily: "var(--font-kalam-g), 'Kalam', var(--font-workforce-g), 'Caveat', cursive, sans-serif" }}
               className="absolute top-6 right-20 z-30 bg-[#FFE7A3] text-[#5C4332] px-3.5 py-1.5 rounded border border-[#3E332B]/30 shadow-[0_4px_10px_rgba(0,0,0,0.12)] transform rotate-3 text-sm font-bold tracking-wide animate-float-b hover:rotate-2 hover:-translate-y-0.5 transition-transform duration-200 pointer-events-auto cursor-pointer"
             >
-              "slow fermentation" ♡
+              &quot;slow fermentation&quot; ♡
             </div>
           </div>
 
@@ -948,7 +948,7 @@ export default function Story() {
                   style={{ fontFamily: "var(--font-kalam-g), 'Kalam', var(--font-workforce-g), 'Caveat', cursive, sans-serif" }}
                   className="absolute -top-5 right-0 z-30 bg-[#FFD8C2] text-[#5C4332] px-3 py-1 rounded border border-[#3E332B]/30 shadow-[0_4px_10px_rgba(0,0,0,0.12)] transform -rotate-3 text-sm font-bold tracking-wide animate-float-a hover:rotate-2 hover:-translate-y-0.5 transition-transform duration-200 cursor-pointer"
                 >
-                  "chef's pick" 🔥
+                  &quot;chef&apos;s pick&quot; 🔥
                 </div>
 
                 {/* STICKY NOTE TYPOGRAPHY: Federo label & Kalam checklist */}
@@ -958,7 +958,7 @@ export default function Story() {
                       style={{ fontFamily: "var(--font-federo-g), 'Federo', sans-serif" }}
                       className="uppercase tracking-wider text-[#5C4332] font-extrabold text-[0.7rem] block"
                     >
-                      today's batch:
+                      today&apos;s batch:
                     </span>
                   </div>
                   <ul

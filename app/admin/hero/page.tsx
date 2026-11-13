@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useAdmin } from "@/context/AdminContext";
 import { MaskingTape } from "@/components/paper/MaskingTape";
+import { uploadImage } from "@/lib/supabase/client";
 import { 
   UploadCloud, 
   RefreshCw, 
@@ -50,24 +51,14 @@ export default function AdminHeroPage() {
     setScale(hero.scale || 1.03);
   }, [hero]);
 
-  const handleFile = (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      alert("Please upload a valid image file (PNG, JPG, JPEG, WEBP)");
-      return;
+  const handleFile = async (file: File) => {
+    try {
+      const uploadedPath = await uploadImage(file, "hero");
+      setImage(uploadedPath);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to process image file.";
+      alert(msg);
     }
-
-    if (file.size > 10 * 1024 * 1024) {
-      alert("File size exceeds 10MB limit. Please choose a smaller image.");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target?.result) {
-        setImage(e.target.result as string);
-      }
-    };
-    reader.readAsDataURL(file);
   };
 
   const handleDrop = (e: React.DragEvent) => {

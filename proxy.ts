@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifySessionToken, ADMIN_COOKIE_NAME } from "@/lib/auth";
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Only handle /admin and /admin/* routes
@@ -12,7 +12,7 @@ export async function middleware(req: NextRequest) {
     // If user is visiting the login page
     if (pathname === "/admin/login") {
       if (isAuthenticated) {
-        // Already logged in, send to dashboard
+        // Already logged in, redirect to dashboard
         return NextResponse.redirect(new URL("/admin/dashboard", req.url));
       }
       return NextResponse.next();

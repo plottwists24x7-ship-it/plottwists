@@ -91,7 +91,7 @@ export default function AdminLoginPage() {
       <div className="relative w-full max-w-md bg-[#FFFDF8] rounded-3xl border-[4px] border-[#3E2A24] shadow-[10px_10px_0_#3E2A24] p-7 sm:p-8 z-10 animate-in zoom-in-95 duration-200">
         {/* Masking Tape Decoration */}
         <MaskingTape
-          color="washi-pink"
+          color="pink"
           className="absolute -top-4 left-1/2 -translate-x-1/2 -rotate-2 w-32 shadow-sm pointer-events-none"
         />
 

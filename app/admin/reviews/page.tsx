@@ -33,7 +33,7 @@ export default function AdminReviewsPage() {
 
   const startInlineEdit = (rev: Review) => {
     setInlineEditId(rev.id);
-    setInlineName(rev.customerName);
+    setInlineName(rev.customerName || rev.name || "");
     setInlineQuote(rev.review);
     setInlineRating(rev.rating);
   };

@@ -15,6 +15,7 @@ import {
   INITIAL_INSTAGRAM_CTA
 } from "@/lib/mock-data";
 import { createClient, getProductImageUrl } from "@/lib/supabase/client";
+import { ToastItem, ToastContainer } from "@/components/admin/ToastNotification";
 
 /* ========================================================================= */
 /* SUPABASE ROW INTERFACES & MAPPERS                                         */
@@ -326,10 +327,35 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         }
 
         // 6. Story Images
-        if (sRes.error) console.error("Supabase story_images fetch error:", sRes.error.message || sRes.error);
-        else if (sRes.data) {
+        if (sRes.error) {
+          console.error("Supabase story_images fetch error:", sRes.error.message || sRes.error);
+          if (typeof window !== "undefined") {
+            try {
+              const cachedStoryImages = localStorage.getItem("plottwist_story_images");
+              if (cachedStoryImages) {
+                setStoryImages(JSON.parse(cachedStoryImages));
+              }
+            } catch {}
+          }
+        } else if (sRes.data) {
           setStoryImagesDbId(sRes.data.id);
-          setStoryImages(mapStoryImagesRowToConfig(sRes.data as StoryImagesRow));
+          const mappedStory = mapStoryImagesRowToConfig(sRes.data as StoryImagesRow);
+          setStoryImages(mappedStory);
+          if (typeof window !== "undefined") {
+            try {
+              localStorage.setItem("plottwist_story_images", JSON.stringify(mappedStory));
+            } catch {}
+          }
+        }
+
+        // 7. Story Text Content (Rehydrate from localStorage if updated)
+        if (typeof window !== "undefined") {
+          try {
+            const cachedStory = localStorage.getItem("plottwist_story_config");
+            if (cachedStory) {
+              setStory((prev) => ({ ...prev, ...JSON.parse(cachedStory) }));
+            }
+          } catch {}
         }
       } catch (err) {
         console.error("Unexpected error fetching initial data from Supabase:", err);
@@ -741,21 +767,34 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     return false;
   }, [heroDbId, triggerTimestampUpdate]);
 
-  // ─── STORY ACTIONS ───
+  // ─── STORY ACTIONS (PERSISTED) ───
   const updateStory = useCallback((updates: Partial<StoryConfig>) => {
-    setStory((prev) => ({
-      ...prev,
-      ...updates,
-      updatedAt: new Date().toISOString(),
-    }));
+    setStory((prev) => {
+      const updated = {
+        ...prev,
+        ...updates,
+        updatedAt: new Date().toISOString(),
+      };
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem("plottwist_story_config", JSON.stringify(updated));
+        } catch (e) {
+          console.warn("Failed to persist story to localStorage:", e);
+        }
+      }
+      return updated;
+    });
     triggerTimestampUpdate();
-  }, [triggerTimestampUpdate]);
+    showToast("success", "Story content updated successfully.");
+  }, [triggerTimestampUpdate, showToast]);
 
-  // ─── STORY IMAGES (SUPABASE BACKED) ───
+  // ─── STORY IMAGES (SUPABASE BACKED + PERSISTENCE MIRROR) ───
   const updateStoryImages = useCallback(async (updates: Partial<StoryImagesConfig>): Promise<boolean> => {
     const supabase = createClient();
     try {
-      const updatePayload: Record<string, unknown> = {};
+      const updatePayload: Record<string, unknown> = {
+        updated_at: new Date().toISOString(),
+      };
       if (updates.mainPolaroid !== undefined) updatePayload.main_polaroid_url = updates.mainPolaroid;
       if (updates.badge1 !== undefined) updatePayload.badge_1_url = updates.badge1;
       if (updates.badge2 !== undefined) updatePayload.badge_2_url = updates.badge2;
@@ -766,25 +805,32 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         .update(updatePayload)
         .eq("id", storyImagesDbId)
         .select()
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error("Failed to update story_images in Supabase:", error.message || error);
-        showToast("error", "Failed to update story images. Please try again.");
+        showToast("error", "Failed to update story images in database.");
         return false;
       }
 
-      if (data) {
-        setStoryImages(mapStoryImagesRowToConfig(data as StoryImagesRow));
-        triggerTimestampUpdate();
-        showToast("success", "Story images updated successfully.");
-        return true;
+      const mapped = data
+        ? mapStoryImagesRowToConfig(data as StoryImagesRow)
+        : { ...storyImages, ...updates };
+      setStoryImages(mapped);
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem("plottwist_story_images", JSON.stringify(mapped));
+        } catch {}
       }
+      triggerTimestampUpdate();
+      showToast("success", "Story images updated successfully.");
+      return true;
     } catch (err) {
       console.error("Unexpected error in updateStoryImages:", err);
+      showToast("error", "An error occurred while saving story images.");
     }
     return false;
-  }, [storyImagesDbId, triggerTimestampUpdate]);
+  }, [storyImagesDbId, storyImages, triggerTimestampUpdate, showToast]);
 
   // ─── INSTAGRAM CTA (SUPABASE BACKED) ───
   const updateInstagramCTA = useCallback(async (updates: Partial<InstagramCTAConfig>): Promise<boolean> => {
@@ -842,6 +888,8 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     stats,
     isLoading,
     isLoaded,
+    showToast,
+    toast,
     updateHero,
     updateStory,
     updateStoryImages,
@@ -866,6 +914,10 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     storyImages,
     instagramCTA,
     stats,
+    isLoading,
+    isLoaded,
+    showToast,
+    toast,
     updateHero,
     updateStory,
     updateStoryImages,
@@ -883,7 +935,12 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     resetToDefaults,
   ]);
 
-  return <AdminContext.Provider value={value}>{children}</AdminContext.Provider>;
+  return (
+    <AdminContext.Provider value={value}>
+      {children}
+      <ToastContainer toasts={toasts} onDismiss={dismissToast} />
+    </AdminContext.Provider>
+  );
 }
 
 export function useAdmin() {

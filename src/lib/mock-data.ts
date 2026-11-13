@@ -19,6 +19,7 @@ export interface SharedGalleryPhoto {
   id: string;
   title: string;
   image: string;
+  imagePath?: string;
   src?: string;
   alt?: string;
   label?: string;
@@ -61,6 +62,7 @@ export interface SharedReview {
   decorativeElement?: string;
   date?: string;
   verified?: boolean;
+  createdAt?: string;
 }
 
 // ─── 1. OUR BAKES (SHARED PRODUCTS) ───
