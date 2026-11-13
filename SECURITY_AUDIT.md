@@ -89,3 +89,4 @@ The database administrator must execute `scripts/supabase-security.sql` in the S
 - **Remediation Strategy**:
   - `npm audit fix --force` was **not executed**, following project rules to prevent breaking framework upgrades to Next.js 16.4 / React 19.
   - When deployment infrastructure upgrades `vercel` CLI in CI/CD, the devDependency will be updated cleanly.
+

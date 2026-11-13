@@ -125,3 +125,4 @@ Every identified bug has been analyzed, reproduced, resolved with targeted code 
 | **BUG-12** | Gallery PhotoCard zIndex prop | Missing inline style z-index | **FIXED & VERIFIED** |
 | **BUG-13** | ReviewCard unoptimized `<img>` | Legacy HTML image element | **FIXED & VERIFIED** |
 | **BUG-14** | Story `unoptimized={true}` flag | Bypassed Next.js image optimization | **FIXED & VERIFIED** |
+

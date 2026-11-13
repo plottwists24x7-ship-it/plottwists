@@ -83,3 +83,4 @@ All critical bottlenecks have been isolated, profiled, and remediated in the cod
 | **DOM Node Count (Reviews)** | 3x repetition array (30+ cards) | **2x repetition array (20 cards)** | **RESOLVED** |
 | **Image Delivery (Story)** | `unoptimized={true}` raw format | **Next.js responsive AVIF/WebP** | **RESOLVED** |
 | **Image Delivery (Reviews)**| Raw HTML `<img>` tags | **`<Image fill sizes="..." />`** | **RESOLVED** |
+

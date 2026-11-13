@@ -46,3 +46,4 @@ The following architectural guarantees must remain intact during any design modi
 - **Maintain Controlled Admin State**: Do not re-introduce `useEffect` state synchronization in modals (`BakeFormModal`, `GalleryFormModal`, `ReviewFormModal`); continue using render-time prop synchronization to avoid cascading renders.
 - **Preserve Server Auth Verification**: Admin routes and modals must continue routing requests through `/api/admin/*` endpoints verifying HMAC session cookies.
 - **Keep Hardware-Accelerated Backgrounds**: Ensure any full-viewport background animations remain GPU-composited and avoid un-cached SVG filter loops.
+

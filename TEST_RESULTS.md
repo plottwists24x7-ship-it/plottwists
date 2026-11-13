@@ -132,3 +132,4 @@ This document compiles the empirical results of all verification test suites exe
   - Storage Bucket `products` anonymous upload: Blocked with HTTP 403 `AccessDenied` (`new row violates row-level security policy`).
   - Database Table anonymous mutations: Flagged for RLS hardening; remediation SQL authored in `scripts/supabase-security.sql`.
 - **Result**: **PASS** — Probe completed successfully; security baseline and remediations established.
+

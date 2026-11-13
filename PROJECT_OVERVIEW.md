@@ -64,3 +64,4 @@ A dedicated administrative dashboard secured by server-side HMAC session cookies
 | **Story Persistence** | Only in browser `localStorage` | Server API + persistent store (`/api/story`, `/api/admin/story`) |
 | **GPU / Compositing Lag** | SVG `feTurbulence` running on viewport | Replaced with lightweight GPU-cached 128px pattern tile |
 | **Scroll Reflows** | Unthrottled `getBoundingClientRect` | Replaced with `requestAnimationFrame` + `IntersectionObserver` |
+

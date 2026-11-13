@@ -1,4 +1,22 @@
 import { createClient } from "@supabase/supabase-js";
+import fs from "fs";
+import path from "path";
+
+// Auto-load .env.local for standalone CLI scripts
+const envPath = path.join(process.cwd(), ".env.local");
+if (fs.existsSync(envPath)) {
+  const content = fs.readFileSync(envPath, "utf-8");
+  for (const line of content.split("\n")) {
+    const match = line.match(/^([^#=]+)=(.*)$/);
+    if (match) {
+      const k = match[1].trim();
+      const v = match[2].trim().replace(/^['"](.*)['"]$/, "$1");
+      if (!process.env[k]) {
+        process.env[k] = v;
+      }
+    }
+  }
+}
 
 async function main() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

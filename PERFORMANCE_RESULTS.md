@@ -43,3 +43,4 @@ By eliminating render-blocking font requests, converting the root page to a Reac
 ### D. Image Optimization Architecture
 - **Before**: Polaroid images in `Story.tsx` carried `unoptimized={true}`, and `ReviewCard.tsx` used unoptimized `<img>` tags. Admins uploading images triggered a Base64 fallback that wrote raw strings into database rows.
 - **After**: All user images render through Next.js `<Image>` components with explicit `sizes` and `fill` attributes, producing AVIF/WebP formats with appropriate responsive srcset targets. New uploads strictly require Supabase Storage binaries, keeping database rows under 1 KB each.
+

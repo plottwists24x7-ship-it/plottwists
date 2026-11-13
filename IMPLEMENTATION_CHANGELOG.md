@@ -141,3 +141,4 @@ This document provides a comprehensive, file-by-file log of all code changes, ad
 
 1. **`src/styles/globals.css`**
    - *Rationale*: Orphaned legacy stylesheet duplicate; `app/globals.css` is the canonical stylesheet configured in `app/layout.tsx`.
+
