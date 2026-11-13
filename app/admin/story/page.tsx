@@ -70,14 +70,14 @@ const STORY_IMAGES_METADATA: StoryImageItemConfig[] = [
 ];
 
 export default function AdminStoryImagesPage() {
-  const { storyImages, updateStoryImages } = useAdmin();
+  const { story, updateStory, storyImages, updateStoryImages } = useAdmin();
 
   // Local state
   const [formData, setFormData] = useState<StoryImagesConfig>(storyImages);
+  const [storyText, setStoryText] = useState(story);
   const [isSaving, setIsSaving] = useState(false);
+  const [isSavingText, setIsSavingText] = useState(false);
   const [activeSavingKey, setActiveSavingKey] = useState<string | null>(null);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("Story image updated successfully.");
   const [dragOverKey, setDragOverKey] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -92,7 +92,15 @@ export default function AdminStoryImagesPage() {
   useEffect(() => {
     setMounted(true);
     setFormData(storyImages);
-  }, [storyImages]);
+    setStoryText(story);
+  }, [storyImages, story]);
+
+  const handleSaveStoryText = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSavingText(true);
+    updateStory(storyText);
+    setIsSavingText(false);
+  };
 
   const handleImageFile = async (file: File, key: keyof Omit<StoryImagesConfig, "updatedAt">) => {
     try {
@@ -367,6 +375,143 @@ export default function AdminStoryImagesPage() {
             </div>
           );
         })}
+      </div>
+
+      {/* ─── STORY TEXT & CONTENT EDITOR CARD ─── */}
+      <div className="p-6 rounded-3xl bg-[#FFFDF8] border-[4px] border-[#3E2A24] shadow-[6px_6px_0_#3E2A24] space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-[#3E2A24]/10 pb-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="font-bowlby text-xl text-[#3E2A24]">
+                Story Copy & Details
+              </h3>
+              <span className="bg-[#B9E5E8] text-[#3E2A24] text-xs font-bricolage font-black px-2.5 py-0.5 rounded-full border-2 border-[#3E2A24]">
+                Text & Content
+              </span>
+            </div>
+            <p className="font-kalam text-xs sm:text-sm text-[#5F4A3A] mt-1">
+              Edit the story headlines, recipe card note, bakery description, and call-to-action button.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleSaveStoryText}
+            disabled={isSavingText}
+            className="px-6 py-2.5 rounded-2xl bg-[#FFE26E] hover:bg-[#ffd633] text-[#3E2A24] font-bricolage font-extrabold text-xs sm:text-sm border-[3px] border-[#3E2A24] shadow-[3px_3px_0_#3E2A24] hover:shadow-[4px_4px_0_#3E2A24] hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer transition-all disabled:opacity-50 shrink-0"
+          >
+            {isSavingText ? (
+              <>
+                <RefreshCw className="w-4 h-4 animate-spin" />
+                <span>Saving Story Text...</span>
+              </>
+            ) : (
+              <>
+                <Save className="w-4 h-4" />
+                <span>Save Story Text</span>
+              </>
+            )}
+          </button>
+        </div>
+
+        <form onSubmit={handleSaveStoryText} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bricolage font-bold text-[#3E2A24] mb-1">
+                Top Tagline Badge
+              </label>
+              <input
+                type="text"
+                value={storyText.tagline}
+                onChange={(e) => setStoryText({ ...storyText, tagline: e.target.value })}
+                className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#3E2A24] bg-white text-xs font-bricolage text-[#3E2A24] focus:outline-none focus:ring-2 focus:ring-[#FFE26E]"
+                placeholder="e.g. ✨ ABOUT OUR BAKERY"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bricolage font-bold text-[#3E2A24] mb-1">
+                Main Story Title
+              </label>
+              <input
+                type="text"
+                value={storyText.title}
+                onChange={(e) => setStoryText({ ...storyText, title: e.target.value })}
+                className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#3E2A24] bg-white text-xs font-bricolage text-[#3E2A24] focus:outline-none focus:ring-2 focus:ring-[#FFE26E]"
+                placeholder="e.g. PLOTTWIST24X7"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bricolage font-bold text-[#3E2A24] mb-1">
+                Handwritten Subtitle Script
+              </label>
+              <input
+                type="text"
+                value={storyText.subtitleScript}
+                onChange={(e) => setStoryText({ ...storyText, subtitleScript: e.target.value })}
+                className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#3E2A24] bg-white text-xs font-bricolage text-[#3E2A24] focus:outline-none focus:ring-2 focus:ring-[#FFE26E]"
+                placeholder="e.g. made with love ♡"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bricolage font-bold text-[#3E2A24] mb-1">
+                Recipe Card Heading
+              </label>
+              <input
+                type="text"
+                value={storyText.recipeNumber}
+                onChange={(e) => setStoryText({ ...storyText, recipeNumber: e.target.value })}
+                className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#3E2A24] bg-white text-xs font-bricolage text-[#3E2A24] focus:outline-none focus:ring-2 focus:ring-[#FFE26E]"
+                placeholder="e.g. RECIPE CARD № 042 • HANDCRAFTED"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bricolage font-bold text-[#3E2A24] mb-1">
+              Bakery Story & Description Paragraph
+            </label>
+            <textarea
+              rows={4}
+              value={storyText.description}
+              onChange={(e) => setStoryText({ ...storyText, description: e.target.value })}
+              className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#3E2A24] bg-white text-xs font-bricolage text-[#3E2A24] focus:outline-none focus:ring-2 focus:ring-[#FFE26E]"
+              placeholder="Tell your bakery's handcrafted story..."
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bricolage font-bold text-[#3E2A24] mb-1">
+                CTA Button Text
+              </label>
+              <input
+                type="text"
+                value={storyText.ctaText}
+                onChange={(e) => setStoryText({ ...storyText, ctaText: e.target.value })}
+                className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#3E2A24] bg-white text-xs font-bricolage text-[#3E2A24] focus:outline-none focus:ring-2 focus:ring-[#FFE26E]"
+                placeholder="e.g. SEE ALL BAKES"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bricolage font-bold text-[#3E2A24] mb-1">
+                CTA Button Link
+              </label>
+              <input
+                type="text"
+                value={storyText.ctaLink}
+                onChange={(e) => setStoryText({ ...storyText, ctaLink: e.target.value })}
+                className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#3E2A24] bg-white text-xs font-bricolage text-[#3E2A24] focus:outline-none focus:ring-2 focus:ring-[#FFE26E]"
+                placeholder="e.g. #bakes"
+              />
+            </div>
+          </div>
+        </form>
       </div>
 
       {/* ─── BOTTOM RESET BAR ─── */}

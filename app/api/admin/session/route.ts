@@ -5,5 +5,12 @@ export async function GET(req: NextRequest) {
   const cookie = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
   const isValid = await verifySessionToken(cookie);
 
-  return NextResponse.json({ authenticated: isValid });
+  if (!isValid) {
+    return NextResponse.json(
+      { authenticated: false, error: "Unauthorized" },
+      { status: 401 }
+    );
+  }
+
+  return NextResponse.json({ authenticated: true });
 }

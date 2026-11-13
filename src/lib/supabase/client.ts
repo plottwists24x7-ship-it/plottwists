@@ -69,8 +69,8 @@ export function getProductImageUrl(image: string) {
 
 /**
  * Validates and uploads an image to Supabase Storage in the specified folder.
- * Falls back to an inline Data URL with a warning if the Supabase Storage bucket
- * has not yet been provisioned in the user's Supabase dashboard.
+ * Enforces file format, size limits, and requires a valid Supabase Storage bucket.
+ * Does NOT fall back to Base64 strings to prevent multi-megabyte database row bloat.
  */
 export async function uploadImage(file: File, folder: string = "products"): Promise<string> {
   // 1. Validate MIME type
@@ -80,7 +80,7 @@ export async function uploadImage(file: File, folder: string = "products"): Prom
     );
   }
 
-  // 2. Validate file size
+  // 2. Validate file size (max 5 MB)
   if (file.size > MAX_IMAGE_FILE_SIZE) {
     const sizeInMb = (file.size / (1024 * 1024)).toFixed(1);
     throw new Error(`File size (${sizeInMb} MB) exceeds the 5 MB limit. Please choose a smaller image.`);
@@ -92,38 +92,28 @@ export async function uploadImage(file: File, folder: string = "products"): Prom
   const cleanFolder = folder.replace(/[^a-zA-Z0-9_-]/g, "");
   const path = `${cleanFolder}/${Date.now()}-${uniqueId}.${extension}`;
 
-  try {
-    const supabase = createClient();
-    const { error } = await supabase.storage.from(PRODUCT_IMAGE_BUCKET).upload(path, file, {
-      cacheControl: "3600",
-      upsert: false,
-      contentType: file.type,
-    });
+  const supabase = createClient();
+  const { error } = await supabase.storage.from(PRODUCT_IMAGE_BUCKET).upload(path, file, {
+    cacheControl: "3600",
+    upsert: false,
+    contentType: file.type,
+  });
 
-    if (!error) {
-      // Storage upload succeeded: return public object path
-      return path;
+  if (error) {
+    const isBucketMissing =
+      error.message?.toLowerCase().includes("bucket not found") ||
+      (error as { error?: string })?.error?.toLowerCase().includes("bucket not found");
+
+    if (isBucketMissing) {
+      throw new Error(
+        `Supabase Storage bucket '${PRODUCT_IMAGE_BUCKET}' not found. Please create the public bucket '${PRODUCT_IMAGE_BUCKET}' in your Supabase Dashboard before uploading images.`
+      );
     }
-    console.warn(
-      `[Storage Upload Warning] Supabase storage upload to bucket '${PRODUCT_IMAGE_BUCKET}' failed:`,
-      error.message || error,
-      "— Falling back to Data URL encoding."
-    );
-  } catch (err) {
-    console.warn(
-      `[Storage Upload Warning] Exception during Supabase storage upload to bucket '${PRODUCT_IMAGE_BUCKET}':`,
-      err,
-      "— Falling back to Data URL encoding."
-    );
+
+    throw new Error(`Failed to upload image to Supabase Storage: ${error.message}`);
   }
 
-  // Fallback: Read file as Data URL so image persists in database row seamlessly
-  return new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (err) => reject(new Error("Failed to read image file as Data URL: " + err));
-    reader.readAsDataURL(file);
-  });
+  return path;
 }
 
 /**

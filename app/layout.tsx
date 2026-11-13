@@ -1,19 +1,20 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Bowlby_One, Lilita_One, Cherry_Bomb_One, Manrope, Fredoka, Poppins, Fasthand, Federo, Caveat, Quicksand, Kalam } from 'next/font/google'
+import { Bowlby_One, Lilita_One, Cherry_Bomb_One, Manrope, Fredoka, Poppins, Fasthand, Federo, Caveat, Quicksand, Kalam, Bricolage_Grotesque } from 'next/font/google'
 import './globals.css'
 
-const bowlbyOne = Bowlby_One({ subsets: ['latin'], weight: '400', variable: '--font-bowlby-one' })
-const lilitaOne = Lilita_One({ subsets: ['latin'], weight: '400', variable: '--font-lilita-one' })
-const cherryBomb = Cherry_Bomb_One({ subsets: ['latin'], weight: '400', variable: '--font-cherry-bomb' })
-const manrope = Manrope({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800'], variable: '--font-manrope' })
-const fredoka = Fredoka({ subsets: ['latin'], variable: '--font-fredoka' })
-const poppins = Poppins({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-poppins' })
-const fasthand = Fasthand({ subsets: ['latin'], weight: '400', variable: '--font-fasthand-g' })
-const federo = Federo({ subsets: ['latin'], weight: '400', variable: '--font-federo-g' })
-const caveat = Caveat({ subsets: ['latin'], weight: ['500', '700'], variable: '--font-workforce-g' })
-const quicksand = Quicksand({ subsets: ['latin'], weight: ['500', '600', '700'], variable: '--font-quicksand-g' })
-const kalam = Kalam({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-kalam-g' })
+const bowlbyOne = Bowlby_One({ subsets: ['latin'], weight: '400', variable: '--font-bowlby-one', display: 'swap' })
+const lilitaOne = Lilita_One({ subsets: ['latin'], weight: '400', variable: '--font-lilita-one', display: 'swap' })
+const cherryBomb = Cherry_Bomb_One({ subsets: ['latin'], weight: '400', variable: '--font-cherry-bomb', display: 'swap' })
+const manrope = Manrope({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800'], variable: '--font-manrope', display: 'swap' })
+const fredoka = Fredoka({ subsets: ['latin'], variable: '--font-fredoka', display: 'swap' })
+const poppins = Poppins({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-poppins', display: 'swap' })
+const fasthand = Fasthand({ subsets: ['latin'], weight: '400', variable: '--font-fasthand-g', display: 'swap' })
+const federo = Federo({ subsets: ['latin'], weight: '400', variable: '--font-federo-g', display: 'swap' })
+const caveat = Caveat({ subsets: ['latin'], weight: ['500', '700'], variable: '--font-workforce-g', display: 'swap' })
+const quicksand = Quicksand({ subsets: ['latin'], weight: ['500', '600', '700'], variable: '--font-quicksand-g', display: 'swap' })
+const kalam = Kalam({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-kalam-g', display: 'swap' })
+const bricolage = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font-bricolage', display: 'swap' })
 
 export const metadata: Metadata = {
   title: 'Plotwist - A New Taste of Wellness',
@@ -55,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${bowlbyOne.variable} ${lilitaOne.variable} ${cherryBomb.variable} ${manrope.variable} ${fredoka.variable} ${poppins.variable} ${fasthand.variable} ${federo.variable} ${caveat.variable} ${quicksand.variable} ${kalam.variable}`} style={{ backgroundColor: '#C7E9E4' }}>
+    <html lang="en" className={`${bowlbyOne.variable} ${lilitaOne.variable} ${cherryBomb.variable} ${manrope.variable} ${fredoka.variable} ${poppins.variable} ${fasthand.variable} ${federo.variable} ${caveat.variable} ${quicksand.variable} ${kalam.variable} ${bricolage.variable}`} style={{ backgroundColor: '#C7E9E4' }}>
       <body className="antialiased bg-[#C7E9E4] font-manrope">
         <AdminProvider>
           {children}

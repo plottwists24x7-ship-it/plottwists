@@ -9,7 +9,7 @@ import { useAdmin } from "@/context/AdminContext";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Story() {
-  const { storyImages } = useAdmin();
+  const { story, storyImages } = useAdmin();
   const containerRef = useRef<HTMLDivElement>(null);
   const revealContainerRef = useRef<HTMLDivElement>(null);
   
@@ -702,7 +702,7 @@ export default function Story() {
                   style={{ fontFamily: "var(--font-federo-g), 'Federo', var(--font-quicksand-g), 'Quicksand', sans-serif" }}
                   className="text-xs uppercase tracking-[0.22em] font-extrabold bg-[#FFD95B] text-[#2B1824] px-4 py-1.5 rounded-full border-2 border-[#2B1824] shadow-[3px_3px_0_#2B1824] inline-block rotate-[-1deg]"
                 >
-                  ✨ ABOUT OUR BAKERY
+                  {story.tagline || "✨ ABOUT OUR BAKERY"}
                 </span>
               </div>
 
@@ -731,14 +731,14 @@ export default function Story() {
                   ref={headlinePart1Ref}
                   className="font-fasthand font-bold text-[clamp(44px,4.5vw,76px)] text-[#FFF7EF] leading-[0.92] tracking-[-0.015em] mb-[6px] text-left distressed-text drop-shadow-[0_3px_8px_rgba(0,0,0,0.08)] whitespace-nowrap block"
                 >
-                  PLOTTWIST24X7
+                  {story.title || "PLOTTWIST24X7"}
                 </span>
               </div>
 
               {/* 4. "made with love ♡" HANDWRITTEN SCRIPT (WORKFORCE) IN SOFT BABY PINK (#F6AFCF) + SVG UNDERLINE */}
               <div ref={madeWithLoveRef} className="mb-[18px] relative inline-block">
                 <span className="text-[#F6AFCF] font-workforce text-2xl font-bold transform -rotate-2 tracking-wide text-left pointer-events-none leading-none pl-0.5 block">
-                  made with love ♡
+                  {story.subtitleScript || "made with love ♡"}
                 </span>
                 
                 {/* Interactive Hand-Drawn SVG Underline Stroke */}
@@ -838,14 +838,14 @@ export default function Story() {
                   style={{ fontFamily: "var(--font-federo-g), 'Federo', var(--font-quicksand-g), 'Quicksand', sans-serif" }}
                   className="text-[0.65rem] uppercase tracking-[0.14em] font-extrabold text-[#A17A5B]/90 mb-3 block text-left"
                 >
-                  RECIPE CARD № 042 • HANDCRAFTED
+                  {story.recipeNumber || "RECIPE CARD № 042 • HANDCRAFTED"}
                 </span>
 
                 <p
                   style={{ fontFamily: "var(--font-kalam-g), 'Kalam', var(--font-quicksand-g), 'Quicksand', 'Patrick Hand', cursive, sans-serif" }}
                   className="text-[#3E332B] text-lg leading-[170%] font-bold text-left"
                 >
-                  Plotwist makes small-batch desserts with familiar ingredients, soft textures, and care that feels personal. We believe in taking time—nurturing sourdough starter, slow rising, and cooling pastries naturally.
+                  {story.description || "Plotwist makes small-batch desserts with familiar ingredients, soft textures, and care that feels personal. We believe in taking time—nurturing sourdough starter, slow rising, and cooling pastries naturally."}
                 </p>
 
                 <div className="absolute -bottom-3 -left-3 w-20 h-5 bg-[#EFE3C5] border-x border-[#5C4332]/30 rotate-[6deg] opacity-92 pointer-events-none" />
@@ -859,7 +859,7 @@ export default function Story() {
                   style={{ fontFamily: "var(--font-federo-g), 'Federo', var(--font-quicksand-g), 'Quicksand', sans-serif" }}
                   className="ticket-edge group bg-[#FFD95B] text-[#2B1824] border-3 border-[#2B1824] shadow-[3px_3px_0_#2B1824] hover:bg-[#FFE7A3] hover:-translate-y-0.5 hover:scale-[1.02] active:scale-[0.97] px-8 py-3.5 rounded-full text-base uppercase tracking-[0.14em] transition-all duration-200 cursor-pointer focus-visible:outline-none font-extrabold flex items-center gap-2"
                 >
-                  <span>SEE ALL BAKES</span>
+                  <span>{story.ctaText || "SEE ALL BAKES"}</span>
                   <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
                 </button>
               </div>
