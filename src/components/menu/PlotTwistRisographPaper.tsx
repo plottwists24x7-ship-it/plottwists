@@ -27,13 +27,13 @@ export function PlotTwistRisographPaper() {
         }}
       />
 
-      {/* ── LAYER 1.5: Boutique Bakery Wrapping Paper Sparse Motif ── */}
+      {/* ── LAYER 1.5: Boutique Bakery Wrapping Paper V2 Rich Motif ── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: "url(/images/menu-decor/bakery-wrapping-paper-tile.svg)",
+          backgroundImage: "url(/images/menu-decor/bakery-wrapping-paper-tile-v2.svg)",
           backgroundRepeat: "repeat",
-          backgroundSize: "240px 240px",
+          backgroundSize: "380px 380px",
         }}
       />
 

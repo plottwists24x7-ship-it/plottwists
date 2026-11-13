@@ -1,0 +1,21 @@
+<svg width="120" height="48" viewBox="0 0 120 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Handwritten Note Scrapbook Tape (PlotTwist Scrapbook Style) -->
+  <!-- Shadow -->
+  <polygon points="6,12 116,9 113,44 4,46" fill="#3B2922" opacity="0.15" />
+
+  <!-- Paper Scrap Body -->
+  <polygon points="5,10 115,7 112,42 3,44" fill="#FFFDF8" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+
+  <!-- Blue Washi Tape Pinning Top Left -->
+  <g transform="translate(12, 0) rotate(-6)">
+    <polygon points="0,4 28,0 26,16 0,16" fill="#A9C9F0" stroke="#3B2922" stroke-width="1.8" />
+    <!-- Tape tear lines -->
+    <path d="M0 4 L3 7 L0 10 L3 13 L0 16" stroke="#3B2922" stroke-width="1.5" />
+    <path d="M28 0 L25 3 L28 7 L25 11 L28 16" stroke="#3B2922" stroke-width="1.5" />
+  </g>
+
+  <!-- Text -->
+  <text x="64" y="30" font-family="'Caveat', 'Kalam', cursive, sans-serif" font-size="14" font-weight="700" fill="#3B2922" text-anchor="middle" letter-spacing="0.5">
+    Baker's Daily Pick ♡
+  </text>
+</svg>

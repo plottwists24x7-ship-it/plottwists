@@ -1,0 +1,6 @@
+<svg width="45" height="40" viewBox="0 0 45 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hand-drawn Curly Arrow Doodle (PlotTwist Scrapbook Style) -->
+  <path d="M6 30 C12 36 24 36 30 26 C36 16 28 8 20 12 C14 16 18 24 28 20 C34 18 38 10 38 6" stroke="#3B2922" stroke-width="3" stroke-linecap="round" fill="none" />
+  <!-- Arrow Head -->
+  <path d="M30 4 L38 6 L36 14" stroke="#3B2922" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+</svg>

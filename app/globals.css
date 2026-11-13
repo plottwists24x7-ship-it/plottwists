@@ -38,6 +38,18 @@
   font-family: var(--font-bricolage), 'Bricolage Grotesque', sans-serif !important;
 }
 
+.font-space {
+  font-family: var(--font-space-grotesk), 'Space Grotesk', sans-serif !important;
+}
+
+.font-outfit {
+  font-family: var(--font-outfit), 'Outfit', sans-serif !important;
+}
+
+.font-dmsans {
+  font-family: var(--font-dm-sans), 'DM Sans', sans-serif !important;
+}
+
 .font-cherry {
   font-family: var(--font-cherry-bomb), 'Cherry Bomb One', cursive, sans-serif !important;
   letter-spacing: 0.03em;

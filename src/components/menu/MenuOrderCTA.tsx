@@ -32,11 +32,18 @@ export function MenuOrderCTA() {
         />
       </div>
 
-      {/* ── CAKE SLICE DOODLE (Right Decorative Asset) ── */}
+      {/* ── CAKE SLICE & STRAWBERRY TART DOODLES (Right Decorative Asset Cluster) ── */}
       <div
-        className="hidden md:block absolute -top-6 -right-6 lg:-right-8 z-20 pointer-events-none select-none"
+        className="hidden md:flex items-center gap-1.5 absolute -top-7 -right-6 lg:-right-8 z-20 pointer-events-none select-none"
         aria-hidden="true"
       >
+        <Image
+          src="/images/menu-decor/doodle-strawberry-tart.svg"
+          alt=""
+          width={55}
+          height={50}
+          className="w-10 lg:w-11 h-auto -rotate-12 drop-shadow-xs"
+        />
         <Image
           src="/images/menu-decor/doodle-cake.svg"
           alt=""
@@ -51,10 +58,10 @@ export function MenuOrderCTA() {
         
         {/* Left: Heading and Subtitle */}
         <div className="text-center sm:text-left">
-          <h3 className="font-cherry text-base sm:text-lg md:text-xl text-[#3B2922] tracking-wide leading-tight">
+          <h3 className="font-bricolage font-black text-base sm:text-lg md:text-xl text-[#3B2922] tracking-wide leading-tight">
             FOUND YOUR FAVOURITE?
           </h3>
-          <p className="font-fredoka text-[11px] sm:text-xs md:text-[13px] text-[#5F4A3A] mt-0.5 font-normal leading-snug">
+          <p className="font-dmsans text-[11px] sm:text-xs md:text-[13px] text-[#5F4A3A] mt-0.5 font-normal leading-relaxed">
             Your next dessert obsession is just one message away.
           </p>
         </div>
@@ -66,7 +73,7 @@ export function MenuOrderCTA() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Order your treats via WhatsApp"
-            className="group inline-flex items-center gap-2 bg-[#3B82F6] hover:bg-[#2563EB] active:bg-[#1D4ED8] text-white font-fredoka font-bold text-xs sm:text-sm tracking-wider px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border-2 border-[#3B2922] shadow-[2.5px_2.5px_0px_#3B2922] hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_#3B2922] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_#3B2922] transition-all duration-200"
+            className="group inline-flex items-center gap-2 bg-[#3B82F6] hover:bg-[#2563EB] active:bg-[#1D4ED8] text-white font-space font-bold text-xs sm:text-sm tracking-wider px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border-2 border-[#3B2922] shadow-[2.5px_2.5px_0px_#3B2922] hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_#3B2922] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_#3B2922] transition-all duration-200"
           >
             <span>ORDER YOUR TREATS</span>
             {/* Yellow Circle with Right Arrow */}

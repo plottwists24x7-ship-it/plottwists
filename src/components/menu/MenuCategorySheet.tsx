@@ -97,6 +97,14 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
           category.id === "boxes" ? "pl-6 sm:pl-7.5 md:pl-8" : ""
         }`}
       >
+        {/* ── 01 / BOXES SPECIFIC: Ruled Notebook Inner Border ── */}
+        {category.id === "boxes" && (
+          <div
+            className="absolute inset-2 sm:inset-2.5 rounded-xl border border-[#3B2922]/15 pointer-events-none z-0"
+            aria-hidden="true"
+          />
+        )}
+
         {/* ── 02 / JARS SPECIFIC: Dashed Stitched Inner Border & Stamp Mark ── */}
         {category.id === "jars" && (
           <>
@@ -114,6 +122,14 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
               </span>
             </div>
           </>
+        )}
+
+        {/* ── 03 / WAFFLES SPECIFIC: Ruled Framing Inner Border ── */}
+        {category.id === "waffles" && (
+          <div
+            className="absolute inset-2 sm:inset-2.5 rounded-xl border border-dashed border-[#3B2922]/20 pointer-events-none z-0"
+            aria-hidden="true"
+          />
         )}
 
         {/* ── HEADER BADGE / PILL ── */}

@@ -1,0 +1,31 @@
+<svg width="65" height="60" viewBox="0 0 65 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Strawberry Bakery Tart (PlotTwist Scrapbook Style) -->
+  <!-- Shadow -->
+  <ellipse cx="32" cy="53" rx="24" ry="5" fill="#3B2922" opacity="0.15" />
+
+  <!-- Fluted Golden Pastry Crust (Base) -->
+  <path d="M10 36 
+    C12 48 20 54 32 54 
+    C44 54 52 48 54 36 
+    Z" fill="#E5C148" stroke="#3B2922" stroke-width="3" stroke-linejoin="round" />
+  <ellipse cx="32" cy="36" rx="22" ry="7" fill="#F8DD78" stroke="#3B2922" stroke-width="3" />
+
+  <!-- Cream Swirl Cushion -->
+  <ellipse cx="32" cy="33" rx="16" ry="5" fill="#FFFDF8" stroke="#3B2922" stroke-width="2" />
+
+  <!-- Fresh Red Strawberry on Top -->
+  <path d="M22 28 
+    C18 16 26 8 32 8 
+    C38 8 46 16 42 28 
+    C39 33 25 33 22 28 Z" 
+    fill="#E63956" stroke="#3B2922" stroke-width="3" stroke-linejoin="round" />
+
+  <!-- Green Strawberry Leaf Calyx -->
+  <path d="M26 10 L32 14 L38 10 L35 6 L32 8 L29 6 Z" fill="#78B159" stroke="#3B2922" stroke-width="2" stroke-linejoin="round" />
+
+  <!-- Yellow Strawberry Seeds -->
+  <circle cx="27" cy="20" r="1" fill="#FFE066" />
+  <circle cx="35" cy="18" r="1" fill="#FFE066" />
+  <circle cx="31" cy="25" r="1" fill="#FFE066" />
+  <circle cx="37" cy="26" r="1" fill="#FFE066" />
+</svg>

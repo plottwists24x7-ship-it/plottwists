@@ -1,0 +1,31 @@
+<svg width="80" height="75" viewBox="0 0 80 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Stacked Fudgy Brownie Squares (PlotTwist Scrapbook Style) -->
+  <!-- Shadow -->
+  <ellipse cx="40" cy="66" rx="30" ry="7" fill="#3B2922" opacity="0.15" />
+
+  <!-- Bottom Brownie Square (Rotated slightly) -->
+  <g transform="translate(10, 28) rotate(-4)">
+    <!-- 3D Side Depth -->
+    <path d="M0 24 L8 34 H54 L46 24 Z" fill="#2B1A13" stroke="#3B2922" stroke-width="3" stroke-linejoin="round" />
+    <path d="M54 34 L54 10 L46 0 V24 Z" fill="#3D261C" stroke="#3B2922" stroke-width="3" stroke-linejoin="round" />
+    <!-- Top Face -->
+    <rect x="0" y="0" width="46" height="24" rx="2" fill="#543729" stroke="#3B2922" stroke-width="3" stroke-linejoin="round" />
+    <!-- Chocolate Chips on Bottom Brownie -->
+    <circle cx="12" cy="12" r="2.5" fill="#24140D" />
+    <circle cx="28" cy="15" r="2.5" fill="#24140D" />
+  </g>
+
+  <!-- Top Brownie Square (Resting on top) -->
+  <g transform="translate(18, 10) rotate(8)">
+    <!-- 3D Side Depth -->
+    <path d="M0 20 L6 28 H46 L40 20 Z" fill="#2B1A13" stroke="#3B2922" stroke-width="3" stroke-linejoin="round" />
+    <path d="M46 28 L46 8 L40 0 V20 Z" fill="#3D261C" stroke="#3B2922" stroke-width="3" stroke-linejoin="round" />
+    <!-- Top Face -->
+    <rect x="0" y="0" width="40" height="20" rx="2" fill="#634130" stroke="#3B2922" stroke-width="3" stroke-linejoin="round" />
+    <!-- Chocolate Drizzle -->
+    <path d="M4 10 C12 6 18 14 26 8 C32 14 36 10 39 12" stroke="#24140D" stroke-width="3.5" stroke-linecap="round" fill="none" />
+    <!-- Chocolate Chips -->
+    <rect x="8" y="4" width="4" height="4" rx="1" fill="#24140D" />
+    <rect x="22" y="12" width="4.5" height="4" rx="1" fill="#24140D" />
+  </g>
+</svg>

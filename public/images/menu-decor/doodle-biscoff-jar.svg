@@ -1,0 +1,42 @@
+<svg width="75" height="90" viewBox="0 0 75 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Biscoff Dessert Jar Illustration (PlotTwist Scrapbook Style) -->
+  <!-- Soft Drop Shadow -->
+  <rect x="14" y="24" width="48" height="60" rx="10" fill="#3B2922" opacity="0.15" />
+  
+  <!-- Jar Glass Body -->
+  <rect x="12" y="20" width="48" height="60" rx="10" fill="#FFFDF8" stroke="#3B2922" stroke-width="3.5" stroke-linejoin="round" />
+  
+  <!-- Layer 1: Crunchy Biscoff Crumb Base (Bottom) -->
+  <path d="M14 62 H58 V70 C58 75 54 78 48 78 H24 C18 78 14 75 14 70 Z" fill="#E8A854" />
+  <circle cx="22" cy="70" r="1.5" fill="#3B2922" opacity="0.4" />
+  <circle cx="34" cy="72" r="1.5" fill="#3B2922" opacity="0.4" />
+  <circle cx="48" cy="69" r="1.5" fill="#3B2922" opacity="0.4" />
+  <line x1="13" y1="62" x2="59" y2="62" stroke="#3B2922" stroke-width="2.5" stroke-linecap="round" />
+  
+  <!-- Layer 2: Vanilla Whipped Cream Mousse (Middle) -->
+  <rect x="14" y="42" width="44" height="20" fill="#FFF8E8" />
+  <!-- Swirl line -->
+  <path d="M16 48 C22 45 28 52 35 48 C42 45 49 52 56 48" stroke="#3B2922" stroke-width="2" stroke-linecap="round" fill="none" />
+  <line x1="13" y1="42" x2="59" y2="42" stroke="#3B2922" stroke-width="2.5" stroke-linecap="round" />
+  
+  <!-- Layer 3: Speculoos Butter Caramel Spread (Top Layer) -->
+  <rect x="14" y="22" width="44" height="20" rx="4" fill="#C67728" />
+  <!-- Drip -->
+  <path d="M22 42 C22 45 25 45 25 42" stroke="#3B2922" stroke-width="2" fill="#C67728" />
+  <path d="M42 42 C42 46 46 46 46 42" stroke="#3B2922" stroke-width="2" fill="#C67728" />
+  
+  <!-- Jar Neck & Lid -->
+  <rect x="18" y="14" width="36" height="8" rx="2" fill="#F8DD78" stroke="#3B2922" stroke-width="3" stroke-linejoin="round" />
+  <!-- Gingham/Ribbon String tied around neck -->
+  <line x1="16" y1="18" x2="56" y2="18" stroke="#3B2922" stroke-width="2.5" stroke-linecap="round" />
+  
+  <!-- Attached Kraft Tag -->
+  <g transform="translate(48, 18) rotate(15)">
+    <polygon points="0,0 16,0 12,14 0,14" fill="#E8C84A" stroke="#3B2922" stroke-width="2" />
+    <circle cx="4" cy="7" r="1.5" fill="#3B2922" />
+    <path d="M7 6 L9 8 L11 5" stroke="#3B2922" stroke-width="1.2" stroke-linecap="round" />
+  </g>
+  
+  <!-- Glass Shine / Reflection -->
+  <path d="M18 26 V56" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.8" />
+</svg>

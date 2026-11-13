@@ -47,10 +47,10 @@ export function MenuHeading() {
             </div>
 
             <div className="relative inline-flex items-baseline">
-              <span className="font-cherry text-xl sm:text-2xl md:text-3xl text-[#3B2922] leading-none -rotate-3 mr-1.5 tracking-wider">
+              <span className="font-fraunces font-bold italic text-lg sm:text-2xl md:text-3xl text-[#3B2922] leading-none -rotate-3 mr-2 tracking-normal">
                 THE
               </span>
-              <h2 className="font-cherry text-4xl sm:text-5xl md:text-6xl text-[#3B2922] tracking-wide leading-none drop-shadow-[2px_2px_0px_rgba(255,255,255,0.85)]">
+              <h2 className="font-bricolage font-black text-4xl sm:text-5xl md:text-[56px] text-[#3B2922] tracking-[-0.02em] uppercase leading-none drop-shadow-[2px_2px_0px_rgba(255,255,255,0.85)]">
                 MENU.
               </h2>
               {/* Pink Heart Sticker */}
@@ -60,7 +60,7 @@ export function MenuHeading() {
                   alt=""
                   width={30}
                   height={28}
-                  className="w-6 sm:w-7 h-auto rotate-12 drop-shadow-xs"
+                  className="w-5 sm:w-6 h-auto rotate-12 drop-shadow-xs"
                 />
               </div>
             </div>

@@ -1,0 +1,43 @@
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Waffle Slice with Chocolate Drizzle & Butter (PlotTwist Scrapbook Style) -->
+  <!-- Shadow -->
+  <rect x="14" y="16" width="54" height="54" rx="10" fill="#3B2922" opacity="0.15" />
+
+  <!-- Main Golden Waffle Body -->
+  <rect x="11" y="12" width="54" height="54" rx="10" fill="#F8DD78" stroke="#3B2922" stroke-width="3.5" stroke-linejoin="round" />
+
+  <!-- Deep Waffle Pockets (4x4 Grid) -->
+  <g fill="#E5C148" stroke="#3B2922" stroke-width="2">
+    <!-- Row 1 -->
+    <rect x="17" y="18" width="9" height="9" rx="2" />
+    <rect x="29" y="18" width="9" height="9" rx="2" />
+    <rect x="41" y="18" width="9" height="9" rx="2" />
+    <rect x="51" y="18" width="8" height="9" rx="2" />
+    <!-- Row 2 -->
+    <rect x="17" y="30" width="9" height="9" rx="2" />
+    <rect x="29" y="30" width="9" height="9" rx="2" />
+    <rect x="41" y="30" width="9" height="9" rx="2" />
+    <rect x="51" y="30" width="8" height="9" rx="2" />
+    <!-- Row 3 -->
+    <rect x="17" y="42" width="9" height="9" rx="2" />
+    <rect x="29" y="42" width="9" height="9" rx="2" />
+    <rect x="41" y="42" width="9" height="9" rx="2" />
+    <rect x="51" y="42" width="8" height="9" rx="2" />
+    <!-- Row 4 -->
+    <rect x="18" y="53" width="9" height="7" rx="2" />
+    <rect x="29" y="53" width="9" height="7" rx="2" />
+    <rect x="41" y="53" width="9" height="7" rx="2" />
+  </g>
+
+  <!-- Chocolate Sauce Drizzle Lines -->
+  <path d="M12 28 C24 22 35 38 48 24 C55 18 60 30 64 26" stroke="#4A3125" stroke-width="4" stroke-linecap="round" fill="none" />
+  <path d="M16 46 C28 40 42 56 58 44" stroke="#4A3125" stroke-width="3.5" stroke-linecap="round" fill="none" />
+
+  <!-- Butter Square Pat (Center) -->
+  <g transform="translate(34, 30) rotate(-10)">
+    <rect x="0" y="0" width="14" height="14" rx="3" fill="#FFF3A8" stroke="#3B2922" stroke-width="2.5" />
+    <!-- 3D side -->
+    <polygon points="14,0 17,-3 17,11 14,14" fill="#E8C84A" stroke="#3B2922" stroke-width="1.5" />
+    <polygon points="0,0 3,-3 17,-3 14,0" fill="#FFF8C8" stroke="#3B2922" stroke-width="1.5" />
+  </g>
+</svg>
