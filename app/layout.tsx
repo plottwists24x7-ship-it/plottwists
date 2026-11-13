@@ -1,6 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Bowlby_One, Lilita_One, Cherry_Bomb_One, Manrope, Fredoka, Poppins, Fasthand, Federo, Caveat, Quicksand, Kalam, Bricolage_Grotesque } from 'next/font/google'
+import { Bowlby_One, Lilita_One, Cherry_Bomb_One, Manrope, Fredoka, Poppins, Fasthand, Federo, Caveat, Quicksand, Kalam, Bricolage_Grotesque, Fraunces } from 'next/font/google'
 import './globals.css'
 
 const bowlbyOne = Bowlby_One({ subsets: ['latin'], weight: '400', variable: '--font-bowlby-one', display: 'swap' })
@@ -15,6 +15,7 @@ const caveat = Caveat({ subsets: ['latin'], variable: '--font-workforce-g', disp
 const quicksand = Quicksand({ subsets: ['latin'], variable: '--font-quicksand-g', display: 'swap' })
 const kalam = Kalam({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-kalam-g', display: 'swap' })
 const bricolage = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font-bricolage', display: 'swap' })
+const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-fraunces', display: 'swap' })
 
 export const metadata: Metadata = {
   title: 'Plotwist - A New Taste of Wellness',
@@ -56,7 +57,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${bowlbyOne.variable} ${lilitaOne.variable} ${cherryBomb.variable} ${manrope.variable} ${fredoka.variable} ${poppins.variable} ${fasthand.variable} ${federo.variable} ${caveat.variable} ${quicksand.variable} ${kalam.variable} ${bricolage.variable}`} style={{ backgroundColor: '#C7E9E4' }}>
+    <html lang="en" className={`${bowlbyOne.variable} ${lilitaOne.variable} ${cherryBomb.variable} ${manrope.variable} ${fredoka.variable} ${poppins.variable} ${fasthand.variable} ${federo.variable} ${caveat.variable} ${quicksand.variable} ${kalam.variable} ${bricolage.variable} ${fraunces.variable}`} style={{ backgroundColor: '#C7E9E4' }}>
       <body className="antialiased bg-[#C7E9E4] font-manrope">
         <AdminProvider>
           {children}

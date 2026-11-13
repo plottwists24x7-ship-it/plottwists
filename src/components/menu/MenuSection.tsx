@@ -6,6 +6,7 @@ import { MenuHeading } from "./MenuHeading";
 import { MenuCategorySheet } from "./MenuCategorySheet";
 import { MenuOrderCTA } from "./MenuOrderCTA";
 import { MenuDecorations } from "./MenuDecorations";
+import { PlotTwistRisographPaper } from "./PlotTwistRisographPaper";
 
 export function MenuSection() {
   const boxesCategory = MENU_CATEGORIES.find((c) => c.id === "boxes")!;
@@ -16,38 +17,22 @@ export function MenuSection() {
     <section
       id="menu"
       aria-label="PlotTwist Bakery Menu"
-      className="relative py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 w-full overflow-x-clip select-none"
-      style={{
-        backgroundImage: `repeating-linear-gradient(
-          90deg,
-          #FFFDF7 0px,
-          #FFFDF7 28px,
-          #FFF6DA 28px,
-          #FFF6DA 56px
-        )`,
-      }}
+      className="relative scroll-mt-28 md:scroll-mt-32 pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-14 md:pb-16 px-4 sm:px-6 md:px-8 lg:px-10 w-full overflow-x-clip select-none"
     >
-      {/* ── TOP & BOTTOM DECORATIVE STITCHED LINES ── */}
-      <div
-        className="absolute top-0 left-0 right-0 h-2 bg-[#3B2922]/10 border-b-2 border-dashed border-[#3B2922]/20 pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute bottom-0 left-0 right-0 h-2 bg-[#3B2922]/10 border-t-2 border-dashed border-[#3B2922]/20 pointer-events-none"
-        aria-hidden="true"
-      />
+      {/* ── DEDICATED RISOGRAPH BAKERY SCRAPBOOK PAPER CANVAS ── */}
+      <PlotTwistRisographPaper />
 
-      {/* ── MAIN CONTENT CONTAINER ── */}
-      <div className="max-w-6xl mx-auto relative z-10">
-        
-        {/* Floating Sticker & Doodle Layer */}
-        <MenuDecorations />
+      {/* Floating Sticker & Doodle Layer (Section Gutter Level) */}
+      <MenuDecorations />
 
-        {/* 1. Playful "THE MENU." Heading & Taped Note */}
+      {/* ── MAIN CONTENT CONTAINER (Compact Vertical Rhythm) ── */}
+      <div className="max-w-5xl mx-auto relative z-10">
+
+        {/* 1. Compact Editorial "THE MENU." Heading & Taped Note */}
         <MenuHeading />
 
-        {/* 2. Asymmetric Stationery Sheets Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-8 items-start relative">
+        {/* 2. Asymmetric Compact Stationery Sheets Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-6 items-start relative">
           
           {/* Left Column: 01 / BOXES (Spans 7 columns on desktop) */}
           <div className="lg:col-span-7 flex flex-col justify-start">
@@ -55,7 +40,7 @@ export function MenuSection() {
           </div>
 
           {/* Right Column: 02 / JARS + 03 / WAFFLES (Spans 5 columns on desktop) */}
-          <div className="lg:col-span-5 flex flex-col gap-8 sm:gap-10 relative">
+          <div className="lg:col-span-5 flex flex-col gap-4 sm:gap-5 relative">
             {/* 02 / JARS Sheet */}
             <MenuCategorySheet category={jarsCategory} />
 
@@ -65,7 +50,7 @@ export function MenuSection() {
 
         </div>
 
-        {/* 3. Bottom Scrapbook Order Card */}
+        {/* 3. Integrated Bottom Scrapbook Order Card */}
         <MenuOrderCTA />
 
       </div>
@@ -74,4 +59,3 @@ export function MenuSection() {
 }
 
 export default MenuSection;
-
