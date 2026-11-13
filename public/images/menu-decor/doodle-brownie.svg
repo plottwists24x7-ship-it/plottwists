@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="60" viewBox="0 0 64 60" fill="none">
+  <!-- PlotTwist Fudge Brookie / Brownie Cube -->
+  <!-- Brownie Top -->
+  <path d="M12 24L32 12L52 24L32 36L12 24Z" fill="#715B4C" stroke="#3B2922" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Brownie Sides -->
+  <path d="M12 24V40L32 52V36L12 24Z" fill="#4A3428" stroke="#3B2922" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M32 36V52L52 40V24L32 36Z" fill="#3B2922" stroke="#3B2922" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Molten Chocolate Drip -->
+  <path d="M22 30C22 35 25 38 27 38C29 38 30 34 30 32" fill="#201511" stroke="#3B2922" stroke-width="2" stroke-linecap="round"/>
+  <path d="M40 31C40 37 43 41 45 40C47 39 47 34 47 32" fill="#201511" stroke="#3B2922" stroke-width="2" stroke-linecap="round"/>
+  <!-- Salt / Crumb Flakes on Top -->
+  <circle cx="28" cy="22" r="1.5" fill="#FFFDF7"/>
+  <circle cx="36" cy="20" r="1.2" fill="#FFFDF7"/>
+  <circle cx="32" cy="26" r="1.4" fill="#F8DD78"/>
+</svg>

@@ -28,8 +28,7 @@ export function MenuOrderCTA() {
           alt=""
           width={96}
           height={28}
-          style={{ width: "auto", height: "auto" }}
-          className="w-20 sm:w-24 rotate-1"
+          className="w-20 sm:w-24 h-auto rotate-1"
         />
       </div>
 
@@ -43,7 +42,6 @@ export function MenuOrderCTA() {
           alt=""
           width={64}
           height={64}
-          style={{ height: "auto" }}
           className="w-13 lg:w-15 h-auto rotate-6 drop-shadow-xs"
         />
       </div>

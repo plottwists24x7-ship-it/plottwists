@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="70" viewBox="0 0 60 70" fill="none">
+  <!-- PlotTwist Cupcake Illustration -->
+  <!-- Pleated Cup Wrapper -->
+  <path d="M14 36L19 62C19.5 64 21 66 24 66H36C39 66 40.5 64 41 62L46 36H14Z" fill="#F8DD78" stroke="#3B2922" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Cup pleat lines -->
+  <line x1="22" y1="38" x2="25" y2="64" stroke="#3B2922" stroke-width="1.8"/>
+  <line x1="30" y1="38" x2="30" y2="64" stroke="#3B2922" stroke-width="1.8"/>
+  <line x1="38" y1="38" x2="35" y2="64" stroke="#3B2922" stroke-width="1.8"/>
+  <!-- Swirled Frosting -->
+  <path d="M11 36C10 32 12 28 16 28C17 25 21 22 25 24C27 18 33 18 36 21C40 19 44 23 45 27C49 28 50 32 49 36C45 39 15 39 11 36Z" fill="#F3B7C5" stroke="#3B2922" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Frosting Top Swirl Peak -->
+  <path d="M22 24C24 16 35 15 37 21C38 17 32 12 28 14C24 16 23 20 22 24Z" fill="#F45B73" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Cherry on Top -->
+  <circle cx="30" cy="11" r="5" fill="#EF4444" stroke="#3B2922" stroke-width="2"/>
+  <path d="M32 9C34 5 39 4 41 5" stroke="#3B2922" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

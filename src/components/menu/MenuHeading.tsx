@@ -28,7 +28,6 @@ export function MenuHeading() {
               alt=""
               width={44}
               height={88}
-              style={{ height: "auto" }}
               className="w-8 sm:w-9 md:w-10 h-auto drop-shadow-xs"
               priority
             />
@@ -61,8 +60,7 @@ export function MenuHeading() {
                   alt=""
                   width={30}
                   height={28}
-                  style={{ width: "auto", height: "auto" }}
-                  className="w-6 sm:w-7 rotate-12 drop-shadow-xs"
+                  className="w-6 sm:w-7 h-auto rotate-12 drop-shadow-xs"
                 />
               </div>
             </div>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="68" height="54" viewBox="0 0 68 54" fill="none">
+  <!-- PlotTwist Bakery Mixing Bowl Illustration -->
+  <!-- Bowl Base & Body -->
+  <path d="M8 16C10 36 22 48 34 48C46 48 58 36 60 16H8Z" fill="#A9C9F0" stroke="#3B2922" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Rim Lip -->
+  <ellipse cx="34" cy="16" rx="27" ry="5" fill="#FFFDF7" stroke="#3B2922" stroke-width="3"/>
+  <!-- Decorative stripe on bowl -->
+  <path d="M12 25C20 33 48 33 56 25" stroke="#3B2922" stroke-width="2" stroke-linecap="round"/>
+  <!-- Foot of bowl -->
+  <rect x="26" y="47" width="16" height="4" rx="2" fill="#3B2922"/>
+</svg>

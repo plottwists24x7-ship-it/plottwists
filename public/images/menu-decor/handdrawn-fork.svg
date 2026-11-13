@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 160" fill="none">
+<svg width="60" height="160" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 160" fill="none">
   <!-- Fork handle -->
   <path d="M30 75 L30 148 C30 154 24 154 24 148 L26 75" stroke="#3B2922" stroke-width="4.5" stroke-linecap="round" fill="#F8DC72"/>
   <circle cx="28" cy="142" r="3" fill="#3B2922"/>

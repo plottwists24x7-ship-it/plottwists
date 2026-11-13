@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70" fill="none">
+  <!-- PlotTwist Handdrawn Waffle Grid Illustration -->
+  <rect x="7" y="7" width="56" height="56" rx="14" fill="#F8DD78" stroke="#3B2922" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- Waffle indentations -->
+  <rect x="15" y="15" width="16" height="16" rx="4" fill="#E6C454" stroke="#3B2922" stroke-width="2.5"/>
+  <rect x="39" y="15" width="16" height="16" rx="4" fill="#E6C454" stroke="#3B2922" stroke-width="2.5"/>
+  <rect x="15" y="39" width="16" height="16" rx="4" fill="#E6C454" stroke="#3B2922" stroke-width="2.5"/>
+  <rect x="39" y="39" width="16" height="16" rx="4" fill="#E6C454" stroke="#3B2922" stroke-width="2.5"/>
+  <!-- Butter pat melting on top -->
+  <rect x="27" y="27" width="16" height="16" rx="3" transform="rotate(15 27 27)" fill="#FFF4BD" stroke="#3B2922" stroke-width="2.5"/>
+  <!-- Drip detail -->
+  <path d="M43 38C44 42 46 45 45 47C44 49 41 48 41 45" stroke="#3B2922" stroke-width="2" stroke-linecap="round" fill="#E6C454"/>
+</svg>

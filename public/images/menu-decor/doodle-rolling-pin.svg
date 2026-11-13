@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="90" height="34" viewBox="0 0 90 34" fill="none">
+  <!-- PlotTwist Classic Wooden Rolling Pin Illustration -->
+  <g transform="rotate(-15 45 17)">
+    <!-- Left Handle -->
+    <path d="M6 14C4 14 3 15 3 17C3 19 4 20 6 20H15V14H6Z" fill="#C8A877" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Main Cylinder Roller -->
+    <rect x="15" y="10" width="60" height="14" rx="4" fill="#E6C898" stroke="#3B2922" stroke-width="3" stroke-linejoin="round"/>
+    <!-- Woodgrain detail -->
+    <line x1="24" y1="14" x2="42" y2="14" stroke="#C8A877" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="48" y1="20" x2="68" y2="20" stroke="#C8A877" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- Right Handle -->
+    <path d="M84 14C86 14 87 15 87 17C87 19 86 20 84 20H75V14H84Z" fill="#C8A877" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round"/>
+  </g>
+</svg>

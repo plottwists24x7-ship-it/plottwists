@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="60" viewBox="0 0 64 60" fill="none">
+  <!-- PlotTwist Bakery Pastry Box Illustration -->
+  <!-- Box Body -->
+  <path d="M12 26L32 14L52 26L32 38L12 26Z" fill="#F3B7C5" stroke="#3B2922" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M12 26V42L32 54V38L12 26Z" fill="#E89FB0" stroke="#3B2922" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M32 38V54L52 42V26L32 38Z" fill="#D68698" stroke="#3B2922" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Tied Bakery Twine String -->
+  <line x1="22" y1="20" x2="42" y2="32" stroke="#FFFDF7" stroke-width="2.2" stroke-dasharray="3 2"/>
+  <line x1="42" y1="20" x2="22" y2="32" stroke="#FFFDF7" stroke-width="2.2" stroke-dasharray="3 2"/>
+  <line x1="32" y1="38" x2="32" y2="54" stroke="#FFFDF7" stroke-width="2" stroke-dasharray="3 2"/>
+  <!-- Top Tied Bow -->
+  <ellipse cx="29" cy="24" rx="4" ry="2.5" fill="#F45B73" stroke="#3B2922" stroke-width="1.8" transform="rotate(-25 29 24)"/>
+  <ellipse cx="35" cy="24" rx="4" ry="2.5" fill="#F45B73" stroke="#3B2922" stroke-width="1.8" transform="rotate(25 35 24)"/>
+  <circle cx="32" cy="26" r="2" fill="#3B2922"/>
+</svg>

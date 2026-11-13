@@ -46,7 +46,9 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
     >
       {/* ── TOP WASHI TAPE (Overhanging physical tape) ── */}
       <div
-        className="absolute -top-3.5 sm:-top-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none drop-shadow-xs select-none"
+        className={`absolute -top-3.5 sm:-top-4 ${
+          category.id === "boxes" ? "left-[26%] sm:left-[28%]" : "left-1/2"
+        } -translate-x-1/2 z-20 pointer-events-none drop-shadow-xs select-none`}
         style={{ transform: `translateX(-50%) rotate(${category.tapeRotate}deg)` }}
       >
         <Image
@@ -54,8 +56,7 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
           alt={category.tapeAlt}
           width={108}
           height={32}
-          style={{ height: "auto" }}
-          className="w-20 sm:w-24 md:w-28 h-auto"
+          className="w-18 sm:w-22 md:w-24 h-auto"
           priority
         />
       </div>
@@ -84,7 +85,6 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
               alt=""
               width={22}
               height={44}
-              style={{ height: "auto" }}
               className="w-4 sm:w-5 h-auto rotate-12"
             />
           </div>
@@ -93,7 +93,7 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
 
       {/* ── SHEET INNER CONTENT ── */}
       <div
-        className={`p-3 sm:p-4 md:p-4.5 relative ${
+        className={`p-3 sm:p-4 md:p-4.5 pb-5 sm:pb-6 relative ${
           category.id === "boxes" ? "pl-6 sm:pl-7.5 md:pl-8" : ""
         }`}
       >
@@ -162,8 +162,9 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
         </div>
       </div>
 
-      {/* ── BOTTOM CORNER STICKERS ── */}
+      {/* ── BESPOKE CORNER STICKERS ── */}
       {category.id === "boxes" && (
+        /* Pink Heart Sticker at Bottom-Right */
         <div
           className="absolute -bottom-2.5 -right-2 z-20 pointer-events-none drop-shadow select-none"
           aria-hidden="true"
@@ -173,24 +174,23 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
             alt=""
             width={28}
             height={26}
-            style={{ width: "auto", height: "auto" }}
-            className="w-6 sm:w-7 rotate-12"
+            className="w-6 sm:w-7 h-auto rotate-12"
           />
         </div>
       )}
 
       {category.id === "waffles" && (
+        /* Pink Heart Sticker at Bottom-Right */
         <div
           className="absolute -bottom-2.5 -right-2 z-20 pointer-events-none drop-shadow select-none"
           aria-hidden="true"
         >
           <Image
-            src="/images/menu-decor/flower-pink.svg"
+            src="/images/menu-decor/heart-pink.svg"
             alt=""
-            width={32}
-            height={32}
-            style={{ height: "auto" }}
-            className="w-6 sm:w-7 h-auto rotate-6"
+            width={28}
+            height={26}
+            className="w-6 sm:w-7 h-auto rotate-12"
           />
         </div>
       )}

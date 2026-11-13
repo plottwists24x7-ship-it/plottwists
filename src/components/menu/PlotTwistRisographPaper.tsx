@@ -27,6 +27,16 @@ export function PlotTwistRisographPaper() {
         }}
       />
 
+      {/* ── LAYER 1.5: Boutique Bakery Wrapping Paper Sparse Motif ── */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: "url(/images/menu-decor/bakery-wrapping-paper-tile.svg)",
+          backgroundRepeat: "repeat",
+          backgroundSize: "240px 240px",
+        }}
+      />
+
       {/* ── LAYER 2: Sparse Risograph Halftone Ink Screens in Corners ── */}
       {/* Top Left Risograph Screen (Muted Pink Ink) */}
       <div className="absolute -top-12 -left-12 w-64 h-64 opacity-60 rotate-6">
@@ -35,6 +45,7 @@ export function PlotTwistRisographPaper() {
           alt=""
           width={240}
           height={240}
+          loading="lazy"
           className="w-full h-full object-contain"
         />
       </div>
@@ -46,6 +57,7 @@ export function PlotTwistRisographPaper() {
           alt=""
           width={240}
           height={240}
+          loading="lazy"
           className="w-full h-full object-contain"
         />
       </div>
@@ -112,3 +124,4 @@ export function PlotTwistRisographPaper() {
     </div>
   );
 }
+

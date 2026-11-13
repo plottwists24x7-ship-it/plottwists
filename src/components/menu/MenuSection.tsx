@@ -22,11 +22,10 @@ export function MenuSection() {
       {/* ── DEDICATED RISOGRAPH BAKERY SCRAPBOOK PAPER CANVAS ── */}
       <PlotTwistRisographPaper />
 
-      {/* Floating Sticker & Doodle Layer (Section Gutter Level) */}
-      <MenuDecorations />
-
       {/* ── MAIN CONTENT CONTAINER (Compact Vertical Rhythm) ── */}
       <div className="max-w-5xl mx-auto relative z-10">
+        {/* Floating Sticker & Doodle Layer (Relative to Content Grid) */}
+        <MenuDecorations />
 
         {/* 1. Compact Editorial "THE MENU." Heading & Taped Note */}
         <MenuHeading />

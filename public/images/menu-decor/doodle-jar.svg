@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="74" viewBox="0 0 60 74" fill="none">
+  <!-- PlotTwist Handdrawn Dessert Jar Illustration -->
+  <!-- Jar Body -->
+  <path d="M12 24C12 20 16 18 20 18H40C44 18 48 20 48 24V60C48 66 43 70 37 70H23C17 70 12 66 12 60V24Z" fill="#FFFDF7" stroke="#3B2922" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Layers of Cream & Cake -->
+  <path d="M13 36C18 38 28 35 34 38C40 40 44 38 47 37V49C42 51 34 48 27 50C20 52 16 50 13 49V36Z" fill="#F8DD78"/>
+  <path d="M13 49C18 51 26 49 33 52C40 54 44 51 47 50V60C47 65 42 69 37 69H23C18 69 13 65 13 60V49Z" fill="#5F4335"/>
+  <!-- Biscoff Crumbs Spec / Details -->
+  <circle cx="20" cy="30" r="1.5" fill="#C88E52"/>
+  <circle cx="28" cy="27" r="1.5" fill="#C88E52"/>
+  <circle cx="38" cy="31" r="1.5" fill="#C88E52"/>
+  <circle cx="32" cy="42" r="1.5" fill="#3B2922"/>
+  <circle cx="22" cy="45" r="1.5" fill="#3B2922"/>
+  <!-- Jar Rim & Lid -->
+  <rect x="16" y="10" width="28" height="8" rx="3" fill="#F3B7C5" stroke="#3B2922" stroke-width="3"/>
+  <rect x="14" y="6" width="32" height="6" rx="2" fill="#F45B73" stroke="#3B2922" stroke-width="2.5"/>
+  <!-- Tied String Bow -->
+  <path d="M22 14C18 10 14 13 18 17C21 19 25 15 25 14Z" fill="#F45B73" stroke="#3B2922" stroke-width="1.8"/>
+  <path d="M38 14C42 10 46 13 42 17C39 19 35 15 35 14Z" fill="#F45B73" stroke="#3B2922" stroke-width="1.8"/>
+  <circle cx="30" cy="14" r="2" fill="#3B2922"/>
+</svg>

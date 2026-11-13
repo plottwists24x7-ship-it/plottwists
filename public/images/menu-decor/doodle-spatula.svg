@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="80" viewBox="0 0 36 80" fill="none">
+  <!-- PlotTwist Silicone Spatula Illustration -->
+  <g transform="rotate(18 18 40)">
+    <!-- Wooden Handle -->
+    <rect x="15" y="32" width="6" height="42" rx="3" fill="#E6C898" stroke="#3B2922" stroke-width="2.5"/>
+    <circle cx="18" cy="70" r="1.5" fill="#3B2922"/>
+    <!-- Silicone Head -->
+    <path d="M10 8C10 5 13 4 18 4C23 4 26 5 26 8V28C26 31 23 33 18 33C13 33 10 31 10 28V8Z" fill="#F45B73" stroke="#3B2922" stroke-width="2.8" stroke-linejoin="round"/>
+    <!-- Heart Cutout in Spatula Head -->
+    <path d="M18 18C18 16 16 14 14.5 15.5C13 17 15 20 18 22C21 20 23 17 21.5 15.5C20 14 18 16 18 18Z" fill="#FFFDF7"/>
+  </g>
+</svg>
