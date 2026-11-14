@@ -53,21 +53,21 @@ export function MenuDecorations() {
         </motion.div>
       </motion.div>
 
-      {/* 3. Red Heart Sticker */}
+      {/* 3. Pink & Purple Y2K Flame Heart Sticker (Direct from Sticker Sheet Ref) */}
       <motion.div
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.15 }}
-        className="hidden xl:block absolute -left-10 2xl:-left-12 top-[46%] z-20 pointer-events-none select-none"
+        className="hidden xl:block absolute -left-10 2xl:-left-12 top-[45%] z-20 pointer-events-none select-none"
         aria-hidden="true"
       >
         <Image
-          src="/images/menu-decor/heart-red.svg"
-          alt=""
-          width={34}
-          height={32}
-          className="w-7 lg:w-8 h-auto rotate-[-12deg] drop-shadow-xs"
+          src="/images/menu-decor/sticker-flame-heart.svg"
+          alt="Flame heart sticker"
+          width={46}
+          height={44}
+          className="w-8 lg:w-9 h-auto rotate-[-8deg] drop-shadow-xs"
         />
       </motion.div>
 
@@ -109,7 +109,7 @@ export function MenuDecorations() {
       </motion.div>
 
       {/* ════════ AREA C: BETWEEN BOXES & RIGHT COLUMN (Center Gap) ════════ */}
-      {/* 1. Yellow Smiley Face Button */}
+      {/* 1. Cheerful Smiling Sun Sticker with Rays (Direct from Sticker Sheet Ref) */}
       <motion.div
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
@@ -119,11 +119,11 @@ export function MenuDecorations() {
         aria-hidden="true"
       >
         <Image
-          src="/images/menu-decor/smiley-yellow.svg"
-          alt=""
-          width={40}
-          height={40}
-          className="w-8 lg:w-9 h-auto rotate-6 drop-shadow-sm"
+          src="/images/menu-decor/sticker-sun-smiley.svg"
+          alt="Smiling sun sticker"
+          width={50}
+          height={50}
+          className="w-9 lg:w-10 h-auto rotate-6 drop-shadow-sm"
         />
       </motion.div>
 
@@ -264,7 +264,25 @@ export function MenuDecorations() {
         </motion.div>
       </motion.div>
 
-      {/* 2. Powder Blue Flower */}
+      {/* 2. Yellow Lightning Bolt Sticker (Direct from Sticker Sheet Ref) */}
+      <motion.div
+        variants={shouldReduceMotion ? undefined : stickerPopVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.15 }}
+        className="hidden xl:block absolute -right-8 2xl:-right-10 top-[78%] z-20 pointer-events-none select-none"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/menu-decor/sticker-lightning.svg"
+          alt="Lightning bolt"
+          width={32}
+          height={45}
+          className="w-5 lg:w-6 h-auto rotate-[10deg] drop-shadow-xs"
+        />
+      </motion.div>
+
+      {/* 3. Powder Blue Flower */}
       <motion.div
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"

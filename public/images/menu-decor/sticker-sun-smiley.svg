@@ -1,0 +1,31 @@
+<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- PlotTwist Smiling Sun Sticker (Modeled after Reference) -->
+  
+  <!-- Radiating Triangular Rays -->
+  <!-- Top Ray -->
+  <polygon points="25,2 29,14 21,14" fill="#FFC72C" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+  <!-- Top-Right Ray -->
+  <polygon points="41,9 38,20 30,12" fill="#FFC72C" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+  <!-- Right Ray -->
+  <polygon points="48,25 36,29 36,21" fill="#FFC72C" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+  <!-- Bottom-Right Ray -->
+  <polygon points="41,41 30,38 38,30" fill="#FFC72C" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+  <!-- Bottom Ray -->
+  <polygon points="25,48 21,36 29,36" fill="#FFC72C" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+  <!-- Bottom-Left Ray -->
+  <polygon points="9,41 12,30 20,38" fill="#FFC72C" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+  <!-- Left Ray -->
+  <polygon points="2,25 14,21 14,29" fill="#FFC72C" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+  <!-- Top-Left Ray -->
+  <polygon points="9,9 20,12 12,20" fill="#FFC72C" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+
+  <!-- Center Circular Face -->
+  <circle cx="25" cy="25" r="14" fill="#FFD84D" stroke="#3B2922" stroke-width="3" />
+
+  <!-- Eyes (Two Cute Oval Dots) -->
+  <ellipse cx="20" cy="22" rx="1.8" ry="2.6" fill="#3B2922" />
+  <ellipse cx="30" cy="22" rx="1.8" ry="2.6" fill="#3B2922" />
+
+  <!-- Cheerful Smile Mouth -->
+  <path d="M19 26 C21 31 29 31 31 26" stroke="#3B2922" stroke-width="2.5" stroke-linecap="round" fill="none" />
+</svg>

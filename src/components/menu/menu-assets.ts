@@ -321,6 +321,49 @@ export const MENU_ASSETS = {
     defaultWidth: 45,
     defaultHeight: 40,
   },
+  // V8 Custom Illustrated Assets (Directly from User Reference Photos)
+  doodleTiramisuSlice: {
+    id: "doodle-tiramisu-slice",
+    src: "/images/menu-decor/doodle-tiramisu-slice.svg",
+    alt: "Layered tiramisu cake slice with nuts and mint on plate",
+    defaultWidth: 95,
+    defaultHeight: 65,
+  },
+  stickerSunSmiley: {
+    id: "sticker-sun-smiley",
+    src: "/images/menu-decor/sticker-sun-smiley.svg",
+    alt: "Retro smiling sun sticker with triangular rays",
+    defaultWidth: 50,
+    defaultHeight: 50,
+  },
+  stickerFlameHeart: {
+    id: "sticker-flame-heart",
+    src: "/images/menu-decor/sticker-flame-heart.svg",
+    alt: "Pink and purple Y2K flame heart sticker",
+    defaultWidth: 46,
+    defaultHeight: 44,
+  },
+  stickerDaisyStem: {
+    id: "sticker-daisy-stem",
+    src: "/images/menu-decor/sticker-daisy-stem.svg",
+    alt: "Smiling pink daisy flower on green stem with leaves",
+    defaultWidth: 55,
+    defaultHeight: 80,
+  },
+  stickerLightning: {
+    id: "sticker-lightning",
+    src: "/images/menu-decor/sticker-lightning.svg",
+    alt: "Yellow lightning bolt sticker",
+    defaultWidth: 32,
+    defaultHeight: 45,
+  },
+  stickerHeartRays: {
+    id: "sticker-heart-rays",
+    src: "/images/menu-decor/sticker-heart-rays.svg",
+    alt: "Pink heart with radiating sparkle rays",
+    defaultWidth: 40,
+    defaultHeight: 40,
+  },
   // Background Canvas Motifs
   paperFibreTile: {
     id: "paper-fibre-tile",

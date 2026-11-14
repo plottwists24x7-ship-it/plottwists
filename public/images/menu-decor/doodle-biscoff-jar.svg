@@ -1,43 +1,61 @@
-<svg width="75" height="90" viewBox="0 0 75 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Biscoff Dessert Jar Illustration (PlotTwist Scrapbook Style) -->
-  <!-- Soft Drop Shadow -->
-  <rect x="14" y="24" width="48" height="60" rx="10" fill="#3B2922" opacity="0.15" />
-  
-  <!-- Jar Glass Body -->
-  <rect x="12" y="20" width="48" height="60" rx="10" fill="#FFFDF8" stroke="#3B2922" stroke-width="3.5" stroke-linejoin="round" />
-  
-  <!-- Layer 1: Crunchy Biscoff Crumb Base (Bottom) -->
-  <path d="M14 62 H58 V70 C58 75 54 78 48 78 H24 C18 78 14 75 14 70 Z" fill="#E8A854" />
-  <circle cx="22" cy="70" r="1.5" fill="#3B2922" opacity="0.4" />
-  <circle cx="34" cy="72" r="1.5" fill="#3B2922" opacity="0.4" />
-  <circle cx="48" cy="69" r="1.5" fill="#3B2922" opacity="0.4" />
-  <line x1="13" y1="62" x2="59" y2="62" stroke="#3B2922" stroke-width="2.5" stroke-linecap="round" />
-  
-  <!-- Layer 2: Vanilla Whipped Cream Mousse (Middle) -->
-  <rect x="14" y="42" width="44" height="20" fill="#FFF8E8" />
-  <!-- Swirl line -->
-  <path d="M16 48 C22 45 28 52 35 48 C42 45 49 52 56 48" stroke="#3B2922" stroke-width="2" stroke-linecap="round" fill="none" />
-  <line x1="13" y1="42" x2="59" y2="42" stroke="#3B2922" stroke-width="2.5" stroke-linecap="round" />
-  
-  <!-- Layer 3: Speculoos Butter Caramel Spread (Top Layer) -->
-  <rect x="14" y="22" width="44" height="20" rx="4" fill="#C67728" />
-  <!-- Drip -->
-  <path d="M22 42 C22 45 25 45 25 42" stroke="#3B2922" stroke-width="2" fill="#C67728" />
-  <path d="M42 42 C42 46 46 46 46 42" stroke="#3B2922" stroke-width="2" fill="#C67728" />
-  
-  <!-- Jar Neck & Lid -->
-  <rect x="18" y="14" width="36" height="8" rx="2" fill="#F8DD78" stroke="#3B2922" stroke-width="3" stroke-linejoin="round" />
-  <!-- Gingham/Ribbon String tied around neck -->
-  <line x1="16" y1="18" x2="56" y2="18" stroke="#3B2922" stroke-width="2.5" stroke-linecap="round" />
-  
-  <!-- Attached Kraft Tag -->
-  <g transform="translate(48, 18) rotate(15)">
-    <polygon points="0,0 16,0 12,14 0,14" fill="#E8C84A" stroke="#3B2922" stroke-width="2" />
-    <circle cx="4" cy="7" r="1.5" fill="#3B2922" />
-    <path d="M7 6 L9 8 L11 5" stroke="#3B2922" stroke-width="1.2" stroke-linecap="round" />
-  </g>
-  
-  <!-- Glass Shine / Reflection -->
-  <path d="M18 26 V56" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.8" />
-</svg>
+<svg width="80" height="95" viewBox="0 0 80 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- PlotTwist Biscoff Dessert Cup Illustration (Modeled after Reference) -->
+  <defs>
+    <filter id="biscoff-shadow" x="-5%" y="-5%" width="120%" height="120%">
+      <feDropShadow dx="2" dy="3" stdDeviation="0" flood-color="#3B2922" flood-opacity="0.15" />
+    </filter>
+  </defs>
 
+  <!-- Offset shadow behind cup -->
+  <path d="M16 38 C16 66 22 84 40 84 C58 84 64 66 64 38 C64 30 61 24 40 24 C19 24 16 30 16 38 Z" fill="#3B2922" opacity="0.12" />
+
+  <!-- Lotus Biscoff Cookie Sticking Out of Top (Rotated 12deg) -->
+  <g transform="translate(36, 6) rotate(12)">
+    <!-- Cookie Outer Body with Scalloped Edges -->
+    <rect x="-14" y="0" width="28" height="42" rx="4" fill="#C06D28" stroke="#3B2922" stroke-width="3" stroke-linejoin="round" />
+    <!-- Embossed Inner Border -->
+    <rect x="-11" y="3" width="22" height="36" rx="2.5" fill="#D37E34" stroke="#8E4811" stroke-width="1.5" />
+    <!-- Scallop Notches on sides -->
+    <circle cx="-14" cy="7" r="1.5" fill="#3B2922" />
+    <circle cx="-14" cy="14" r="1.5" fill="#3B2922" />
+    <circle cx="-14" cy="21" r="1.5" fill="#3B2922" />
+    <circle cx="-14" cy="28" r="1.5" fill="#3B2922" />
+    <circle cx="14" cy="7" r="1.5" fill="#3B2922" />
+    <circle cx="14" cy="14" r="1.5" fill="#3B2922" />
+    <circle cx="14" cy="21" r="1.5" fill="#3B2922" />
+    <circle cx="14" cy="28" r="1.5" fill="#3B2922" />
+    <!-- Embossed Lotus Leaf Motif -->
+    <path d="M0 8 C-4 13 -4 20 0 25 C4 20 4 13 0 8 Z" fill="#B05F1C" stroke="#8E4811" stroke-width="1" />
+    <line x1="0" y1="9" x2="0" y2="24" stroke="#8E4811" stroke-width="1" stroke-linecap="round" />
+  </g>
+
+  <!-- Glass Cup Body (Rounded Stemless Tumbler) -->
+  <path d="M14 36 C14 68 20 86 40 86 C60 86 66 68 66 36 C66 26 62 22 40 22 C18 22 14 26 14 36 Z" fill="#FFFDF8" stroke="#3B2922" stroke-width="3.5" stroke-linejoin="round" />
+
+  <!-- Layer 1: Crunchy Speculoos Crumb Base (Bottom) -->
+  <path d="M16 64 C20 78 28 84 40 84 C52 84 60 78 64 64 C56 65 48 62 40 64 C32 66 24 63 16 64 Z" fill="#CE873D" stroke="#3B2922" stroke-width="2.5" />
+  <!-- Crumb texture dots -->
+  <circle cx="26" cy="72" r="1.5" fill="#884C12" />
+  <circle cx="34" cy="76" r="1.8" fill="#5E3106" />
+  <circle cx="44" cy="74" r="1.5" fill="#884C12" />
+  <circle cx="52" cy="71" r="1.6" fill="#5E3106" />
+  <circle cx="38" cy="80" r="1.4" fill="#884C12" />
+
+  <!-- Layer 2: Whipped Vanilla Mascarpone Cream Swirl (Middle) -->
+  <path d="M15 48 C15 54 18 64 25 64 C32 64 36 60 40 60 C44 60 48 64 55 64 C62 64 65 54 65 48 C65 38 58 34 50 34 C44 34 40 37 38 37 C34 37 30 34 25 34 C18 34 15 38 15 48 Z" fill="#FFF7E6" stroke="#3B2922" stroke-width="2" />
+  <path d="M22 50 C28 54 34 48 40 50 C46 52 52 46 58 50" stroke="#E5D3B3" stroke-width="2.5" stroke-linecap="round" fill="none" />
+
+  <!-- Layer 3: Warm Speculoos Caramel Drip (Spilling Down) -->
+  <path d="M20 34 C20 34 23 46 25 48 C27 50 30 48 30 43 C30 39 33 46 36 49 C39 52 42 50 43 45 C44 40 46 52 49 55 C52 58 56 55 56 46 C56 40 58 45 60 41 C62 37 62 34 60 33 C52 30 44 32 38 31 C30 30 24 31 20 34 Z" fill="#BA651C" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+  <!-- Drip highlights -->
+  <path d="M23 37 C24 43 25 45 26 44" stroke="#EAA458" stroke-width="2" stroke-linecap="round" />
+  <path d="M34 38 C35 44 37 46 38 45" stroke="#EAA458" stroke-width="2" stroke-linecap="round" />
+  <path d="M47 43 C48 49 50 51 51 50" stroke="#EAA458" stroke-width="2" stroke-linecap="round" />
+
+  <!-- Glass Rim Top Ellipse -->
+  <ellipse cx="40" cy="24" rx="24" ry="4.5" fill="none" stroke="#3B2922" stroke-width="3" />
+
+  <!-- Glass Highlights (Glossy Curved Reflections) -->
+  <path d="M18 34 C17 48 18 64 24 74" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8" />
+  <path d="M62 36 C63 46 62 60 58 70" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" opacity="0.6" />
+</svg>

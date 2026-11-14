@@ -143,16 +143,22 @@ async function capture(name, width, height, isMobile = false) {
 }
 
 async function main() {
-  console.log('Capturing Desktop V7 (1440x1200)...');
-  await capture('menu-v7-desktop', 1440, 1200, false);
+  const artifactDir = 'C:\\Users\\chara\\.gemini\\antigravity\\brain\\91ee9676-29bf-4295-960a-434fa215f2de';
+
+  console.log('Capturing Desktop V8 (1440x1200)...');
+  await capture('menu-v8-desktop', 1440, 1200, false);
+  fs.copyFileSync(path.join(__dirname, 'menu-v8-desktop.png'), path.join(artifactDir, 'menu-v8-desktop.png'));
   await new Promise(r => setTimeout(r, 1000));
 
-  console.log('Capturing Mobile V7 (390x1400)...');
-  await capture('menu-v7-mobile', 390, 1400, true);
+  console.log('Capturing Mobile V8 (390x1400)...');
+  await capture('menu-v8-mobile', 390, 1400, true);
+  fs.copyFileSync(path.join(__dirname, 'menu-v8-mobile.png'), path.join(artifactDir, 'menu-v8-mobile.png'));
   await new Promise(r => setTimeout(r, 1000));
 
-  console.log('Capturing Tablet V7 (768x1400)...');
-  await capture('menu-v7-tablet', 768, 1400, false);
+  console.log('Capturing Tablet V8 (768x2200)...');
+  await capture('menu-v8-tablet', 768, 2200, false);
+  fs.copyFileSync(path.join(__dirname, 'menu-v8-tablet.png'), path.join(artifactDir, 'menu-v8-tablet.png'));
+  console.log('All V8 screenshots captured and synced to brain artifacts!');
 }
 
 main();

@@ -1,0 +1,49 @@
+<svg width="55" height="80" viewBox="0 0 55 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- PlotTwist Smiling Pink Flower on Stem (Modeled after Reference) -->
+  
+  <!-- Green Stem & Leaves -->
+  <!-- Left Leaf -->
+  <path d="M26 62 C16 58 6 50 2 40 C0 35 4 34 8 38 C14 44 22 52 26 58 Z" fill="#2E9E74" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+  <!-- Right Leaf -->
+  <path d="M28 62 C38 58 48 50 52 40 C54 35 50 34 46 38 C40 44 32 52 28 58 Z" fill="#2E9E74" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+  <!-- Stem -->
+  <path d="M27 34 V74" stroke="#238B63" stroke-width="3.5" stroke-linecap="round" />
+  <path d="M27 34 V74" stroke="#3B2922" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Flower Head -->
+  <g transform="translate(27, 24)">
+    <!-- 5 Rounded Petals -->
+    <!-- Top Petal -->
+    <path d="M-6 -10 C-9 -24 9 -24 6 -10 Z" fill="#FFAEC9" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+    <line x1="-2" y1="-17" x2="-2" y2="-12" stroke="#3B2922" stroke-width="1.2" stroke-linecap="round" />
+    <line x1="2" y1="-17" x2="2" y2="-12" stroke="#3B2922" stroke-width="1.2" stroke-linecap="round" />
+
+    <!-- Top-Right Petal -->
+    <path d="M8 -4 C20 -12 28 3 10 7 Z" fill="#FFAEC9" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+    <line x1="16" y1="-3" x2="11" y2="0" stroke="#3B2922" stroke-width="1.2" stroke-linecap="round" />
+    <line x1="18" y1="1" x2="13" y2="4" stroke="#3B2922" stroke-width="1.2" stroke-linecap="round" />
+
+    <!-- Bottom-Right Petal -->
+    <path d="M5 8 C15 20 2 28 -4 10 Z" fill="#FFAEC9" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+    <line x1="6" y1="18" x2="3" y2="13" stroke="#3B2922" stroke-width="1.2" stroke-linecap="round" />
+    <line x1="10" y1="15" x2="7" y2="10" stroke="#3B2922" stroke-width="1.2" stroke-linecap="round" />
+
+    <!-- Bottom-Left Petal -->
+    <path d="M-5 8 C-15 20 -2 28 4 10 Z" fill="#FFAEC9" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+    <line x1="-6" y1="18" x2="-3" y2="13" stroke="#3B2922" stroke-width="1.2" stroke-linecap="round" />
+    <line x1="-10" y1="15" x2="-7" y2="10" stroke="#3B2922" stroke-width="1.2" stroke-linecap="round" />
+
+    <!-- Top-Left Petal -->
+    <path d="M-8 -4 C-20 -12 -28 3 -10 7 Z" fill="#FFAEC9" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+    <line x1="-16" y1="-3" x2="-11" y2="0" stroke="#3B2922" stroke-width="1.2" stroke-linecap="round" />
+    <line x1="-18" y1="1" x2="-13" y2="4" stroke="#3B2922" stroke-width="1.2" stroke-linecap="round" />
+
+    <!-- Center Button (Magenta Face) -->
+    <circle cx="0" cy="0" r="8" fill="#E84A8A" stroke="#3B2922" stroke-width="2.5" />
+
+    <!-- Cute Eyes & Smile -->
+    <circle cx="-3" cy="-1.5" r="1.2" fill="#3B2922" />
+    <circle cx="3" cy="-1.5" r="1.2" fill="#3B2922" />
+    <path d="M-2.5 2 C-1 4 1 4 2.5 2" stroke="#3B2922" stroke-width="1.4" stroke-linecap="round" fill="none" />
+  </g>
+</svg>

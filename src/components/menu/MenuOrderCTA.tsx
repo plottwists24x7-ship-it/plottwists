@@ -32,9 +32,9 @@ export function MenuOrderCTA() {
         />
       </div>
 
-      {/* ── CAKE SLICE & STRAWBERRY TART DOODLES (Right Decorative Asset Cluster) ── */}
+      {/* ── LAYERED CAKE SLICE ON PLATE & STRAWBERRY TART (Direct from Cake Ref Photo) ── */}
       <div
-        className="hidden md:flex items-center gap-1.5 absolute -top-7 -right-6 lg:-right-8 z-20 pointer-events-none select-none"
+        className="hidden md:flex items-center gap-2 absolute -top-8 -right-8 lg:-right-10 z-20 pointer-events-none select-none"
         aria-hidden="true"
       >
         <Image
@@ -45,11 +45,11 @@ export function MenuOrderCTA() {
           className="w-10 lg:w-11 h-auto -rotate-12 drop-shadow-xs"
         />
         <Image
-          src="/images/menu-decor/doodle-cake.svg"
-          alt=""
-          width={64}
-          height={64}
-          className="w-13 lg:w-15 h-auto rotate-6 drop-shadow-xs"
+          src="/images/menu-decor/doodle-tiramisu-slice.svg"
+          alt="Layered tiramisu cake on plate"
+          width={95}
+          height={65}
+          className="w-16 lg:w-20 h-auto rotate-3 drop-shadow-xs"
         />
       </div>
 
