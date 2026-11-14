@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { REVIEWS_DATA } from './Reviews/ReviewsData';
 import { ReviewHeader } from './Reviews/ReviewHeader';
 import { ReviewCarousel } from './Reviews/ReviewCarousel';
@@ -8,9 +9,11 @@ import { BackgroundDecorations } from './Reviews/BackgroundDecorations';
 
 import { useAdmin } from '@/context/AdminContext';
 import { ReviewItem } from './Reviews/ReviewsData';
+import { staggerContainerVariants } from '@/lib/motion';
 
 export const Reviews: React.FC = () => {
   const { reviews } = useAdmin();
+  const shouldReduceMotion = useReducedMotion();
 
   const formattedReviews: ReviewItem[] = React.useMemo(() => {
     if (!reviews || reviews.length === 0) return REVIEWS_DATA;
@@ -40,7 +43,13 @@ export const Reviews: React.FC = () => {
     >
       <BackgroundDecorations />
 
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 lg:px-12 relative z-10">
+      <motion.div
+        initial={shouldReduceMotion ? undefined : "hidden"}
+        whileInView={shouldReduceMotion ? undefined : "visible"}
+        viewport={{ once: false, amount: 0.15 }}
+        variants={shouldReduceMotion ? undefined : staggerContainerVariants}
+        className="w-full max-w-[1440px] mx-auto px-4 md:px-10 lg:px-12 relative z-10"
+      >
         <div className="flex flex-col lg:flex-row items-center lg:items-center gap-10 lg:gap-16 xl:gap-20">
           
           {/* LEFT ZONE: Heading & Subtitle (30% Width on Desktop) */}
@@ -54,7 +63,7 @@ export const Reviews: React.FC = () => {
           </div>
 
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

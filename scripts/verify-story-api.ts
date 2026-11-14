@@ -21,7 +21,7 @@ if (fs.existsSync(envPath)) {
 async function run() {
   console.log("=== VERIFYING STORY PERSISTENCE & API CONTRACTS ===");
 
-  const BASE_URL = "http://localhost:3005";
+  const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
 
   // 1. Test Public GET /api/story
   console.log("\n[Test 1] Public GET /api/story");

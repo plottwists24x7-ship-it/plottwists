@@ -287,9 +287,10 @@ export default function Footer() {
 
           {/* Right: Back to Top ↑ (Bricolage Grotesque 18px 600 weight) */}
           <motion.button
-            whileHover={{ y: -4 }}
+            whileHover={{ y: -3 }}
+            whileTap={{ scale: 0.96, y: 1 }}
             onClick={handleScrollToTop}
-            className="font-bricolage font-semibold text-[18px] text-[#3E2A24] hover:text-[#FF4FA3] flex items-center gap-2 cursor-pointer focus-visible:outline-none group transition-colors duration-200"
+            className="font-bricolage font-semibold text-[18px] text-[#3E2A24] hover:text-[#FF4FA3] flex items-center gap-2 cursor-pointer focus-visible:outline-none group transition-colors duration-200 touch-manipulation"
           >
             <span>Back to Top</span>
             <span className="inline-block transform group-hover:rotate-[15deg] group-hover:-translate-y-1 transition-transform duration-300">

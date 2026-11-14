@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,6 +10,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 import { useAdmin } from "@/context/AdminContext";
 import { INITIAL_FAVES } from "@/lib/mock-data";
+import { useAutoplayCarousel, AUTOPLAY_INTERVAL } from "@/hooks/useAutoplayCarousel";
+import {
+  staggerContainerVariants,
+  scrapbookEntranceVariants,
+  SPRINGS,
+} from "@/lib/motion";
 
 interface FloatingSticker {
   id: number;
@@ -93,8 +100,23 @@ export default function Products() {
   const trackRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const [activeProductNum, setActiveProductNum] = useState("01");
-  const mobileCarouselRef = useRef<HTMLDivElement>(null);
-  const [mobileActiveIdx, setMobileActiveIdx] = useState(0);
+  const mobileStageRef = useRef<HTMLDivElement>(null);
+
+  const shouldReduceMotion = useReducedMotion();
+
+  const {
+    activeIndex: mobileActiveIdx,
+    next: nextProduct,
+    prev: prevProduct,
+    goTo: goToProduct,
+    setIsDragging: setIsMobileDragging,
+    getCircularOffset: getProductOffset,
+  } = useAutoplayCarousel({
+    itemCount: activeProducts.length,
+    interval: AUTOPLAY_INTERVAL,
+    enabled: !shouldReduceMotion,
+    containerRef: mobileStageRef,
+  });
 
   const scrollToInstagramCTA = () => {
     const element = document.getElementById("instagram-cta") || document.getElementById("contact-section");
@@ -104,29 +126,6 @@ export default function Products() {
       const y = element.getBoundingClientRect().top + window.pageYOffset - headerOffset;
       window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
     }
-  };
-
-  const handleMobileScroll = () => {
-    if (!mobileCarouselRef.current) return;
-    const { scrollLeft, clientWidth } = mobileCarouselRef.current;
-    const cardWidth = clientWidth * 0.82;
-    const newIndex = Math.round(scrollLeft / cardWidth);
-    setMobileActiveIdx(Math.min(activeProducts.length - 1, Math.max(0, newIndex)));
-  };
-
-  const scrollToCard = (index: number) => {
-    if (!mobileCarouselRef.current) return;
-    const cardWidth = mobileCarouselRef.current.clientWidth * 0.82;
-    mobileCarouselRef.current.scrollTo({
-      left: index * cardWidth,
-      behavior: "smooth"
-    });
-    setMobileActiveIdx(index);
-  };
-
-  const scrollMobileCarousel = (dir: number) => {
-    const nextIdx = Math.min(activeProducts.length - 1, Math.max(0, mobileActiveIdx + dir));
-    scrollToCard(nextIdx);
   };
 
   useEffect(() => {
@@ -156,24 +155,7 @@ export default function Products() {
           );
         }
 
-        const cards = containerRef.current?.querySelectorAll(".mobile-product-card");
-        if (cards) {
-          gsap.fromTo(
-            Array.from(cards),
-            { autoAlpha: 0, y: 30 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              stagger: 0.1,
-              duration: 0.8,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: containerRef.current?.querySelector(".mobile-carousel-container") || containerRef.current,
-                start: "top 85%",
-              }
-            }
-          );
-        }
+
       });
 
       mm.add("(min-width: 1024px)", () => {
@@ -531,10 +513,19 @@ export default function Products() {
       {/* ========================================================================= */}
       {/* MOBILE HORIZONTAL PRODUCT CAROUSEL (Touch-Friendly, Swipeable, Premium) */}
       {/* ========================================================================= */}
-      <div className="w-full pt-20 xs:pt-24 pb-14 xs:pb-16 block lg:hidden relative z-10">
+      <motion.div
+        initial={shouldReduceMotion ? undefined : "hidden"}
+        whileInView={shouldReduceMotion ? undefined : "visible"}
+        viewport={{ once: false, amount: 0.15 }}
+        variants={shouldReduceMotion ? undefined : staggerContainerVariants}
+        className="w-full pt-20 xs:pt-24 pb-14 xs:pb-16 block lg:hidden relative z-10"
+      >
         
         {/* Editorial Heading */}
-        <div className="text-center mb-6 xs:mb-8 px-4 select-none">
+        <motion.div
+          variants={shouldReduceMotion ? undefined : scrapbookEntranceVariants}
+          className="text-center mb-6 xs:mb-8 px-4 select-none"
+        >
           <span className="font-manrope text-[11px] font-extrabold uppercase tracking-[0.25em] text-[#F43F5E] mb-2 block">
             THE CROWD FAVOURITES
           </span>
@@ -550,99 +541,221 @@ export default function Products() {
           >
             A few little obsessions everyone&apos;s talking about.
           </p>
-        </div>
+        </motion.div>
 
-        {/* HORIZONTAL SWIPE CAROUSEL (First card prominent, next card peeking at right edge) */}
-        <div className="mobile-carousel-container relative w-full overflow-hidden">
+        {/* APPLE-INSPIRED 3D COVER FLOW STAGE (Autoplay & Continuous Looping) */}
+        <div
+          ref={mobileStageRef}
+          className="relative w-full overflow-hidden py-3"
+          style={{
+            perspective: "1000px",
+            perspectiveOrigin: "center center",
+          }}
+        >
           <div
-            ref={mobileCarouselRef}
-            onScroll={handleMobileScroll}
-            className="w-full flex gap-4 xs:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar px-6 xs:px-8 pb-5 pt-1 touch-pan-x"
-            style={{ scrollPaddingLeft: "1.5rem", scrollPaddingRight: "2rem" }}
+            className="relative w-full h-[475px] xs:h-[495px] flex items-center justify-center select-none"
+            style={{
+              transformStyle: "preserve-3d",
+            }}
           >
-            {activeProducts.map((product, idx) => (
-              <div
-                key={product.id}
-                className="mobile-product-card snap-start shrink-0 w-[78vw] xs:w-[80vw] max-w-[325px] p-5 xs:p-6 bg-white border-[3.5px] border-[#6B2C12] shadow-[5px_5px_0px_0px_#6B2C12] rounded-3xl flex flex-col items-center gap-4 relative overflow-hidden select-none"
-              >
-                {/* Product Sticker Frame with Yellow Splash */}
-                <div className="relative w-40 h-40 xs:w-46 xs:h-46 flex-shrink-0 p-2 bg-[#FFF400] rounded-2xl shadow-inner flex items-center justify-center">
-                  <div className="relative w-full h-full rounded-xl overflow-hidden bg-white border-2 border-white shadow-xs">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      loading="lazy"
-                      sizes="(max-width: 640px) 200px, 320px"
-                      className="object-cover scale-105"
-                    />
-                  </div>
-                  {product.badgeText && (
-                    <div className="absolute -top-2.5 -right-2 bg-[#FFE63B] text-[#6B2C12] border-2 border-[#6B2C12] shadow-sm px-2.5 py-0.5 rounded-full font-bold text-[10px] uppercase tracking-wider transform rotate-6">
-                      {product.badgeText}
-                    </div>
-                  )}
-                </div>
+            {activeProducts.map((product, idx) => {
+              const offset = getProductOffset(idx);
+              
+              let x = "0%";
+              let scale = 1;
+              let rotateY = 0;
+              let opacity = 1;
+              let zIndex = 30;
+              let pointerEvents: "auto" | "none" = "auto";
 
-                {/* Card Editorial Info */}
-                <div className="w-full flex flex-col items-center text-center flex-1 justify-between">
-                  <div>
-                    <span className="text-[0.65rem] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full bg-[#6B2C12] text-[#FFFCEB] mb-2 block w-fit mx-auto">
-                      {product.serial || `0${idx + 1} / 04`}
-                    </span>
-                    
-                    <h4
-                      style={{ fontFamily: "var(--font-fasthand-g), 'FastHand', 'Fasthand', cursive, sans-serif" }}
-                      className="text-2xl xs:text-[26px] uppercase tracking-wider text-[#6B2C12] mb-1.5 font-bold leading-tight"
-                    >
-                      {product.name}
-                    </h4>
+              if (offset === 0) {
+                // Active hero card (Center, straight, prominent)
+                x = "0%";
+                scale = 1;
+                rotateY = 0;
+                opacity = 1;
+                zIndex = 30;
+                pointerEvents = "auto";
+              } else if (offset === -1) {
+                // Previous card (Left, angled towards center)
+                x = "-70%";
+                scale = 0.90;
+                rotateY = shouldReduceMotion ? 0 : 12;
+                opacity = 0.82;
+                zIndex = 20;
+                pointerEvents = "auto";
+              } else if (offset === 1) {
+                // Next card (Right, angled towards center)
+                x = "70%";
+                scale = 0.90;
+                rotateY = shouldReduceMotion ? 0 : -12;
+                opacity = 0.82;
+                zIndex = 20;
+                pointerEvents = "auto";
+              } else if (offset < -1) {
+                // Distant left
+                x = "-135%";
+                scale = 0.75;
+                rotateY = shouldReduceMotion ? 0 : 18;
+                opacity = 0;
+                zIndex = 10;
+                pointerEvents = "none";
+              } else if (offset > 1) {
+                // Distant right
+                x = "135%";
+                scale = 0.75;
+                rotateY = shouldReduceMotion ? 0 : -18;
+                opacity = 0;
+                zIndex = 10;
+                pointerEvents = "none";
+              }
 
-                    <p
-                      style={{ fontFamily: "var(--font-workforce-g), 'Workforce', sans-serif" }}
-                      className="text-xs text-[#4A4A4A] font-medium leading-relaxed mb-4 line-clamp-3"
-                    >
-                      {product.description}
-                    </p>
-                  </div>
+              const coverFlowSpring = shouldReduceMotion
+                ? { duration: 0.28, ease: "easeInOut" as const }
+                : { type: "spring" as const, stiffness: 250, damping: 26, mass: 0.9 };
 
-                  <button
-                    onClick={scrollToInstagramCTA}
-                    aria-label={`Try this bake: ${product.name}`}
-                    className="w-full min-h-[46px] bg-[#1E63D5] hover:bg-[#1853b3] active:scale-[0.98] text-white px-5 py-2.5 rounded-full text-xs xs:text-sm font-bold uppercase tracking-wider shadow-[3px_3px_0_#6B2C12] flex items-center justify-center gap-2 transition-all cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFE63B]"
+              return (
+                <motion.div
+                  key={`mobile-product-coverflow-${product.id}`}
+                  initial={false}
+                  animate={{
+                    x,
+                    scale,
+                    rotateY,
+                    opacity,
+                    zIndex,
+                  }}
+                  transition={coverFlowSpring}
+                  drag={offset === 0 ? "x" : false}
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.2}
+                  onDragStart={() => setIsMobileDragging(true)}
+                  onDragEnd={(_, info) => {
+                    setIsMobileDragging(false);
+                    const threshold = 35;
+                    const velocityThreshold = 250;
+                    if (info.offset.x < -threshold || info.velocity.x < -velocityThreshold) {
+                      nextProduct();
+                    } else if (info.offset.x > threshold || info.velocity.x > velocityThreshold) {
+                      prevProduct();
+                    }
+                  }}
+                  onClick={() => {
+                    if (offset !== 0) goToProduct(idx);
+                  }}
+                  style={{
+                    position: "absolute",
+                    pointerEvents,
+                    touchAction: "pan-y",
+                  }}
+                  className="flex items-center justify-center cursor-pointer"
+                >
+                  <div
+                    className={`mobile-product-card w-[78vw] xs:w-[80vw] max-w-[325px] p-5 xs:p-6 bg-white border-[3.5px] border-[#6B2C12] rounded-3xl flex flex-col items-center gap-4 relative overflow-hidden select-none transition-shadow duration-300 ease-out ${
+                      offset === 0
+                        ? "shadow-[6px_6px_0px_0px_#6B2C12]"
+                        : "shadow-[4px_4px_0px_0px_#6B2C12]"
+                    }`}
                   >
-                    <span>Try This Bake</span>
-                    <span className="text-sm">↗</span>
-                  </button>
-                </div>
-              </div>
-            ))}
+                    {/* Product Sticker Frame with Yellow Splash & Scale-Settle */}
+                    <div
+                      className={`relative w-40 h-40 xs:w-46 xs:h-46 flex-shrink-0 p-2 bg-[#FFF400] rounded-2xl shadow-inner flex items-center justify-center transition-transform duration-350 ease-out ${
+                        offset === 0 ? "scale-[1.03] rotate-[1.5deg]" : "scale-[0.98] rotate-0"
+                      }`}
+                    >
+                      <div className="relative w-full h-full rounded-xl overflow-hidden bg-white border-2 border-white shadow-xs">
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          fill
+                          loading="lazy"
+                          sizes="(max-width: 640px) 200px, 320px"
+                          className="object-cover scale-105"
+                        />
+                      </div>
+                      {product.badgeText && (
+                        <div className="absolute -top-2.5 -right-2 bg-[#FFE63B] text-[#6B2C12] border-2 border-[#6B2C12] shadow-sm px-2.5 py-0.5 rounded-full font-bold text-[10px] uppercase tracking-wider transform rotate-6">
+                          {product.badgeText}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Card Editorial Info */}
+                    <div className="w-full flex flex-col items-center text-center flex-1 justify-between">
+                      <div>
+                        <span className="text-[0.65rem] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full bg-[#6B2C12] text-[#FFFCEB] mb-2 block w-fit mx-auto">
+                          {product.serial || `0${idx + 1} / 04`}
+                        </span>
+                        
+                        <h4
+                          style={{ fontFamily: "var(--font-fasthand-g), 'FastHand', 'Fasthand', cursive, sans-serif" }}
+                          className="text-2xl xs:text-[26px] uppercase tracking-wider text-[#6B2C12] mb-1.5 font-bold leading-tight"
+                        >
+                          {product.name}
+                        </h4>
+
+                        <p
+                          style={{ fontFamily: "var(--font-workforce-g), 'Workforce', sans-serif" }}
+                          className="text-xs text-[#4A4A4A] font-medium leading-relaxed mb-4 line-clamp-3"
+                        >
+                          {product.description}
+                        </p>
+                      </div>
+
+                      <motion.button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          scrollToInstagramCTA();
+                        }}
+                        whileHover={shouldReduceMotion ? undefined : { y: -1.5 }}
+                        whileTap={
+                          shouldReduceMotion
+                            ? undefined
+                            : {
+                                scale: 0.98,
+                                y: 2,
+                                boxShadow: "1.5px 1.5px 0px #6B2C12",
+                              }
+                        }
+                        transition={SPRINGS.press}
+                        aria-label={`Try this bake: ${product.name}`}
+                        className="w-full min-h-[46px] bg-[#1E63D5] hover:bg-[#1853b3] text-white px-5 py-2.5 rounded-full text-xs xs:text-sm font-bold uppercase tracking-wider shadow-[3px_3px_0_#6B2C12] flex items-center justify-center gap-2 cursor-pointer touch-manipulation select-none focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFE63B]"
+                      >
+                        <span>Try This Bake</span>
+                        <span className="text-sm">↗</span>
+                      </motion.button>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
-          {/* Carousel Pagination & Arrows */}
+          {/* Carousel Pagination & Arrows (Continuous Looping) */}
           <div className="flex items-center justify-between px-6 xs:px-8 mt-2 max-w-sm mx-auto select-none">
             {/* Prev Arrow */}
-            <button
-              onClick={() => scrollMobileCarousel(-1)}
-              disabled={mobileActiveIdx === 0}
+            <motion.button
+              onClick={prevProduct}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.94, y: 1.5, boxShadow: "1px 1px 0 #6B2C12" }}
+              transition={SPRINGS.press}
               aria-label="Previous product"
-              className="w-9 h-9 rounded-full bg-[#FAF4E8] border-2 border-[#6B2C12] shadow-[2px_2px_0_#6B2C12] flex items-center justify-center text-[#6B2C12] disabled:opacity-30 disabled:cursor-not-allowed active:translate-y-0.5 transition-all cursor-pointer"
+              className="w-9 h-9 rounded-full bg-[#FAF4E8] border-2 border-[#6B2C12] shadow-[2px_2px_0_#6B2C12] flex items-center justify-center text-[#6B2C12] hover:bg-[#FFE63B]/30 transition-all cursor-pointer touch-manipulation focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6B2C12]"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <polyline points="15 18 9 12 15 6" />
               </svg>
-            </button>
+            </motion.button>
 
             {/* Pagination Dots */}
             <div className="flex items-center gap-2" role="tablist" aria-label="Product carousel pagination">
               {activeProducts.map((_, i) => (
                 <button
                   key={`fave-dot-${i}`}
-                  onClick={() => scrollToCard(i)}
+                  onClick={() => goToProduct(i)}
                   role="tab"
                   aria-selected={mobileActiveIdx === i}
                   aria-label={`Go to product ${i + 1}`}
-                  className={`transition-all duration-300 rounded-full cursor-pointer ${
+                  className={`transition-all duration-300 rounded-full cursor-pointer touch-manipulation focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6B2C12] ${
                     mobileActiveIdx === i
                       ? "w-7 h-2.5 bg-[#6B2C12] shadow-xs"
                       : "w-2.5 h-2.5 bg-[#6B2C12]/25 hover:bg-[#6B2C12]/50"
@@ -652,20 +765,21 @@ export default function Products() {
             </div>
 
             {/* Next Arrow */}
-            <button
-              onClick={() => scrollMobileCarousel(1)}
-              disabled={mobileActiveIdx === activeProducts.length - 1}
+            <motion.button
+              onClick={nextProduct}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.94, y: 1.5, boxShadow: "1px 1px 0 #6B2C12" }}
+              transition={SPRINGS.press}
               aria-label="Next product"
-              className="w-9 h-9 rounded-full bg-[#FAF4E8] border-2 border-[#6B2C12] shadow-[2px_2px_0_#6B2C12] flex items-center justify-center text-[#6B2C12] disabled:opacity-30 disabled:cursor-not-allowed active:translate-y-0.5 transition-all cursor-pointer"
+              className="w-9 h-9 rounded-full bg-[#FAF4E8] border-2 border-[#6B2C12] shadow-[2px_2px_0_#6B2C12] flex items-center justify-center text-[#6B2C12] hover:bg-[#FFE63B]/30 transition-all cursor-pointer touch-manipulation focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6B2C12]"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <polyline points="9 18 15 12 9 6" />
               </svg>
-            </button>
+            </motion.button>
           </div>
         </div>
 
-      </div>
+      </motion.div>
 
     </section>
   );

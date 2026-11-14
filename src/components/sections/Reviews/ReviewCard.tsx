@@ -6,6 +6,8 @@ import { MaskingTape } from '@/components/paper/MaskingTape';
 interface ReviewCardProps {
   item: ReviewItem;
   index: number;
+  isActive?: boolean;
+  isMobileFan?: boolean;
 }
 
 // Unified Warm Ivory / Soft Cream Backdrop Color (#F5EFE6) across ALL cards
@@ -108,16 +110,24 @@ const CARD_VARIANTS = [
 
 const TAPE_COLORS: Array<'pink' | 'sage' | 'yellow' | 'blue' | 'cream' | 'kraft'> = ['pink', 'yellow', 'sage', 'blue', 'cream', 'kraft'];
 
-export const ReviewCard: React.FC<ReviewCardProps> = React.memo(({ item, index }) => {
+export const ReviewCard: React.FC<ReviewCardProps> = React.memo(({ item, index, isActive, isMobileFan = false }) => {
   const cardConfig = EDITORIAL_CARD_CONFIGS[index % EDITORIAL_CARD_CONFIGS.length];
   const variant = CARD_VARIANTS[index % CARD_VARIANTS.length];
   const tapeColor = TAPE_COLORS[index % TAPE_COLORS.length];
   const dotColors = PAINT_DOT_SETS[index % PAINT_DOT_SETS.length];
   const labelText = SCRAPBOOK_LABELS[index % SCRAPBOOK_LABELS.length];
 
+  const activeScaleClass = isActive !== undefined
+    ? (isActive ? "scale-[1.02] shadow-[8px_8px_0_#2F221D] opacity-100" : "scale-[0.98] opacity-90")
+    : "";
+
+  const motionClass = isMobileFan
+    ? ""
+    : `transform ${variant.rotClass} ${activeScaleClass} hover:rotate-0 hover:-translate-y-2.5 hover:scale-[1.03] hover:shadow-[12px_12px_0_#2F221D] active:scale-[0.98] active:translate-y-1 transition-all duration-300 ease-out`;
+
   return (
     <article
-      className={`${variant.sizeClass} shrink-0 ${cardConfig.bg} ${cardConfig.border} border-[3.5px] sm:border-[4px] shadow-[6px_6px_0_#2F221D] sm:shadow-[8px_8px_0_#2F221D] rounded-[22px] sm:rounded-[26px] p-4 xs:p-5 sm:p-7 relative transform ${variant.rotClass} hover:rotate-0 hover:-translate-y-2.5 hover:scale-[1.03] hover:shadow-[12px_12px_0_#2F221D] transition-all duration-300 ease-out cursor-pointer z-10 hover:z-30 select-none flex items-center justify-between group overflow-visible`}
+      className={`${variant.sizeClass} shrink-0 ${cardConfig.bg} ${cardConfig.border} border-[3.5px] sm:border-[4px] shadow-[6px_6px_0_#2F221D] sm:shadow-[8px_8px_0_#2F221D] rounded-[22px] sm:rounded-[26px] p-4 xs:p-5 sm:p-7 relative ${motionClass} cursor-pointer z-10 hover:z-30 select-none flex items-center justify-between group overflow-visible`}
     >
       {/* Top Washed Washi Tape Accent */}
       <MaskingTape 
@@ -198,7 +208,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = React.memo(({ item, index }
           </div>
 
           {/* Customer Polaroid Photo Frame */}
-          <div className={`w-24 h-28 xs:w-28 xs:h-32 sm:w-36 sm:h-40 rounded-xl sm:rounded-2xl overflow-hidden border-[2.5px] sm:border-[3.5px] border-white bg-[#FAF4E8] shadow-[4px_4px_0_rgba(0,0,0,0.25)] sm:shadow-[6px_6px_0_rgba(0,0,0,0.25)] transform ${variant.photoRotClass} group-hover:rotate-0 transition-transform duration-300 relative z-10`}>
+          <div className={`w-24 h-28 xs:w-28 xs:h-32 sm:w-36 sm:h-40 rounded-xl sm:rounded-2xl overflow-hidden border-[2.5px] sm:border-[3.5px] border-white bg-[#FAF4E8] shadow-[4px_4px_0_rgba(0,0,0,0.25)] sm:shadow-[6px_6px_0_rgba(0,0,0,0.25)] transform ${isActive ? "rotate-0 scale-105" : variant.photoRotClass} group-hover:rotate-0 group-hover:scale-105 transition-transform duration-300 relative z-10`}>
             <Image 
               src={item.portrait} 
               alt={item.name} 

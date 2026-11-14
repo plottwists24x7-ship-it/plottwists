@@ -20,7 +20,7 @@ if (fs.existsSync(envPath)) {
 async function run() {
   console.log("=== VERIFYING ADMIN AUTH & PROTECTED ROUTE LIFECYCLE ===");
 
-  const BASE_URL = "http://localhost:3005";
+  const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
   const password = process.env.ADMIN_PASSWORD;
 
   if (!password) {

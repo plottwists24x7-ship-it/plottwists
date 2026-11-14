@@ -2,8 +2,17 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
 import { MaskingTape } from "@/components/paper/MaskingTape";
 import { useAdmin } from "@/context/AdminContext";
+import {
+  staggerContainerVariants,
+  scrapbookEntranceVariants,
+  labelEntranceVariants,
+  stickerPopVariants,
+  paperCardVariants,
+  SPRINGS,
+} from "@/lib/motion";
 
 // Official Instagram profile link (Placeholder URL - replace with the actual Instagram username when needed)
 const INSTAGRAM_PROFILE_URL = "https://www.instagram.com/plottwist24x7?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==";
@@ -11,6 +20,7 @@ const INSTAGRAM_PROFILE_URL = "https://www.instagram.com/plottwist24x7?utm_sourc
 export const InstagramCTA: React.FC = () => {
   const { instagramCTA } = useAdmin();
   const [wiggle, setWiggle] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   // Playful subtle wiggle on button every 10 seconds
   useEffect(() => {
@@ -65,90 +75,128 @@ export const InstagramCTA: React.FC = () => {
       </div>
 
       {/* ─── FLOATING SCRAPBOOK STICKERS & MICRO DECORATIONS (STRAWBERRIES 🍓 & DONUTS 🍩) ─── */}
-      <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+      <motion.div
+        initial={shouldReduceMotion ? undefined : "hidden"}
+        whileInView={shouldReduceMotion ? undefined : "visible"}
+        viewport={{ once: false, amount: 0.15 }}
+        variants={shouldReduceMotion ? undefined : staggerContainerVariants}
+        className="absolute inset-0 z-10 pointer-events-none overflow-hidden"
+      >
         {/* Strawberry sticker 1 - Top Left */}
-        <div className="absolute top-16 left-[6%] animate-paper-float opacity-90">
-          <span className="text-3xl sm:text-4xl filter drop-shadow-[2px_2px_0_#111111] transform -rotate-12 inline-block">🍓</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute top-16 left-[6%] opacity-90">
+          <div className="animate-paper-float">
+            <span className="text-3xl sm:text-4xl filter drop-shadow-[2px_2px_0_#111111] transform -rotate-12 inline-block">🍓</span>
+          </div>
+        </motion.div>
 
         {/* Strawberry sticker 2 - Near Cake Left */}
-        <div className="absolute top-[38%] left-[2%] animate-paper-wobble opacity-85">
-          <span className="text-2xl sm:text-3xl filter drop-shadow-[2px_2px_0_#111111] transform rotate-12 inline-block">🍓</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute top-[38%] left-[2%] opacity-85">
+          <div className="animate-paper-wobble">
+            <span className="text-2xl sm:text-3xl filter drop-shadow-[2px_2px_0_#111111] transform rotate-12 inline-block">🍓</span>
+          </div>
+        </motion.div>
 
         {/* Strawberry sticker 3 - Center Top */}
-        <div className="absolute top-16 left-[44%] animate-paper-float opacity-85 hidden md:block">
-          <span className="text-2xl sm:text-3xl filter drop-shadow-[1.5px_1.5px_0_#111111] transform -rotate-6 inline-block">🍓</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute top-16 left-[44%] opacity-85 hidden md:block">
+          <div className="animate-paper-float">
+            <span className="text-2xl sm:text-3xl filter drop-shadow-[1.5px_1.5px_0_#111111] transform -rotate-6 inline-block">🍓</span>
+          </div>
+        </motion.div>
 
         {/* Strawberry sticker 4 - Top Right */}
-        <div className="absolute top-20 right-[24%] animate-breathe opacity-90 hidden md:block">
-          <span className="text-3xl filter drop-shadow-[2px_2px_0_#111111] transform rotate-15 inline-block">🍓</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute top-20 right-[24%] opacity-90 hidden md:block">
+          <div className="animate-breathe">
+            <span className="text-3xl filter drop-shadow-[2px_2px_0_#111111] transform rotate-15 inline-block">🍓</span>
+          </div>
+        </motion.div>
 
         {/* Strawberry sticker 5 - Beside Instagram Card */}
-        <div className="absolute bottom-28 right-[4%] animate-paper-float opacity-90">
-          <span className="text-3xl sm:text-4xl filter drop-shadow-[2.5px_2.5px_0_#111111] transform rotate-6 inline-block">🍓</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute bottom-28 right-[4%] opacity-90">
+          <div className="animate-paper-float">
+            <span className="text-3xl sm:text-4xl filter drop-shadow-[2.5px_2.5px_0_#111111] transform rotate-6 inline-block">🍓</span>
+          </div>
+        </motion.div>
 
         {/* Strawberry sticker 6 - Lower Right */}
-        <div className="absolute bottom-12 right-[10%] animate-paper-wobble opacity-85">
-          <span className="text-2xl filter drop-shadow-[1.5px_1.5px_0_#111111] transform -rotate-12 inline-block">🍓</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute bottom-12 right-[10%] opacity-85">
+          <div className="animate-paper-wobble">
+            <span className="text-2xl filter drop-shadow-[1.5px_1.5px_0_#111111] transform -rotate-12 inline-block">🍓</span>
+          </div>
+        </motion.div>
 
         {/* Strawberry sticker 7 - Lower Left */}
-        <div className="absolute bottom-36 left-[8%] animate-breathe opacity-85">
-          <span className="text-2xl sm:text-3xl filter drop-shadow-[2px_2px_0_#111111] transform rotate-6 inline-block">🍓</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute bottom-36 left-[8%] opacity-85">
+          <div className="animate-breathe">
+            <span className="text-2xl sm:text-3xl filter drop-shadow-[2px_2px_0_#111111] transform rotate-6 inline-block">🍓</span>
+          </div>
+        </motion.div>
 
         {/* Strawberry sticker 8 - Beside Quote */}
-        <div className="absolute top-[58%] left-[46%] animate-paper-float opacity-85 hidden lg:block">
-          <span className="text-2xl filter drop-shadow-[1.5px_1.5px_0_#111111] transform -rotate-15 inline-block">🍓</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute top-[58%] left-[46%] opacity-85 hidden lg:block">
+          <div className="animate-paper-float">
+            <span className="text-2xl filter drop-shadow-[1.5px_1.5px_0_#111111] transform -rotate-15 inline-block">🍓</span>
+          </div>
+        </motion.div>
 
         {/* Donut sticker 1 - Top Near Heading */}
-        <div className="absolute top-14 left-[52%] animate-paper-wobble opacity-90 hidden lg:block">
-          <span className="text-3xl sm:text-4xl filter drop-shadow-[2px_2px_0_#111111] transform rotate-12 inline-block">🍩</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute top-14 left-[52%] opacity-90 hidden lg:block">
+          <div className="animate-paper-wobble">
+            <span className="text-3xl sm:text-4xl filter drop-shadow-[2px_2px_0_#111111] transform rotate-12 inline-block">🍩</span>
+          </div>
+        </motion.div>
 
         {/* Donut sticker 2 - Near Cake Right */}
-        <div className="absolute top-[28%] left-[38%] animate-paper-float opacity-85 hidden md:block">
-          <span className="text-3xl filter drop-shadow-[2px_2px_0_#111111] transform -rotate-12 inline-block">🍩</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute top-[28%] left-[38%] opacity-85 hidden md:block">
+          <div className="animate-paper-float">
+            <span className="text-3xl filter drop-shadow-[2px_2px_0_#111111] transform -rotate-12 inline-block">🍩</span>
+          </div>
+        </motion.div>
 
         {/* Donut sticker 3 - Beside CTA Button */}
-        <div className="absolute bottom-[28%] left-[48%] animate-breathe opacity-90 hidden lg:block">
-          <span className="text-3xl sm:text-4xl filter drop-shadow-[2px_2px_0_#111111] transform rotate-8 inline-block">🍩</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute bottom-[28%] left-[48%] opacity-90 hidden lg:block">
+          <div className="animate-breathe">
+            <span className="text-3xl sm:text-4xl filter drop-shadow-[2px_2px_0_#111111] transform rotate-8 inline-block">🍩</span>
+          </div>
+        </motion.div>
 
         {/* Donut sticker 4 - Lower Left Corner */}
-        <div className="absolute bottom-16 left-[2%] animate-paper-float opacity-85">
-          <span className="text-3xl filter drop-shadow-[2px_2px_0_#111111] transform -rotate-6 inline-block">🍩</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute bottom-16 left-[2%] opacity-85">
+          <div className="animate-paper-float">
+            <span className="text-3xl filter drop-shadow-[2px_2px_0_#111111] transform -rotate-6 inline-block">🍩</span>
+          </div>
+        </motion.div>
 
         {/* Donut sticker 5 - Top Far Right */}
-        <div className="absolute top-32 right-[4%] animate-paper-wobble opacity-90">
-          <span className="text-3xl sm:text-4xl filter drop-shadow-[2px_2px_0_#111111] transform rotate-12 inline-block">🍩</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute top-32 right-[4%] opacity-90">
+          <div className="animate-paper-wobble">
+            <span className="text-3xl sm:text-4xl filter drop-shadow-[2px_2px_0_#111111] transform rotate-12 inline-block">🍩</span>
+          </div>
+        </motion.div>
 
         {/* Cherry sticker */}
-        <div className="absolute bottom-24 left-[4%] animate-paper-wobble opacity-85">
-          <span className="text-3xl filter drop-shadow-[2px_2px_0_#111111]">🍒</span>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute bottom-24 left-[4%] opacity-85">
+          <div className="animate-paper-wobble">
+            <span className="text-3xl filter drop-shadow-[2px_2px_0_#111111]">🍒</span>
+          </div>
+        </motion.div>
 
         {/* Golden Star */}
-        <div className="absolute top-28 right-[14%] animate-breathe opacity-90">
-          <svg className="w-8 h-8 text-[#FFE066] fill-current filter drop-shadow-[1.5px_1.5px_0_#111111]" viewBox="0 0 24 24">
-            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-          </svg>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute top-28 right-[14%] opacity-90">
+          <div className="animate-breathe">
+            <svg className="w-8 h-8 text-[#FFE066] fill-current filter drop-shadow-[1.5px_1.5px_0_#111111]" viewBox="0 0 24 24">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+            </svg>
+          </div>
+        </motion.div>
 
         {/* Sparkle SVG */}
-        <div className="absolute bottom-36 right-[12%] animate-paper-float opacity-80">
-          <svg className="w-7 h-7 text-[#FF4FA3] fill-current" viewBox="0 0 24 24">
-            <path d="M12 2l1.3 6.4L20 10l-6.7 1.6L12 18l-1.3-6.4L4 10l6.7-1.6L12 2z" />
-          </svg>
-        </div>
+        <motion.div variants={shouldReduceMotion ? undefined : stickerPopVariants} className="absolute bottom-36 right-[12%] opacity-80">
+          <div className="animate-paper-float">
+            <svg className="w-7 h-7 text-[#FF4FA3] fill-current" viewBox="0 0 24 24">
+              <path d="M12 2l1.3 6.4L20 10l-6.7 1.6L12 18l-1.3-6.4L4 10l6.7-1.6L12 2z" />
+            </svg>
+          </div>
+        </motion.div>
 
         {/* Puffy Cloud Emoji */}
         <div className="absolute top-1/2 left-[1%] animate-paper-float opacity-75 hidden xl:block">
@@ -159,10 +207,16 @@ export const InstagramCTA: React.FC = () => {
         <div className="absolute top-36 left-[46%] animate-paper-wobble opacity-80 hidden lg:block">
           <span className="text-2xl">🎀</span>
         </div>
-      </div>
+      </motion.div>
 
       {/* ─── MAIN CONTENT CONTAINER ─── */}
-      <div className="max-w-[1380px] mx-auto relative z-20">
+      <motion.div
+        initial={shouldReduceMotion ? undefined : "hidden"}
+        whileInView={shouldReduceMotion ? undefined : "visible"}
+        viewport={{ once: false, amount: 0.15 }}
+        variants={shouldReduceMotion ? undefined : staggerContainerVariants}
+        className="max-w-[1380px] mx-auto relative z-20"
+      >
         <div className="flex flex-col lg:flex-row items-center lg:items-center gap-12 lg:gap-16 xl:gap-20">
           
           {/* ═════════════════════════════════════════════════════════
@@ -201,7 +255,10 @@ export const InstagramCTA: React.FC = () => {
             </div>
 
             {/* Main Dessert Photo Cutout Card */}
-            <div className="relative z-10 w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[500px] h-[360px] sm:h-[440px] lg:h-[480px] rounded-3xl overflow-hidden border-[5px] border-white bg-[#FAF4E8] shadow-[10px_10px_0_rgba(17,17,17,0.25)] transform -rotate-4 hover:rotate-0 transition-transform duration-500 ease-out group">
+            <motion.div
+              variants={shouldReduceMotion ? undefined : paperCardVariants}
+              className="relative z-10 w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[500px] h-[360px] sm:h-[440px] lg:h-[480px] rounded-3xl overflow-hidden border-[5px] border-white bg-[#FAF4E8] shadow-[10px_10px_0_rgba(17,17,17,0.25)] transform -rotate-4 hover:rotate-0 transition-transform duration-500 ease-out group"
+            >
               <Image
                 src={instagramCTA?.image || "/images/baker-where/instagram_cta_dessert.jpg"}
                 alt={instagramCTA?.alt || "PlotTwist24x signature gourmet cake dessert"}
@@ -224,7 +281,7 @@ export const InstagramCTA: React.FC = () => {
               <div className="absolute bottom-4 right-4 z-30 bg-[#FFE066] border-2 border-[#111111] shadow-[3px_3px_0_#111111] px-3 py-1 rounded-lg transform rotate-3">
                 <span className="font-caveat text-[20px] font-bold text-[#111111]">Yum! ✨</span>
               </div>
-            </div>
+            </motion.div>
 
           </div>
 
@@ -234,39 +291,66 @@ export const InstagramCTA: React.FC = () => {
           <div className="w-full lg:w-[45%] shrink-0 flex flex-col items-center lg:items-start text-center lg:text-left relative z-20">
             
             {/* Handwritten Accent: Fresh from our oven → */}
-            <div className="flex items-center gap-2 mb-2 transform -rotate-5">
+            <motion.div
+              variants={shouldReduceMotion ? undefined : labelEntranceVariants}
+              className="flex items-center gap-2 mb-2 transform -rotate-5"
+            >
               <span className="font-fasthand text-2xl sm:text-3xl font-bold text-[#FF4FA3] tracking-wide">
                 Fresh from our oven →
               </span>
-            </div>
+            </motion.div>
 
             {/* 1. Main Heading: Lilita One (ONE LAST: 84px, SWEET STOP...: 92px, Line Height 0.9, Letter Spacing -2px) */}
-            <h2 className="font-lilita leading-[0.9] tracking-[-1px] sm:tracking-[-2px] mb-4 sm:mb-6 filter drop-shadow-[2px_2px_0_rgba(255,224,102,0.8)]" style={{ fontFamily: "var(--font-lilita-one), 'Lilita One', cursive, sans-serif" }}>
+            <motion.h2
+              variants={shouldReduceMotion ? undefined : scrapbookEntranceVariants}
+              className="font-lilita leading-[0.9] tracking-[-1px] sm:tracking-[-2px] mb-4 sm:mb-6 filter drop-shadow-[2px_2px_0_rgba(255,224,102,0.8)]"
+              style={{ fontFamily: "var(--font-lilita-one), 'Lilita One', cursive, sans-serif" }}
+            >
               <span className="text-[#111111] text-[38px] xs:text-[48px] sm:text-[72px] lg:text-[84px] block" style={{ fontFamily: "var(--font-lilita-one), 'Lilita One', cursive, sans-serif" }}>ONE LAST</span>
               <span className="text-[#FF4FA3] text-[42px] xs:text-[54px] sm:text-[80px] lg:text-[92px] block" style={{ fontFamily: "var(--font-lilita-one), 'Lilita One', cursive, sans-serif" }}>SWEET STOP...</span>
-            </h2>
+            </motion.h2>
 
             {/* 2. Description: Caveat (Weight 500, Size 26px, Line Height 1.7, Letter Spacing 0.3px) */}
-            <p className="font-caveat font-medium text-[18px] xs:text-[22px] sm:text-[26px] text-[#444444] leading-[1.6] sm:leading-[1.7] tracking-[0.3px] max-w-[480px] mb-5 sm:mb-6">
+            <motion.p
+              variants={shouldReduceMotion ? undefined : scrapbookEntranceVariants}
+              className="font-caveat font-medium text-[18px] xs:text-[22px] sm:text-[26px] text-[#444444] leading-[1.6] sm:leading-[1.7] tracking-[0.3px] max-w-[480px] mb-5 sm:mb-6"
+            >
               Fresh bakes. Behind-the-scenes moments. New flavours. Tiny baking chaos. Follow us and never miss a sweet surprise.
-            </p>
+            </motion.p>
 
             {/* 3. Quote Strip: Pacifico (19px, Regular) */}
-            <div className="w-full max-w-[390px] min-h-[48px] sm:h-[52px] bg-[#FFF9F5] rounded-[16px] border-l-[6px] border-[#FF5DAE] shadow-[0_8px_24px_rgba(0,0,0,0.06)] px-4 sm:px-[22px] py-2 flex items-center mb-6 sm:mb-8">
+            <motion.div
+              variants={shouldReduceMotion ? undefined : labelEntranceVariants}
+              className="w-full max-w-[390px] min-h-[48px] sm:h-[52px] bg-[#FFF9F5] rounded-[16px] border-l-[6px] border-[#FF5DAE] shadow-[0_8px_24px_rgba(0,0,0,0.06)] px-4 sm:px-[22px] py-2 flex items-center mb-6 sm:mb-8"
+            >
               <p className="font-pacifico text-[15px] sm:text-[19px] font-normal text-[#FF4FA3]">
                 &ldquo;Every dessert has a story. Come watch ours.&rdquo;
               </p>
-            </div>
+            </motion.div>
 
             {/* CTA Button & Instagram Polaroid Card Container */}
-            <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 lg:gap-10 w-full justify-center lg:justify-start">
+            <motion.div
+              variants={shouldReduceMotion ? undefined : scrapbookEntranceVariants}
+              className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 lg:gap-10 w-full justify-center lg:justify-start"
+            >
               
               {/* 4 & 5. FOLLOW Button: Baloo 2 ExtraBold (800 weight, 46px FOLLOW, 24px Username) */}
-              <a
+              <motion.a
                 href={INSTAGRAM_PROFILE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`w-full sm:w-auto min-h-[56px] bg-[#FF4FA3] text-white border-[3.5px] sm:border-[4px] border-[#111111] shadow-[6px_6px_0px_#111111] sm:shadow-[8px_8px_0px_#111111] hover:shadow-[12px_12px_0px_#111111] hover:-translate-y-1.5 hover:rotate-[-2deg] hover:scale-[1.04] active:translate-y-0 active:shadow-[3px_3px_0px_#111111] px-5 sm:px-7 py-3 sm:py-4 rounded-[20px] uppercase flex items-center justify-between gap-4 transition-all duration-300 cursor-pointer focus-visible:outline-none ${
+                whileHover={shouldReduceMotion ? undefined : { y: -2, rotate: -2, scale: 1.03 }}
+                whileTap={
+                  shouldReduceMotion
+                    ? undefined
+                    : {
+                        scale: 0.98,
+                        y: 2,
+                        boxShadow: "3px 3px 0px #111111",
+                      }
+                }
+                transition={SPRINGS.press}
+                className={`w-full sm:w-auto min-h-[56px] bg-[#FF4FA3] text-white border-[3.5px] sm:border-[4px] border-[#111111] shadow-[6px_6px_0px_#111111] sm:shadow-[8px_8px_0px_#111111] hover:shadow-[12px_12px_0px_#111111] px-5 sm:px-7 py-3 sm:py-4 rounded-[20px] uppercase flex items-center justify-between gap-4 transition-colors duration-200 cursor-pointer focus-visible:outline-none touch-manipulation select-none ${
                   wiggle ? "animate-wiggle" : ""
                 }`}
                 aria-label="Follow @PLOTTWIST24X on Instagram (opens in a new tab)"
@@ -278,15 +362,18 @@ export const InstagramCTA: React.FC = () => {
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#FFE066] border-2 border-[#111111] flex items-center justify-center text-[#111111] font-bold text-base sm:text-lg shrink-0 shadow-sm">
                   ↗
                 </div>
-              </a>
+              </motion.a>
 
               {/* Instagram Polaroid Card Taped to Scrapbook */}
-              <a 
+              <motion.a 
                 href={INSTAGRAM_PROFILE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                whileHover={shouldReduceMotion ? undefined : { scale: 1.03, rotate: 0 }}
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.98, y: 1 }}
+                transition={SPRINGS.card}
                 aria-label="Visit @plottwist24x Instagram profile (opens in a new tab)"
-                className="w-full max-w-[280px] sm:w-[310px] bg-white border-[3.5px] sm:border-[4px] border-[#111111] shadow-[6px_6px_0_#111111] sm:shadow-[8px_8px_0_#111111] rounded-2xl p-4 sm:p-5 relative transform rotate-[2deg] sm:rotate-[4deg] hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer group shrink-0 block"
+                className="w-full max-w-[280px] sm:w-[310px] bg-white border-[3.5px] sm:border-[4px] border-[#111111] shadow-[6px_6px_0_#111111] sm:shadow-[8px_8px_0_#111111] rounded-2xl p-4 sm:p-5 relative transform rotate-[2deg] sm:rotate-[4deg] transition-colors duration-200 cursor-pointer group shrink-0 block touch-manipulation select-none"
               >
                 {/* Top Masking Tape */}
                 <MaskingTape color="pink" width={56} height={18} rotate={-8} className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30 opacity-90" />
@@ -330,14 +417,14 @@ export const InstagramCTA: React.FC = () => {
                 <div className="w-full bg-[#FF4FA3] text-white border-2 border-[#111111] shadow-[3px_3px_0_#111111] py-2 rounded-full font-baloo font-bold text-xs uppercase tracking-wider text-center group-hover:bg-[#FFE066] group-hover:text-[#111111] transition-colors duration-300">
                   Follow on Instagram ↗
                 </div>
-              </a>
+              </motion.a>
 
-            </div>
+            </motion.div>
 
           </div>
 
         </div>
-      </div>
+      </motion.div>
 
       {/* ─── BOTTOM TORN PAPER EDGE TRANSITION TO FOOTER ─── */}
       <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none z-30 pointer-events-none translate-y-[1px]">

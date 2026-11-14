@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { SPRINGS, APPLE_EASE } from "@/lib/motion";
 
 export function MobileStickyOrderPill() {
   const [visible, setVisible] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,25 +40,72 @@ export function MobileStickyOrderPill() {
     <AnimatePresence>
       {visible && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.8, y: 20 }}
-          transition={{ duration: 0.22, ease: "easeOut" }}
+          initial={
+            shouldReduceMotion
+              ? { opacity: 0 }
+              : { opacity: 0, scale: 0.85, y: 22 }
+          }
+          animate={
+            shouldReduceMotion
+              ? { opacity: 1 }
+              : { opacity: 1, scale: 1, y: 0 }
+          }
+          exit={
+            shouldReduceMotion
+              ? { opacity: 0 }
+              : { opacity: 0, scale: 0.88, y: 16 }
+          }
+          transition={
+            shouldReduceMotion
+              ? { duration: 0.18 }
+              : { duration: 0.38, ease: APPLE_EASE }
+          }
           className="fixed bottom-5 right-4 z-40 block lg:hidden pb-[env(safe-area-inset-bottom)]"
         >
-          <button
+          <motion.button
             onClick={handleClick}
+            whileHover={shouldReduceMotion ? undefined : { y: -1.5 }}
+            whileTap={
+              shouldReduceMotion
+                ? undefined
+                : {
+                    scale: 0.96,
+                    y: 2,
+                    boxShadow: "1.5px 1.5px 0px #3B2A22",
+                  }
+            }
+            transition={SPRINGS.press}
             aria-label="Order PlotTwist Faves"
-            className="group flex items-center gap-2 px-4 py-2.5 bg-[#FFE066] hover:bg-[#FFD600] active:scale-[0.96] text-[#3B2A22] border-[2.5px] border-[#3B2A22] rounded-full shadow-[3.5px_3.5px_0px_#3B2A22] font-fredoka font-bold text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer"
+            className="group flex items-center gap-2 px-4 py-2.5 bg-[#FFE066] hover:bg-[#FFD600] text-[#3B2A22] border-[2.5px] border-[#3B2A22] rounded-full shadow-[3.5px_3.5px_0px_#3B2A22] font-fredoka font-bold text-xs uppercase tracking-wider cursor-pointer touch-manipulation select-none"
           >
-            <span className="w-5 h-5 rounded-full bg-[#EF5B5B] text-white flex items-center justify-center text-[10px] shadow-xs">
+            {/* Pop-in bakery icon */}
+            <motion.span
+              initial={
+                shouldReduceMotion
+                  ? false
+                  : { scale: 0.6, rotate: -18 }
+              }
+              animate={
+                shouldReduceMotion
+                  ? false
+                  : { scale: 1, rotate: 0 }
+              }
+              transition={SPRINGS.sticker}
+              className="w-5 h-5 rounded-full bg-[#EF5B5B] text-white flex items-center justify-center text-[10px] shadow-xs"
+            >
               🧁
-            </span>
+            </motion.span>
+            
             <span>ORDER FAVES</span>
-            <span className="text-[#3B2A22] group-hover:translate-x-0.5 transition-transform font-bold">
+            
+            <motion.span
+              className="text-[#3B2A22] font-bold inline-block"
+              whileHover={{ x: 2 }}
+              transition={{ duration: 0.15 }}
+            >
               →
-            </span>
-          </button>
+            </motion.span>
+          </motion.button>
         </motion.div>
       )}
     </AnimatePresence>
