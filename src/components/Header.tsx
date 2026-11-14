@@ -36,12 +36,13 @@ export function Header() {
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     // Efficient IntersectionObserver for active section tab tracking (Zero forced layout reflows)
-    const sections = ["story", "bakes", "menu", "reviews"];
+    const sections = ["story", "faves", "bakes", "menu", "reviews"];
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setActiveTab(entry.target.id);
+            const id = entry.target.id;
+            setActiveTab(id === "bakes" ? "faves" : id);
             break;
           }
         }
@@ -219,19 +220,19 @@ export function Header() {
               </button>
             </div>
 
-            {/* TAB 2: BAKES */}
+            {/* TAB 2: FAVES */}
             <div className="relative group">
               <MaskingTape color="yellow" width={36} height={14} rotate={10} className="absolute -top-2.5 right-1 z-30 opacity-85 pointer-events-none" />
               <button
-                onClick={() => scrollToSection("bakes")}
+                onClick={() => scrollToSection("faves")}
                 className={`px-5 py-2 md:px-6 md:py-2.5 border-2 border-[#3B2A22] text-xs md:text-sm font-cherry font-bold tracking-wider rounded-tl-md rounded-tr-xl transform rotate-[1.5deg] transition-all duration-250 cursor-pointer relative z-10 ${
-                  activeTab === "bakes"
+                  activeTab === "faves" || activeTab === "bakes"
                     ? "bg-[#EF5B5B] text-white shadow-[5px_5px_0_#3B2A22] -translate-y-1.5 md:-translate-y-2"
                     : "bg-[#FAF4E8] text-[#3B2A22] shadow-[3px_3px_0_#3B2A22] hover:-translate-y-1 hover:shadow-[4.5px_4.5px_0_#3B2A22] hover:rotate-[2.2deg] hover:bg-[#FFE066]"
                 }`}
               >
-                <span>BAKES</span>
-                {activeTab === "bakes" && (
+                <span>FAVES</span>
+                {(activeTab === "faves" || activeTab === "bakes") && (
                   <svg className="absolute -bottom-1 left-2 right-2 h-1.5 text-white/90" fill="none" viewBox="0 0 40 6">
                     <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M2 3 Q 20 1, 38 3" />
                   </svg>
@@ -293,8 +294,8 @@ export function Header() {
 
             {/* Bakery Quality Approval Ink Stamp CTA Button */}
             <button
-              onClick={() => scrollToSection("bakes")}
-              aria-label="Order Bakes"
+              onClick={() => scrollToSection("faves")}
+              aria-label="Order Faves"
               className="w-12 h-12 md:w-13 md:h-13 bg-[#FFE066] border-[2.5px] border-dashed border-[#3B2A22] rounded-full shadow-[4px_4px_0_#3B2A22] flex flex-col items-center justify-center cursor-pointer transform hover:rotate-[8deg] hover:scale-105 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1.5px_1.5px_0_#3B2A22] active:scale-[0.96] transition-all duration-200 group relative z-20"
             >
               <span className="text-[8px] font-fredoka font-bold text-[#3B2A22] leading-none tracking-widest uppercase">
@@ -368,17 +369,17 @@ export function Header() {
                 <span>📖 STORY</span>
               </button>
 
-              {/* Bakes */}
+              {/* Faves */}
               <button
                 onClick={() => {
-                  scrollToSection("bakes");
+                  scrollToSection("faves");
                   setIsMobileMenuOpen(false);
                 }}
                 className={`min-h-[48px] px-3 py-2 rounded-xl border-2 border-[#3B2A22] text-xs font-cherry font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[2px_2px_0_#3B2A22] active:translate-y-0.5 transition-all ${
-                  activeTab === "bakes" ? "bg-[#EF5B5B] text-white" : "bg-[#FFE066] text-[#3B2A22]"
+                  activeTab === "faves" || activeTab === "bakes" ? "bg-[#EF5B5B] text-white" : "bg-[#FFE066] text-[#3B2A22]"
                 }`}
               >
-                <span>🧁 BAKES</span>
+                <span>🧁 FAVES</span>
               </button>
 
               {/* Menu */}
@@ -412,12 +413,12 @@ export function Header() {
             <div className="mt-3 pt-2.5 border-t border-[#3B2A22]/15 flex items-center gap-2">
               <button
                 onClick={() => {
-                  scrollToSection("bakes");
+                  scrollToSection("faves");
                   setIsMobileMenuOpen(false);
                 }}
                 className="flex-1 min-h-[48px] bg-[#FFE066] hover:bg-[#ffd83d] text-[#3B2A22] font-fredoka font-bold text-xs uppercase tracking-widest rounded-xl border-2 border-[#3B2A22] shadow-[3px_3px_0_#3B2A22] active:translate-y-0.5 flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
-                <span>ORDER FRESH BAKES NOW</span>
+                <span>ORDER OUR FAVES NOW</span>
                 <span>→</span>
               </button>
 

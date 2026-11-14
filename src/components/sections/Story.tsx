@@ -238,7 +238,7 @@ export default function Story() {
 
   const scrollToBakes = (e: React.MouseEvent) => {
     e.preventDefault();
-    const el = document.getElementById("bakes");
+    const el = document.getElementById("faves") || document.getElementById("bakes");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -655,7 +655,7 @@ export default function Story() {
                 style={{ fontFamily: "var(--font-federo-g), 'Federo', var(--font-quicksand-g), 'Quicksand', sans-serif" }}
                 className="ticket-edge group bg-[#FFD95B] text-[#2B1824] border-3 border-[#2B1824] shadow-[4px_4px_0_#2B1824] active:shadow-[1px_1px_0_#2B1824] active:translate-x-0.5 active:translate-y-0.5 active:scale-[0.98] w-full min-h-[50px] justify-center px-6 py-3.5 rounded-full text-xs xs:text-sm uppercase tracking-[0.14em] transition-all duration-200 cursor-pointer font-extrabold flex items-center gap-2"
               >
-                <span>{story.ctaText || "SEE ALL BAKES"}</span>
+                <span>{story.ctaText || "SEE OUR FAVES"}</span>
                 <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
               </button>
             </div>
@@ -856,7 +856,7 @@ export default function Story() {
                   style={{ fontFamily: "var(--font-federo-g), 'Federo', var(--font-quicksand-g), 'Quicksand', sans-serif" }}
                   className="ticket-edge group bg-[#FFD95B] text-[#2B1824] border-3 border-[#2B1824] shadow-[3px_3px_0_#2B1824] hover:bg-[#FFE7A3] hover:-translate-y-0.5 hover:scale-[1.02] active:scale-[0.97] px-8 py-3.5 rounded-full text-base uppercase tracking-[0.14em] transition-all duration-200 cursor-pointer focus-visible:outline-none font-extrabold flex items-center gap-2"
                 >
-                  <span>{story.ctaText || "SEE ALL BAKES"}</span>
+                  <span>{story.ctaText || "SEE OUR FAVES"}</span>
                   <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
                 </button>
               </div>

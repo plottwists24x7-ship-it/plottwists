@@ -11,6 +11,8 @@ export interface SharedProduct {
   badge?: string;
   badgeText?: string;
   isPopular?: boolean;
+  isBestseller?: boolean;
+  bestsellerOrder?: number;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -150,6 +152,66 @@ export const INITIAL_PRODUCTS: SharedProduct[] = [
     badge: "Molten Chips ✨",
     badgeText: "Molten Chips ✨",
     isPopular: false,
+  },
+];
+
+// ─── 1B. OUR FAVES (FOUR FEATURED BESTSELLERS) ───
+export const INITIAL_FAVES: SharedProduct[] = [
+  {
+    id: "muffins",
+    name: "Double Chocolate Muffins",
+    description: "Richly double chocolate muffins with molten chocolate centres and a delicate crumb topping.",
+    image: "/images/menu-decor/doodle-muffin-large.svg",
+    serial: "01 / 04",
+    price: "$24.00",
+    category: "Muffins",
+    badge: "Double Choc 🧁",
+    badgeText: "Double Choc 🧁",
+    isPopular: true,
+    isBestseller: true,
+    bestsellerOrder: 1,
+  },
+  {
+    id: "chocolate-chip",
+    name: "Chocolate Chip Cookies",
+    description: "Crispy golden edges with warm molten chocolate pockets, baked fresh throughout the morning.",
+    image: "/images/baker-where/prod_chocolate_cookies.jpg",
+    serial: "02 / 04",
+    price: "$18.00",
+    category: "Cookies",
+    badge: "Molten Chips ✨",
+    badgeText: "Molten Chips ✨",
+    isPopular: true,
+    isBestseller: true,
+    bestsellerOrder: 2,
+  },
+  {
+    id: "oreo-fudge",
+    name: "Mocha Oreo Fudge",
+    description: "Rich chocolate fudge folded with crunchy Oreo crumbs, espresso roast notes and a soft melt-in-your-mouth centre.",
+    image: "/images/baker-where/prod_oreo_fudge.jpg",
+    serial: "03 / 04",
+    price: "$26.00",
+    category: "Mocha Oreo",
+    badge: "Double Choc 🍫",
+    badgeText: "Double Choc 🍫",
+    isPopular: true,
+    isBestseller: true,
+    bestsellerOrder: 3,
+  },
+  {
+    id: "tiramisu",
+    name: "Venetian Tiramisu",
+    description: "Layered espresso-soaked ladyfingers, velvety mascarpone cream and dusted Dutch cocoa.",
+    image: "/images/baker-where/prod_tiramisu.jpg",
+    serial: "04 / 04",
+    price: "$32.00",
+    category: "Tiramisu",
+    badge: "Espresso Kick ☕",
+    badgeText: "Espresso Kick ☕",
+    isPopular: true,
+    isBestseller: true,
+    bestsellerOrder: 4,
   },
 ];
 
@@ -455,8 +517,8 @@ export const INITIAL_STORY: StoryConfig = {
   noteRight: '"slow fermentation" ♡',
   recipeNumber: "RECIPE CARD № 042 • HANDCRAFTED",
   description: "Plotwist makes small-batch desserts with familiar ingredients, soft textures, and care that feels personal. We believe in taking time—nurturing sourdough starter, slow rising, and cooling pastries naturally.",
-  ctaText: "SEE ALL BAKES",
-  ctaLink: "#bakes",
+  ctaText: "SEE OUR FAVES",
+  ctaLink: "#faves",
   image: "/images/baker-where/hero_bakery.jpg",
   imageAlt: "Artisan bakery kitchen prep",
   imageCaption: "artisan sourdough prep ♡",

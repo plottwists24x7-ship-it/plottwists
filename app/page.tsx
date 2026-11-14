@@ -47,8 +47,8 @@ export default function Home() {
         <Story />
       </div>
 
-      {/* Our Bakes / Products Showcase Section */}
-      <div id="bakes">
+      {/* Our Faves Showcase Section */}
+      <div id="faves">
         <Products />
       </div>
 

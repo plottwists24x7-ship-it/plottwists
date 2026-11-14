@@ -7,73 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-  serial: string;
-  badgeText: string;
-}
-
-const PRODUCTS: Product[] = [
-  {
-    id: "oreo-fudge",
-    name: "Oreo Fudge",
-    description: "Rich chocolate fudge folded with crunchy Oreo crumbs and a soft melt-in-your-mouth centre.",
-    image: "/images/baker-where/prod_oreo_fudge.jpg",
-    serial: "01 / 07",
-    badgeText: "Double Choc 🍫",
-  },
-  {
-    id: "pancakes",
-    name: "Pancakes",
-    description: "Fluffy golden stacks made for slow mornings, soft bites, extra syrup, and rich whipped cream.",
-    image: "/images/baker-where/prod_pancakes.jpg",
-    serial: "02 / 07",
-    badgeText: "Fluffy Stacks 🥞",
-  },
-  {
-    id: "tiramisu",
-    name: "Tiramisu",
-    description: "Coffee-soaked layers of soft sponge, creamy mascarpone, and a dusting of dark espresso cocoa.",
-    image: "/images/baker-where/prod_tiramisu.jpg",
-    serial: "03 / 07",
-    badgeText: "Espresso Kick ☕",
-  },
-  {
-    id: "cheesecake",
-    name: "Cheesecake",
-    description: "Silky, creamy, lightly baked cheesecake with a buttery biscuit base and fresh berry drizzle.",
-    image: "/images/baker-where/prod_cheesecake.jpg",
-    serial: "04 / 07",
-    badgeText: "Lightly Baked 🍓",
-  },
-  {
-    id: "biscoff-brownie",
-    name: "Biscoff Brownie",
-    description: "Deep fudgy brownie finished with caramelised Biscoff spread and a warm gooey centre.",
-    image: "/images/baker-where/prod_biscoff_brownie.jpg",
-    serial: "05 / 07",
-    badgeText: "Gooey Centre 🍪",
-  },
-  {
-    id: "red-velvet",
-    name: "Red Velvet Cake",
-    description: "Tender cocoa-red sponge layered with smooth cream-cheese frosting and white chocolate curls.",
-    image: "/images/baker-where/prod_red_velvet.jpg",
-    serial: "06 / 07",
-    badgeText: "Cream Frosting 🧁",
-  },
-  {
-    id: "chocolate-chip",
-    name: "Chocolate Chip Cookies",
-    description: "Crisp around the edges, soft in the middle, and packed with molten chocolate chips.",
-    image: "/images/baker-where/prod_chocolate_cookies.jpg",
-    serial: "07 / 07",
-    badgeText: "Molten Chips ✨",
-  },
-];
+import { useAdmin } from "@/context/AdminContext";
+import { INITIAL_FAVES } from "@/lib/mock-data";
 
 interface FloatingSticker {
   id: number;
@@ -86,16 +21,16 @@ interface FloatingSticker {
 }
 
 const FLOATING_STICKERS: FloatingSticker[] = [
-  { id: 1, top: "8%", left: "6%", size: "w-16 h-16 sm:w-20 sm:h-20", img: "/images/baker-where/prod_pancakes.jpg", xDir: -150, yDir: -120 },
-  { id: 2, top: "12%", left: "22%", size: "w-20 h-20 sm:w-24 sm:h-24", img: "/images/baker-where/prod_tiramisu.jpg", xDir: -80, yDir: -180 },
-  { id: 3, top: "6%", left: "82%", size: "w-18 h-18 sm:w-22 sm:h-22", img: "/images/baker-where/prod_biscoff_brownie.jpg", xDir: 120, yDir: -160 },
-  { id: 4, top: "16%", left: "90%", size: "w-16 h-16 sm:w-20 sm:h-20", img: "/images/baker-where/prod_oreo_fudge.jpg", xDir: 180, yDir: -100 },
-  { id: 5, top: "45%", left: "5%", size: "w-20 h-20 sm:w-24 sm:h-24", img: "/images/baker-where/prod_cheesecake.jpg", xDir: -180, yDir: -20 },
-  { id: 6, top: "78%", left: "8%", size: "w-16 h-16 sm:w-20 sm:h-20", img: "/images/baker-where/prod_red_velvet.jpg", xDir: -150, yDir: 120 },
-  { id: 7, top: "82%", left: "28%", size: "w-20 h-20 sm:w-24 sm:h-24", img: "/images/baker-where/prod_chocolate_cookies.jpg", xDir: -60, yDir: 180 },
-  { id: 8, top: "48%", left: "88%", size: "w-20 h-20 sm:w-24 sm:h-24", img: "/images/baker-where/prod_pancakes.jpg", xDir: 180, yDir: 10 },
-  { id: 9, top: "76%", left: "85%", size: "w-18 h-18 sm:w-22 sm:h-22", img: "/images/baker-where/prod_tiramisu.jpg", xDir: 150, yDir: 140 },
-  { id: 10, top: "84%", left: "68%", size: "w-16 h-16 sm:w-20 sm:h-20", img: "/images/baker-where/prod_biscoff_brownie.jpg", xDir: 80, yDir: 180 },
+  { id: 1, top: "8%", left: "6%", size: "w-16 h-16 sm:w-20 sm:h-20", img: "/images/menu-decor/doodle-muffin-large.svg", xDir: -150, yDir: -120 },
+  { id: 2, top: "12%", left: "22%", size: "w-20 h-20 sm:w-24 sm:h-24", img: "/images/baker-where/prod_chocolate_cookies.jpg", xDir: -80, yDir: -180 },
+  { id: 3, top: "6%", left: "82%", size: "w-18 h-18 sm:w-22 sm:h-22", img: "/images/baker-where/prod_oreo_fudge.jpg", xDir: 120, yDir: -160 },
+  { id: 4, top: "16%", left: "90%", size: "w-16 h-16 sm:w-20 sm:h-20", img: "/images/baker-where/prod_tiramisu.jpg", xDir: 180, yDir: -100 },
+  { id: 5, top: "45%", left: "5%", size: "w-20 h-20 sm:w-24 sm:h-24", img: "/images/menu-decor/doodle-muffin-large.svg", xDir: -180, yDir: -20 },
+  { id: 6, top: "78%", left: "8%", size: "w-16 h-16 sm:w-20 sm:h-20", img: "/images/baker-where/prod_chocolate_cookies.jpg", xDir: -150, yDir: 120 },
+  { id: 7, top: "82%", left: "28%", size: "w-20 h-20 sm:w-24 sm:h-24", img: "/images/baker-where/prod_oreo_fudge.jpg", xDir: -60, yDir: 180 },
+  { id: 8, top: "48%", left: "88%", size: "w-20 h-20 sm:w-24 sm:h-24", img: "/images/baker-where/prod_tiramisu.jpg", xDir: 180, yDir: 10 },
+  { id: 9, top: "76%", left: "85%", size: "w-18 h-18 sm:w-22 sm:h-22", img: "/images/menu-decor/doodle-muffin-large.svg", xDir: 150, yDir: 140 },
+  { id: 10, top: "84%", left: "68%", size: "w-16 h-16 sm:w-20 sm:h-20", img: "/images/baker-where/prod_chocolate_cookies.jpg", xDir: 80, yDir: 180 },
 ];
 
 const AsteriskStarDoodle = ({ className = "w-7 h-7 text-[#6B2C12]" }: { className?: string }) => (
@@ -147,11 +82,9 @@ const FlowerDoodle = ({ className = "w-7 h-7 text-[#6B2C12]" }: { className?: st
   </svg>
 );
 
-import { useAdmin } from "@/context/AdminContext";
-
 export default function Products() {
-  const { bakes } = useAdmin();
-  const activeProducts = bakes && bakes.length > 0 ? bakes : PRODUCTS;
+  const { faves } = useAdmin();
+  const activeProducts = faves && faves.length === 4 ? faves : INITIAL_FAVES;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const pinWrapperRef = useRef<HTMLDivElement>(null);
@@ -371,7 +304,7 @@ export default function Products() {
 
   return (
     <section
-      id="bakes"
+      id="faves"
       ref={containerRef}
       style={{
         backgroundColor: "#FFFCEB",
@@ -380,6 +313,8 @@ export default function Products() {
       }}
       className="w-full relative text-[#3D2E25] scroll-mt-20 overflow-hidden border-b-4 border-[#6B2C12]/20 select-none"
     >
+      {/* Backward-compatibility anchor for #bakes */}
+      <span id="bakes" className="absolute -top-24 pointer-events-none opacity-0" />
       {/* ========================================================================= */}
       {/* DESKTOP PINNED HORIZONTAL SCROLL CONTAINER */}
       {/* ========================================================================= */}
@@ -426,12 +361,17 @@ export default function Products() {
           <SmileyDoodle className="absolute top-[28%] right-[18%] w-8 h-8 text-[#6B2C12] rotate-6" />
           <FlowerDoodle className="absolute top-[15%] right-[36%] w-8 h-8 text-[#6B2C12] -rotate-6" />
 
-          <h2 className="font-cherry text-[72px] sm:text-[84px] text-[#3B2A22] uppercase leading-[0.92] tracking-[0.03em] text-center font-bold mb-6">
-            OUR BAKES
+          {/* Small Editorial Label */}
+          <span className="font-manrope text-xs sm:text-sm font-extrabold uppercase tracking-[0.25em] text-[#F43F5E] mb-3 block">
+            THE CROWD FAVOURITES
+          </span>
+
+          <h2 className="font-cherry text-[72px] sm:text-[84px] text-[#3B2A22] uppercase leading-[0.92] tracking-[0.03em] text-center font-bold mb-4">
+            OUR FAVES
           </h2>
           
           <p className="font-manrope text-[#4A4A4A] text-[18px] sm:text-[20px] font-medium leading-[1.7] max-w-[460px] text-center mb-8">
-            From wholesome muffins and buttery croissants to rich brownies, soft cookies, and celebration cakes—made fresh daily.
+            A few little obsessions everyone&apos;s talking about.
           </p>
 
           <div className="flex flex-col items-center gap-3">
@@ -550,8 +490,8 @@ export default function Products() {
         {/* PROGRESS BAR BOTTOM DOCK */}
         <div className="absolute bottom-6 left-16 right-16 z-30 flex flex-col gap-2 pointer-events-none select-none">
           <div className="flex justify-between items-center text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[#6B2C12]/80">
-            <span>PLOTWIST BAKERY FAVORITES</span>
-            <span>{activeProductNum} / 07</span>
+            <span>PLOTWIST CROWD FAVOURITES</span>
+            <span>{activeProductNum} / 04</span>
           </div>
           <div className="w-full h-1.5 bg-[#6B2C12]/15 rounded-full overflow-hidden">
             <div ref={progressBarRef} className="h-full bg-[#6B2C12] w-0" />
@@ -566,17 +506,20 @@ export default function Products() {
       <div className="w-full py-12 xs:py-16 px-4 xs:px-6 block lg:hidden relative z-10">
         
         <div className="text-center mb-8 xs:mb-12 select-none">
+          <span className="font-manrope text-[11px] font-extrabold uppercase tracking-[0.25em] text-[#F43F5E] mb-2 block">
+            THE CROWD FAVOURITES
+          </span>
           <h2
             style={{ fontFamily: "var(--font-fasthand-g), 'FastHand', 'Fasthand', cursive, sans-serif" }}
             className="text-4xl xs:text-5xl text-[#6B2C12] uppercase leading-[0.9] tracking-tight mb-2.5 font-bold"
           >
-            OUR BAKES
+            OUR FAVES
           </h2>
           <p
             style={{ fontFamily: "var(--font-workforce-g), 'Workforce', sans-serif" }}
             className="text-xs xs:text-sm text-[#4A4A4A] max-w-sm mx-auto font-medium"
           >
-            Scroll to discover our fresh handcrafted creations.
+            A few little obsessions everyone&apos;s talking about.
           </p>
         </div>
 

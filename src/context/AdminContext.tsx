@@ -12,7 +12,8 @@ import {
   INITIAL_HERO,
   INITIAL_STORY,
   INITIAL_STORY_IMAGES,
-  INITIAL_INSTAGRAM_CTA
+  INITIAL_INSTAGRAM_CTA,
+  INITIAL_FAVES
 } from "@/lib/mock-data";
 import { createClient, getProductImageUrl } from "@/lib/supabase/client";
 import { ToastItem, ToastContainer } from "@/components/admin/ToastNotification";
@@ -31,6 +32,8 @@ interface ProductRow {
   badge: string | null;
   is_popular: boolean;
   display_order: number;
+  is_bestseller?: boolean | null;
+  bestseller_order?: number | null;
   created_at: string;
   updated_at: string;
 }
@@ -49,6 +52,8 @@ function mapProductRowToShared(row: ProductRow, index: number, total: number): S
     badge: row.badge || undefined,
     badgeText: row.badge || "Fresh Bake ✨",
     isPopular: row.is_popular,
+    isBestseller: Boolean(row.is_bestseller),
+    bestsellerOrder: row.bestseller_order ?? undefined,
     serial: serialStr,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -193,6 +198,7 @@ export interface AdminStats {
 export interface AdminContextType {
   // Shared Data Sources
   bakes: SharedProduct[];
+  faves: SharedProduct[];
   gallery: SharedGalleryPhoto[];
   reviews: SharedReview[];
   hero: HeroConfig;
@@ -916,6 +922,61 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     setLastUpdated("Refreshed from Supabase database");
   }, []);
 
+  // ─── OUR FAVES (FOUR FEATURED BESTSELLERS) ───
+  const faves: SharedProduct[] = useMemo(() => {
+    // 1. If database products have is_bestseller = true
+    const bestsellerRows = bakes.filter((b) => b.isBestseller === true);
+    if (bestsellerRows.length >= 4) {
+      return [...bestsellerRows]
+        .sort((a, b) => (a.bestsellerOrder ?? 99) - (b.bestsellerOrder ?? 99))
+        .slice(0, 4)
+        .map((item, idx) => ({
+          ...item,
+          serial: `0${idx + 1} / 04`,
+        }));
+    }
+
+    // 2. Deterministic match against the 4 canonical categories:
+    // 01 Muffins, 02 Cookies, 03 Mocha Oreo, 04 Tiramisu
+    const findMatch = (matcher: (b: SharedProduct) => boolean, fallback: SharedProduct): SharedProduct => {
+      const found = bakes.find(matcher);
+      if (!found) return fallback;
+      return {
+        ...fallback,
+        ...found,
+        name: found.name || fallback.name,
+        description: found.description || fallback.description,
+        image: found.image || fallback.image,
+        price: found.price || fallback.price,
+        badgeText: found.badgeText || fallback.badgeText,
+      };
+    };
+
+    const f1 = findMatch(
+      (b) => b.category?.toLowerCase() === "muffins" || b.name?.toLowerCase().includes("muffin"),
+      INITIAL_FAVES[0]
+    );
+    const f2 = findMatch(
+      (b) => b.category?.toLowerCase() === "cookies" || b.name?.toLowerCase().includes("cookie"),
+      INITIAL_FAVES[1]
+    );
+    const f3 = findMatch(
+      (b) => b.name?.toLowerCase().includes("oreo") || b.description?.toLowerCase().includes("oreo"),
+      INITIAL_FAVES[2]
+    );
+    const f4 = findMatch(
+      (b) => b.category?.toLowerCase() === "tiramisu" || b.name?.toLowerCase().includes("tiramisu"),
+      INITIAL_FAVES[3]
+    );
+
+    return [
+      { ...f1, serial: "01 / 04" },
+      { ...f2, serial: "02 / 04" },
+      { ...f3, serial: "03 / 04" },
+      { ...f4, serial: "04 / 04" },
+    ];
+  }, [bakes]);
+
   const stats: AdminStats = useMemo(() => ({
     totalBakes: bakes.length,
     galleryImages: gallery.length,
@@ -925,6 +986,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo(() => ({
     bakes,
+    faves,
     gallery,
     reviews,
     hero,
@@ -953,6 +1015,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     resetToDefaults,
   }), [
     bakes,
+    faves,
     gallery,
     reviews,
     hero,
