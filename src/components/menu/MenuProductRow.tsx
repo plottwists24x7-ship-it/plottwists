@@ -31,8 +31,11 @@ export function MenuProductRow({
   return (
     <motion.div
       variants={shouldReduceMotion ? undefined : productRowVariants}
-      initial="initial"
-      whileHover={shouldReduceMotion ? undefined : "hover"}
+      whileHover={
+        shouldReduceMotion
+          ? undefined
+          : { x: 3, transition: { duration: 0.16, ease: "easeOut" } }
+      }
       className={`group py-1 sm:py-1.5 transition-colors ${
         !isLast ? `border-b ${dividerBorderColor}` : ""
       }`}

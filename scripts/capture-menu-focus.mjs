@@ -82,7 +82,16 @@ async function capture(name, width, height, isMobile = false) {
     await send('Page.navigate', { url: 'http://localhost:3000' });
     await new Promise(r => setTimeout(r, 2500));
 
-    // Scroll to #menu
+    // Scroll down to #story first
+    await send('Runtime.evaluate', {
+      expression: `(() => {
+        const el = document.getElementById('story');
+        if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' });
+      })()`
+    });
+    await new Promise(r => setTimeout(r, 600));
+
+    // Scroll into #menu
     await send('Runtime.evaluate', {
       expression: `(() => {
         const el = document.getElementById('menu');
@@ -127,12 +136,6 @@ async function capture(name, width, height, isMobile = false) {
     fs.writeFileSync(outputPath, Buffer.from(screenshotRes.result.data, 'base64'));
     console.log(`Saved ${outputPath}`);
 
-    if (consoleLogs.length > 0) {
-      console.log(`Console logs for ${name}:`, consoleLogs);
-    } else {
-      console.log(`Zero console errors for ${name}.`);
-    }
-
     ws.close();
   } finally {
     if (chromeProc) chromeProc.kill();
@@ -140,16 +143,16 @@ async function capture(name, width, height, isMobile = false) {
 }
 
 async function main() {
-  console.log('Capturing Desktop V3 (1440x1200)...');
-  await capture('menu-v3-desktop', 1440, 1200, false);
+  console.log('Capturing Desktop V7 (1440x1200)...');
+  await capture('menu-v7-desktop', 1440, 1200, false);
   await new Promise(r => setTimeout(r, 1000));
 
-  console.log('Capturing Mobile V3 (390x1400)...');
-  await capture('menu-v3-mobile', 390, 1400, true);
+  console.log('Capturing Mobile V7 (390x1400)...');
+  await capture('menu-v7-mobile', 390, 1400, true);
   await new Promise(r => setTimeout(r, 1000));
 
-  console.log('Capturing Tablet V3 (768x1400)...');
-  await capture('menu-v3-tablet', 768, 1400, false);
+  console.log('Capturing Tablet V7 (768x1400)...');
+  await capture('menu-v7-tablet', 768, 1400, false);
 }
 
 main();

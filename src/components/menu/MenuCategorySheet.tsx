@@ -9,6 +9,9 @@ import {
   sheetBoxesVariants,
   sheetJarsVariants,
   sheetWafflesVariants,
+  tapeVariants,
+  stickerPopVariants,
+  productListVariants,
 } from "./menu-animations";
 
 interface MenuCategorySheetProps {
@@ -18,7 +21,7 @@ interface MenuCategorySheetProps {
 export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
   const shouldReduceMotion = useReducedMotion();
 
-  // Select entrance variant per sheet
+  // Select motion variant per category personality
   const motionVariant =
     category.id === "boxes"
       ? sheetBoxesVariants
@@ -26,7 +29,6 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
       ? sheetJarsVariants
       : sheetWafflesVariants;
 
-  // Desktop vs mobile rotation classes
   const rotationClass =
     category.id === "boxes"
       ? "md:-rotate-[1.2deg]"
@@ -39,13 +41,14 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
       variants={shouldReduceMotion ? undefined : motionVariant}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-40px" }}
+      viewport={{ once: false, amount: 0.15 }}
       className={`relative w-full rounded-2xl md:rounded-3xl border-[3px] border-[#3B2922] shadow-[5px_6px_0px_#3B2922] md:shadow-[6px_7px_0px_#3B2922] transition-all duration-300 hover:-translate-y-1 hover:shadow-[8px_9px_0px_#3B2922] ${rotationClass}`}
       style={{ backgroundColor: category.bgColor }}
       id={`menu-sheet-${category.id}`}
     >
-      {/* ── TOP WASHI TAPE (Overhanging physical tape) ── */}
-      <div
+      {/* ── TOP WASHI TAPE (Overhanging physical tape with Spring Drop) ── */}
+      <motion.div
+        variants={shouldReduceMotion ? undefined : tapeVariants}
         className={`absolute -top-3.5 sm:-top-4 ${
           category.id === "boxes" ? "left-[26%] sm:left-[28%]" : "left-1/2"
         } -translate-x-1/2 z-20 pointer-events-none drop-shadow-xs select-none`}
@@ -59,7 +62,7 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
           className="w-18 sm:w-22 md:w-24 h-auto"
           priority
         />
-      </div>
+      </motion.div>
 
       {/* ── 01 / BOXES SPECIFIC: Notebook Spiral Punch Holes & Paperclip ── */}
       {category.id === "boxes" && (
@@ -164,8 +167,15 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
           </div>
         </div>
 
-        {/* ── PRODUCT ITEMS LIST ── */}
-        <div className="relative z-10 space-y-0.5" role="list">
+        {/* ── PRODUCT ITEMS LIST (Staggered Choreography) ── */}
+        <motion.div
+          variants={shouldReduceMotion ? undefined : productListVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.15 }}
+          className="relative z-10 space-y-0.5"
+          role="list"
+        >
           {category.products.map((product, idx) => (
             <MenuProductRow
               key={product.id}
@@ -175,13 +185,14 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
               nameFontClass={category.productNameFontClass}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* ── BESPOKE CORNER STICKERS ── */}
       {category.id === "boxes" && (
         /* Pink Heart Sticker at Bottom-Right */
-        <div
+        <motion.div
+          variants={shouldReduceMotion ? undefined : stickerPopVariants}
           className="absolute -bottom-2.5 -right-2 z-20 pointer-events-none drop-shadow select-none"
           aria-hidden="true"
         >
@@ -192,12 +203,13 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
             height={26}
             className="w-6 sm:w-7 h-auto rotate-12"
           />
-        </div>
+        </motion.div>
       )}
 
       {category.id === "waffles" && (
         /* Pink Heart Sticker at Bottom-Right */
-        <div
+        <motion.div
+          variants={shouldReduceMotion ? undefined : stickerPopVariants}
           className="absolute -bottom-2.5 -right-2 z-20 pointer-events-none drop-shadow select-none"
           aria-hidden="true"
         >
@@ -208,7 +220,7 @@ export function MenuCategorySheet({ category }: MenuCategorySheetProps) {
             height={26}
             className="w-6 sm:w-7 h-auto rotate-12"
           />
-        </div>
+        </motion.div>
       )}
     </motion.div>
   );

@@ -3,7 +3,13 @@
 import React from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import { headingVariants } from "./menu-animations";
+import {
+  headingVariants,
+  underlineVariants,
+  whiskVariants,
+  noteDropVariants,
+  stampVariants,
+} from "./menu-animations";
 
 export function MenuHeading() {
   const shouldReduceMotion = useReducedMotion();
@@ -13,7 +19,7 @@ export function MenuHeading() {
       variants={shouldReduceMotion ? undefined : headingVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-30px" }}
+      viewport={{ once: false, amount: 0.2 }}
       className="relative mb-5 sm:mb-6 md:mb-7"
     >
       <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-3 sm:gap-4">
@@ -22,7 +28,10 @@ export function MenuHeading() {
         <div className="relative flex items-center gap-2.5 sm:gap-3.5">
           
           {/* Handdrawn Kitchen Whisk Doodle */}
-          <div className="hidden sm:block relative shrink-0 -rotate-12 pointer-events-none select-none">
+          <motion.div
+            variants={shouldReduceMotion ? undefined : whiskVariants}
+            className="hidden sm:block relative shrink-0 pointer-events-none select-none"
+          >
             <Image
               src="/images/menu-decor/handdrawn-whisk.svg"
               alt=""
@@ -31,7 +40,7 @@ export function MenuHeading() {
               className="w-8 sm:w-9 md:w-10 h-auto drop-shadow-xs"
               priority
             />
-          </div>
+          </motion.div>
 
           {/* Main Title Block */}
           <div className="relative select-none text-center sm:text-left">
@@ -65,8 +74,11 @@ export function MenuHeading() {
               </div>
             </div>
 
-            {/* Pink Crayon Marker Brush Underline */}
-            <div className="h-2 sm:h-2.5 w-full bg-[#F45B73] rounded-full opacity-85 transform -rotate-0.5 shadow-xs -mt-0.5" />
+            {/* Pink Crayon Marker Brush Underline (Bidirectional Expansion) */}
+            <motion.div
+              variants={shouldReduceMotion ? undefined : underlineVariants}
+              className="h-2 sm:h-2.5 w-full bg-[#F45B73] rounded-full transform -rotate-0.5 shadow-xs -mt-0.5 origin-left"
+            />
           </div>
         </div>
 
@@ -74,7 +86,10 @@ export function MenuHeading() {
         <div className="flex items-center gap-3 relative">
           
           {/* Taped Recipe Note ("A little something for every craving. ♡") */}
-          <div className="relative rotate-[-1.5deg] hover:rotate-0 transition-transform duration-200">
+          <motion.div
+            variants={shouldReduceMotion ? undefined : noteDropVariants}
+            className="relative hover:rotate-0 transition-transform duration-200"
+          >
             {/* Blue Washi Tape */}
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 pointer-events-none drop-shadow-xs">
               <Image
@@ -93,19 +108,22 @@ export function MenuHeading() {
                 A little something for every craving. ♡
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Bakery Rubber Ink Stamp */}
-          <div className="hidden lg:block transform rotate-[4deg] hover:rotate-8 transition-transform duration-300 select-none opacity-85 shrink-0">
+          <motion.div
+            variants={shouldReduceMotion ? undefined : stampVariants}
+            className="hidden lg:block select-none shrink-0 cursor-default"
+          >
             <Image
               src="/images/menu-decor/bakery-stamp.svg"
               alt="PlotTwist Bakery stamp"
               width={92}
               height={92}
               style={{ height: "auto" }}
-              className="w-18 xl:w-20 h-auto drop-shadow-xs"
+              className="w-18 xl:w-20 h-auto drop-shadow-xs hover:rotate-8 transition-transform duration-300"
             />
-          </div>
+          </motion.div>
 
         </div>
 

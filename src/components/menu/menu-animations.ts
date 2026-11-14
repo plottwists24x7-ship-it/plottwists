@@ -1,164 +1,215 @@
 /**
- * PLOTTWIST BAKERY: SCRAPBOOK MENU ANIMATION VARIANTS
- * Framer Motion transition definitions with prefers-reduced-motion support.
+ * PLOTTWIST BAKERY: SCRAPBOOK MENU ANIMATION SYSTEM (V7)
+ * Bidirectional Scroll-Responsive choreography with Framer Motion.
+ * Supports both downward and upward scrolling with prefers-reduced-motion fallback.
  */
 
 import { Variants } from "framer-motion";
 
-// Check reduced motion in client context
-export const getTransition = (duration: number, delay: number = 0) => ({
-  duration,
-  delay,
-  ease: [0.22, 1, 0.36, 1], // Custom smooth cubic-bezier
-});
-
-// Section Container Variants
-export const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.08,
-    },
-  },
-};
-
-// Title and Heading Variants
+// ── 1. MAIN HEADING & MASTHEAD ──
 export const headingVariants: Variants = {
-  hidden: { opacity: 0, y: 24, rotate: -1 },
+  hidden: { opacity: 0, y: 22 },
   visible: {
     opacity: 1,
     y: 0,
-    rotate: 0,
     transition: {
-      duration: 0.6,
-      ease: [0.25, 0.1, 0.25, 1],
+      duration: 0.55,
+      ease: [0.22, 1, 0.36, 1],
     },
   },
 };
 
-// Stationery Sheets Variants
+export const underlineVariants: Variants = {
+  hidden: { scaleX: 0, opacity: 0 },
+  visible: {
+    scaleX: 1,
+    opacity: 0.85,
+    transition: {
+      duration: 0.6,
+      delay: 0.18,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+export const whiskVariants: Variants = {
+  hidden: { opacity: 0, rotate: -35, scale: 0.75 },
+  visible: {
+    opacity: 1,
+    rotate: -12,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 260,
+      damping: 18,
+      delay: 0.12,
+    },
+  },
+};
+
+export const noteDropVariants: Variants = {
+  hidden: { opacity: 0, y: -12, rotate: -6 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotate: -1.5,
+    transition: {
+      type: "spring",
+      stiffness: 240,
+      damping: 20,
+      delay: 0.2,
+    },
+  },
+};
+
+export const stampVariants: Variants = {
+  hidden: { opacity: 0, scale: 1.25, rotate: 0 },
+  visible: {
+    opacity: 0.85,
+    scale: 1,
+    rotate: 4,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 18,
+      delay: 0.25,
+    },
+  },
+};
+
+// ── 2. ASYMMETRIC STATIONERY SHEETS ──
 export const sheetBoxesVariants: Variants = {
-  hidden: { opacity: 0, x: -32, y: 20, rotate: -4 },
+  hidden: { opacity: 0, x: -28, y: 16, rotate: -3.5 },
   visible: {
     opacity: 1,
     x: 0,
     y: 0,
-    rotate: -1.8,
+    rotate: -1.2,
     transition: {
-      duration: 0.7,
+      duration: 0.65,
       ease: [0.22, 1, 0.36, 1],
     },
   },
 };
 
 export const sheetJarsVariants: Variants = {
-  hidden: { opacity: 0, x: 28, y: -16, rotate: 3 },
+  hidden: { opacity: 0, y: -24, rotate: 3 },
   visible: {
     opacity: 1,
-    x: 0,
     y: 0,
-    rotate: 1.4,
+    rotate: 1.2,
     transition: {
-      duration: 0.7,
-      delay: 0.15,
+      duration: 0.65,
+      delay: 0.12,
       ease: [0.22, 1, 0.36, 1],
     },
   },
 };
 
 export const sheetWafflesVariants: Variants = {
-  hidden: { opacity: 0, x: 28, y: 24, rotate: -2 },
+  hidden: { opacity: 0, x: 24, y: 20, rotate: -2.5 },
   visible: {
     opacity: 1,
     x: 0,
     y: 0,
     rotate: -0.8,
     transition: {
-      duration: 0.7,
-      delay: 0.25,
+      duration: 0.65,
+      delay: 0.22,
       ease: [0.22, 1, 0.36, 1],
     },
   },
 };
 
-// Washi Tape Spring Dropdown
+// ── 3. WASHI TAPE ATTACHMENTS ──
 export const tapeVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.7, y: -12 },
+  hidden: { opacity: 0, scale: 0.6, y: -10 },
   visible: {
     opacity: 1,
     scale: 1,
     y: 0,
     transition: {
       type: "spring",
-      stiffness: 280,
-      damping: 22,
-      delay: 0.3,
+      stiffness: 320,
+      damping: 20,
+      delay: 0.22,
     },
   },
 };
 
-// Pop-in Sticker Animation
+// ── 4. PRODUCT ROWS (STAGGERED CONTAINER & ITEMS) ──
+export const productListVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.04,
+      delayChildren: 0.12,
+    },
+  },
+};
+
+export const productRowVariants: Variants = {
+  hidden: { opacity: 0, y: 7 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.32,
+      ease: "easeOut",
+    },
+  },
+};
+
+// ── 5. SCRAPBOOK STICKERS & BAKERY ILLUSTRATIONS ──
 export const stickerPopVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.4, rotate: -12 },
+  hidden: { opacity: 0, scale: 0.45, rotate: -8 },
   visible: {
     opacity: 1,
     scale: 1,
     rotate: 0,
     transition: {
       type: "spring",
-      stiffness: 320,
-      damping: 20,
-      delay: 0.35,
+      stiffness: 280,
+      damping: 18,
+      delay: 0.18,
     },
   },
 };
 
-// Subtle Idle Floating Doodles
 export const idleFloatVariants: Variants = {
   initial: { y: 0, rotate: 0 },
   animate: {
-    y: [-3, 3, -3],
-    rotate: [-1.2, 1.2, -1.2],
+    y: [-2.5, 2.5, -2.5],
+    rotate: [-1, 1, -1],
     transition: {
-      duration: 5,
+      duration: 4.8,
       repeat: Infinity,
       ease: "easeInOut",
     },
   },
 };
 
-// Product Row Hover Effect
-export const productRowVariants: Variants = {
-  initial: { x: 0 },
-  hover: {
-    x: 3,
-    transition: { duration: 0.18, ease: "easeOut" },
-  },
-};
-
-// Bottom CTA Bar Variants
+// ── 6. BOTTOM ORDER CTA BAR ──
 export const ctaBarVariants: Variants = {
-  hidden: { opacity: 0, y: 28, scale: 0.98 },
+  hidden: { opacity: 0, y: 24, scale: 0.98 },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.65,
-      delay: 0.35,
+      duration: 0.55,
+      delay: 0.15,
       ease: [0.22, 1, 0.36, 1],
     },
   },
 };
 
-// Reduced Motion Alternative Variants (Accessible Fallback)
+// ── 7. ACCESSIBLE REDUCED MOTION FALLBACK ──
 export const reducedMotionVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { duration: 0.3 },
+    transition: { duration: 0.25 },
   },
 };
-

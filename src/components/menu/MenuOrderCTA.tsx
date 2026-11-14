@@ -18,7 +18,7 @@ export function MenuOrderCTA() {
       variants={shouldReduceMotion ? undefined : ctaBarVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0 }}
+      viewport={{ once: false, amount: 0.15 }}
       className="relative mt-6 sm:mt-7 md:mt-8 max-w-4xl mx-auto"
     >
       {/* ── TOP WASHI TAPE (Pink Tape pinning the CTA card) ── */}

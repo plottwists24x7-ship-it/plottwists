@@ -16,7 +16,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden xl:block absolute -left-16 2xl:-left-20 top-[8%] z-20 pointer-events-none select-none"
         aria-hidden="true"
       >
@@ -34,7 +34,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden lg:block absolute -left-14 xl:-left-18 top-[24%] z-25 pointer-events-none select-none"
         aria-hidden="true"
       >
@@ -58,7 +58,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden xl:block absolute -left-10 2xl:-left-12 top-[46%] z-20 pointer-events-none select-none"
         aria-hidden="true"
       >
@@ -76,7 +76,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden xl:block absolute -left-12 top-[58%] z-20 pointer-events-none select-none"
         aria-hidden="true"
       >
@@ -95,7 +95,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden xl:block absolute left-[44%] -top-5 z-20 pointer-events-none select-none opacity-85"
         aria-hidden="true"
       >
@@ -114,7 +114,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden lg:block absolute left-[56.5%] top-[48.5%] -translate-x-1/2 z-30 pointer-events-none select-none"
         aria-hidden="true"
       >
@@ -132,7 +132,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden xl:block absolute left-[56%] top-[38%] -translate-x-1/2 z-25 pointer-events-none select-none opacity-80"
         aria-hidden="true"
       >
@@ -151,7 +151,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden xl:block absolute -right-14 2xl:-right-18 top-[4%] z-20 pointer-events-none select-none"
         aria-hidden="true"
       >
@@ -169,7 +169,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden lg:block absolute -right-14 xl:-right-18 top-[14%] z-25 pointer-events-none select-none"
         aria-hidden="true"
       >
@@ -193,7 +193,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden xl:block absolute -right-10 top-[34%] z-20 pointer-events-none select-none"
         aria-hidden="true"
       >
@@ -212,7 +212,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden lg:block absolute -right-3 top-[46%] z-30 pointer-events-none select-none"
         aria-hidden="true"
       >
@@ -245,7 +245,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden lg:block absolute -right-14 xl:-right-18 top-[64%] z-25 pointer-events-none select-none"
         aria-hidden="true"
       >
@@ -269,7 +269,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden xl:block absolute -right-10 top-[88%] z-20 pointer-events-none select-none"
         aria-hidden="true"
       >
@@ -288,7 +288,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden lg:block absolute -left-16 xl:-left-20 bottom-14 z-25 pointer-events-none select-none"
         aria-hidden="true"
       >
@@ -312,7 +312,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden xl:block absolute -left-14 bottom-0 z-20 pointer-events-none select-none"
         aria-hidden="true"
       >
@@ -330,7 +330,7 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         className="hidden lg:block absolute -left-8 lg:-left-10 -bottom-3 z-20 pointer-events-none select-none"
         aria-hidden="true"
       >
