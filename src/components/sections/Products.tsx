@@ -93,12 +93,40 @@ export default function Products() {
   const trackRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const [activeProductNum, setActiveProductNum] = useState("01");
+  const mobileCarouselRef = useRef<HTMLDivElement>(null);
+  const [mobileActiveIdx, setMobileActiveIdx] = useState(0);
 
   const scrollToInstagramCTA = () => {
     const element = document.getElementById("instagram-cta") || document.getElementById("contact-section");
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 1024;
+      const headerOffset = isMobile ? 85 : 95;
+      const y = element.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
     }
+  };
+
+  const handleMobileScroll = () => {
+    if (!mobileCarouselRef.current) return;
+    const { scrollLeft, clientWidth } = mobileCarouselRef.current;
+    const cardWidth = clientWidth * 0.82;
+    const newIndex = Math.round(scrollLeft / cardWidth);
+    setMobileActiveIdx(Math.min(activeProducts.length - 1, Math.max(0, newIndex)));
+  };
+
+  const scrollToCard = (index: number) => {
+    if (!mobileCarouselRef.current) return;
+    const cardWidth = mobileCarouselRef.current.clientWidth * 0.82;
+    mobileCarouselRef.current.scrollTo({
+      left: index * cardWidth,
+      behavior: "smooth"
+    });
+    setMobileActiveIdx(index);
+  };
+
+  const scrollMobileCarousel = (dir: number) => {
+    const nextIdx = Math.min(activeProducts.length - 1, Math.max(0, mobileActiveIdx + dir));
+    scrollToCard(nextIdx);
   };
 
   useEffect(() => {
@@ -140,7 +168,7 @@ export default function Products() {
               duration: 0.8,
               ease: "power2.out",
               scrollTrigger: {
-                trigger: containerRef.current?.querySelector(".mobile-showcase-container"),
+                trigger: containerRef.current?.querySelector(".mobile-carousel-container") || containerRef.current,
                 start: "top 85%",
               }
             }
@@ -501,11 +529,12 @@ export default function Products() {
       </div>
 
       {/* ========================================================================= */}
-      {/* MOBILE VERTICAL SHOWCASE SECTION (Premium, Thumb-Friendly, Conversion-Focused) */}
+      {/* MOBILE HORIZONTAL PRODUCT CAROUSEL (Touch-Friendly, Swipeable, Premium) */}
       {/* ========================================================================= */}
-      <div className="w-full py-12 xs:py-16 px-4 xs:px-6 block lg:hidden relative z-10">
+      <div className="w-full pt-20 xs:pt-24 pb-14 xs:pb-16 block lg:hidden relative z-10">
         
-        <div className="text-center mb-8 xs:mb-12 select-none">
+        {/* Editorial Heading */}
+        <div className="text-center mb-6 xs:mb-8 px-4 select-none">
           <span className="font-manrope text-[11px] font-extrabold uppercase tracking-[0.25em] text-[#F43F5E] mb-2 block">
             THE CROWD FAVOURITES
           </span>
@@ -523,60 +552,117 @@ export default function Products() {
           </p>
         </div>
 
-        <div className="mobile-showcase-container max-w-xl mx-auto flex flex-col gap-6 xs:gap-8">
-          {activeProducts.map((product) => (
-            <div
-              key={product.id}
-              className="mobile-product-card w-full p-5 xs:p-6 bg-white border-[3.5px] border-[#6B2C12] shadow-[5px_5px_0px_0px_#6B2C12] xs:shadow-[6px_6px_0px_0px_#6B2C12] rounded-3xl flex flex-col items-center gap-5 relative overflow-hidden"
-            >
-              <div className="relative w-40 h-40 xs:w-48 xs:h-48 flex-shrink-0 p-2 bg-[#FFF400] rounded-2xl shadow-inner">
-                <div className="relative w-full h-full rounded-xl overflow-hidden bg-white border-2 border-white shadow-xs">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    loading="lazy"
-                    sizes="(max-width: 640px) 192px, 300px"
-                    className="object-cover scale-105"
-                  />
-                </div>
-                {product.badgeText && (
-                  <div className="absolute -top-2.5 -right-2.5 bg-[#FFE63B] text-[#6B2C12] border-2 border-[#6B2C12] shadow-sm px-2.5 py-0.5 rounded-full font-bold text-[10px] uppercase tracking-wider transform rotate-6">
-                    {product.badgeText}
+        {/* HORIZONTAL SWIPE CAROUSEL (First card prominent, next card peeking at right edge) */}
+        <div className="mobile-carousel-container relative w-full overflow-hidden">
+          <div
+            ref={mobileCarouselRef}
+            onScroll={handleMobileScroll}
+            className="w-full flex gap-4 xs:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar px-6 xs:px-8 pb-5 pt-1 touch-pan-x"
+            style={{ scrollPaddingLeft: "1.5rem", scrollPaddingRight: "2rem" }}
+          >
+            {activeProducts.map((product, idx) => (
+              <div
+                key={product.id}
+                className="mobile-product-card snap-start shrink-0 w-[78vw] xs:w-[80vw] max-w-[325px] p-5 xs:p-6 bg-white border-[3.5px] border-[#6B2C12] shadow-[5px_5px_0px_0px_#6B2C12] rounded-3xl flex flex-col items-center gap-4 relative overflow-hidden select-none"
+              >
+                {/* Product Sticker Frame with Yellow Splash */}
+                <div className="relative w-40 h-40 xs:w-46 xs:h-46 flex-shrink-0 p-2 bg-[#FFF400] rounded-2xl shadow-inner flex items-center justify-center">
+                  <div className="relative w-full h-full rounded-xl overflow-hidden bg-white border-2 border-white shadow-xs">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      loading="lazy"
+                      sizes="(max-width: 640px) 200px, 320px"
+                      className="object-cover scale-105"
+                    />
                   </div>
-                )}
+                  {product.badgeText && (
+                    <div className="absolute -top-2.5 -right-2 bg-[#FFE63B] text-[#6B2C12] border-2 border-[#6B2C12] shadow-sm px-2.5 py-0.5 rounded-full font-bold text-[10px] uppercase tracking-wider transform rotate-6">
+                      {product.badgeText}
+                    </div>
+                  )}
+                </div>
+
+                {/* Card Editorial Info */}
+                <div className="w-full flex flex-col items-center text-center flex-1 justify-between">
+                  <div>
+                    <span className="text-[0.65rem] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full bg-[#6B2C12] text-[#FFFCEB] mb-2 block w-fit mx-auto">
+                      {product.serial || `0${idx + 1} / 04`}
+                    </span>
+                    
+                    <h4
+                      style={{ fontFamily: "var(--font-fasthand-g), 'FastHand', 'Fasthand', cursive, sans-serif" }}
+                      className="text-2xl xs:text-[26px] uppercase tracking-wider text-[#6B2C12] mb-1.5 font-bold leading-tight"
+                    >
+                      {product.name}
+                    </h4>
+
+                    <p
+                      style={{ fontFamily: "var(--font-workforce-g), 'Workforce', sans-serif" }}
+                      className="text-xs text-[#4A4A4A] font-medium leading-relaxed mb-4 line-clamp-3"
+                    >
+                      {product.description}
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={scrollToInstagramCTA}
+                    aria-label={`Try this bake: ${product.name}`}
+                    className="w-full min-h-[46px] bg-[#1E63D5] hover:bg-[#1853b3] active:scale-[0.98] text-white px-5 py-2.5 rounded-full text-xs xs:text-sm font-bold uppercase tracking-wider shadow-[3px_3px_0_#6B2C12] flex items-center justify-center gap-2 transition-all cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFE63B]"
+                  >
+                    <span>Try This Bake</span>
+                    <span className="text-sm">↗</span>
+                  </button>
+                </div>
               </div>
+            ))}
+          </div>
 
-              <div className="w-full flex flex-col items-center text-center">
-                <span className="text-[0.65rem] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full bg-[#6B2C12] text-[#FFFCEB] mb-2.5">
-                  {product.serial || "SPECIAL"}
-                </span>
-                
-                <h4
-                  style={{ fontFamily: "var(--font-fasthand-g), 'FastHand', 'Fasthand', cursive, sans-serif" }}
-                  className="text-2xl xs:text-3xl uppercase tracking-wider text-[#6B2C12] mb-1.5 font-bold"
-                >
-                  {product.name}
-                </h4>
+          {/* Carousel Pagination & Arrows */}
+          <div className="flex items-center justify-between px-6 xs:px-8 mt-2 max-w-sm mx-auto select-none">
+            {/* Prev Arrow */}
+            <button
+              onClick={() => scrollMobileCarousel(-1)}
+              disabled={mobileActiveIdx === 0}
+              aria-label="Previous product"
+              className="w-9 h-9 rounded-full bg-[#FAF4E8] border-2 border-[#6B2C12] shadow-[2px_2px_0_#6B2C12] flex items-center justify-center text-[#6B2C12] disabled:opacity-30 disabled:cursor-not-allowed active:translate-y-0.5 transition-all cursor-pointer"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
 
-                <p
-                  style={{ fontFamily: "var(--font-workforce-g), 'Workforce', sans-serif" }}
-                  className="text-xs xs:text-sm leading-relaxed text-[#4A4A4A] font-medium mb-5 max-w-sm"
-                >
-                  {product.description}
-                </p>
-
+            {/* Pagination Dots */}
+            <div className="flex items-center gap-2" role="tablist" aria-label="Product carousel pagination">
+              {activeProducts.map((_, i) => (
                 <button
-                  onClick={scrollToInstagramCTA}
-                  aria-label={`Try this bake: ${product.name}`}
-                  className="w-full max-w-xs min-h-[48px] bg-[#1E63D5] hover:bg-[#1853b3] active:scale-[0.98] text-white px-6 py-3 rounded-full text-xs xs:text-sm font-bold uppercase tracking-wider shadow-[3px_3px_0_#6B2C12] flex items-center justify-center gap-2 transition-all cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFE63B]"
-                >
-                  <span>Try This Bake</span>
-                  <span className="text-sm">↗</span>
-                </button>
-              </div>
+                  key={`fave-dot-${i}`}
+                  onClick={() => scrollToCard(i)}
+                  role="tab"
+                  aria-selected={mobileActiveIdx === i}
+                  aria-label={`Go to product ${i + 1}`}
+                  className={`transition-all duration-300 rounded-full cursor-pointer ${
+                    mobileActiveIdx === i
+                      ? "w-7 h-2.5 bg-[#6B2C12] shadow-xs"
+                      : "w-2.5 h-2.5 bg-[#6B2C12]/25 hover:bg-[#6B2C12]/50"
+                  }`}
+                />
+              ))}
             </div>
-          ))}
+
+            {/* Next Arrow */}
+            <button
+              onClick={() => scrollMobileCarousel(1)}
+              disabled={mobileActiveIdx === activeProducts.length - 1}
+              aria-label="Next product"
+              className="w-9 h-9 rounded-full bg-[#FAF4E8] border-2 border-[#6B2C12] shadow-[2px_2px_0_#6B2C12] flex items-center justify-center text-[#6B2C12] disabled:opacity-30 disabled:cursor-not-allowed active:translate-y-0.5 transition-all cursor-pointer"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
         </div>
 
       </div>

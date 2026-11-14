@@ -44,8 +44,13 @@ export function ScrapbookHeroRedesign({
     if (onExploreClick) {
       onExploreClick();
     } else {
-      const el = document.getElementById("bakes");
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+      const el = document.getElementById("faves") || document.getElementById("bakes");
+      if (el) {
+        const isMobile = typeof window !== "undefined" && window.innerWidth < 1024;
+        const headerOffset = isMobile ? 85 : 95;
+        const y = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      }
     }
   };
 
@@ -54,7 +59,12 @@ export function ScrapbookHeroRedesign({
       onStoryClick();
     } else {
       const el = document.getElementById("story");
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+      if (el) {
+        const isMobile = typeof window !== "undefined" && window.innerWidth < 1024;
+        const headerOffset = isMobile ? 85 : 95;
+        const y = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      }
     }
   };
 

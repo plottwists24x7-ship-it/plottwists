@@ -11,6 +11,7 @@ import MenuSection from '@/components/menu/MenuSection'
 import Reviews from '@/components/sections/Reviews'
 import InstagramCTA from '@/components/sections/InstagramCTA'
 import Footer from '@/components/sections/Footer'
+import { MobileStickyOrderPill } from '@/components/mobile/MobileStickyOrderPill'
 
 export default function Home() {
   return (
@@ -69,6 +70,9 @@ export default function Home() {
 
       {/* Footer Section */}
       <Footer />
+
+      {/* Mobile Sticky Order Pill (Visible on mobile screens) */}
+      <MobileStickyOrderPill />
     </main>
   )
 }

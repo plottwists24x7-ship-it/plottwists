@@ -61,31 +61,54 @@ export function Header() {
     };
   }, []);
 
-  // Handle ESC key to close modal & auto focus input
+  // Handle ESC key to close modal & drawer, and auto focus input
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isAdminModalOpen) {
-        setIsAdminModalOpen(false);
-        setAdminPassword("");
-        setAdminError("");
+      if (e.key === "Escape") {
+        if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+        if (isAdminModalOpen) {
+          setIsAdminModalOpen(false);
+          setAdminPassword("");
+          setAdminError("");
+        }
       }
     };
 
+    window.addEventListener("keydown", handleKeyDown);
+
     if (isAdminModalOpen) {
-      window.addEventListener("keydown", handleKeyDown);
       setTimeout(() => {
         passwordInputRef.current?.focus();
       }, 50);
     }
 
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isAdminModalOpen]);
+  }, [isAdminModalOpen, isMobileMenuOpen]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
 
   const scrollToSection = (id: string) => {
-    setActiveTab(id);
+    setActiveTab(id === "bakes" ? "faves" : id);
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 1024;
+      const headerOffset = isMobile ? 85 : 95;
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: "smooth"
+      });
     }
   };
 
@@ -131,6 +154,15 @@ export function Header() {
 
   return (
     <>
+      {/* Mobile Menu Backdrop */}
+      {isMobileMenuOpen && (
+        <div
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="fixed inset-0 bg-[#3B2A22]/40 backdrop-blur-xs z-40 md:hidden animate-in fade-in duration-200"
+          aria-hidden="true"
+        />
+      )}
+
       <header className={`fixed top-3 left-3 right-3 md:top-5 md:left-6 md:right-6 z-50 transition-all duration-300 ${scrolled ? "top-2 md:top-3" : ""}`}>
         <div className={`max-w-7xl mx-auto bg-[#FAF4E8] border-[3px] border-[#3B2A22] rounded-2xl relative px-3 py-2 md:px-6 md:py-3 transition-all duration-300 flex items-center justify-between ${
           scrolled 
