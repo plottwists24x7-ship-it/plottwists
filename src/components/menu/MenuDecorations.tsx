@@ -53,31 +53,59 @@ export function MenuDecorations() {
         </motion.div>
       </motion.div>
 
-      {/* 3. Pink & Purple Y2K Flame Heart Sticker (Direct from Sticker Sheet Ref) */}
+      {/* 3. Soft Pastel Berry-Pink Flame Heart Sticker (Refined V9 Palette) */}
       <motion.div
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.15 }}
-        className="hidden xl:block absolute -left-10 2xl:-left-12 top-[45%] z-20 pointer-events-none select-none"
+        viewport={{ once: false, amount: 0.2 }}
+        whileHover={shouldReduceMotion ? undefined : { scale: 1.12, rotate: -4 }}
+        className="hidden xl:block absolute -left-10 2xl:-left-12 top-[44%] z-20 pointer-events-auto select-none cursor-pointer"
         aria-hidden="true"
       >
         <Image
           src="/images/menu-decor/sticker-flame-heart.svg"
-          alt="Flame heart sticker"
+          alt="Berry-pink flame heart sticker"
           width={46}
           height={44}
           className="w-8 lg:w-9 h-auto rotate-[-8deg] drop-shadow-xs"
         />
       </motion.div>
 
-      {/* 4. Yellow 4-Point Star Sticker */}
+      {/* 4. Large Double-Chocolate Muffin Illustration (Direct Reference Alignment) */}
       <motion.div
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.15 }}
-        className="hidden xl:block absolute -left-12 top-[58%] z-20 pointer-events-none select-none"
+        viewport={{ once: false, amount: 0.2 }}
+        className="hidden lg:block absolute -left-14 xl:-left-20 top-[56%] z-25 pointer-events-auto select-none"
+        aria-hidden="true"
+      >
+        <motion.div
+          variants={shouldReduceMotion ? undefined : idleFloatVariants}
+          initial="initial"
+          animate="animate"
+          whileHover={shouldReduceMotion ? undefined : { scale: 1.06, rotate: 3 }}
+          className="cursor-pointer"
+        >
+          <Image
+            src="/images/menu-decor/doodle-muffin-large.svg"
+            alt="Large double-chocolate muffin with chunks"
+            width={105}
+            height={105}
+            className="w-20 xl:w-24 h-auto rotate-[-6deg] drop-shadow-sm"
+          />
+        </motion.div>
+      </motion.div>
+
+      {/* 5. Yellow 4-Point Star Sticker */}
+      <motion.div
+        variants={shouldReduceMotion ? undefined : stickerPopVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+        whileHover={shouldReduceMotion ? undefined : { scale: 1.15, rotate: 18 }}
+        className="hidden xl:block absolute -left-8 top-[80%] z-20 pointer-events-auto select-none cursor-pointer"
         aria-hidden="true"
       >
         <Image
@@ -151,8 +179,8 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.15 }}
-        className="hidden xl:block absolute -right-14 2xl:-right-18 top-[4%] z-20 pointer-events-none select-none"
+        viewport={{ once: false, amount: 0.2 }}
+        className="hidden xl:block absolute -right-12 2xl:-right-16 top-[9%] z-20 pointer-events-none select-none"
         aria-hidden="true"
       >
         <Image
@@ -160,7 +188,7 @@ export function MenuDecorations() {
           alt="Slow churned label"
           width={90}
           height={32}
-          className="w-20 2xl:w-22 h-auto rotate-[-2deg] drop-shadow-xs"
+          className="w-18 2xl:w-20 h-auto rotate-[-2deg] drop-shadow-xs"
         />
       </motion.div>
 
@@ -169,14 +197,16 @@ export function MenuDecorations() {
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.15 }}
-        className="hidden lg:block absolute -right-14 xl:-right-18 top-[14%] z-25 pointer-events-none select-none"
+        viewport={{ once: false, amount: 0.2 }}
+        className="hidden lg:block absolute -right-14 xl:-right-18 top-[18%] z-25 pointer-events-auto select-none"
         aria-hidden="true"
       >
         <motion.div
           variants={shouldReduceMotion ? undefined : idleFloatVariants}
           initial="initial"
           animate="animate"
+          whileHover={shouldReduceMotion ? undefined : { scale: 1.08, rotate: 6 }}
+          className="cursor-pointer"
         >
           <Image
             src="/images/menu-decor/doodle-biscoff-jar.svg"
@@ -301,55 +331,14 @@ export function MenuDecorations() {
       </motion.div>
 
       {/* ════════ AREA G: BOTTOM OF 01 / BOXES (Lower Left Gutter) ════════ */}
-      {/* 1. Freshly Made Just For You Scalloped Cloud Badge */}
+      {/* 1. Pink Daisy Flower (Gutter corner accent) */}
       <motion.div
         variants={shouldReduceMotion ? undefined : stickerPopVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.15 }}
-        className="hidden lg:block absolute -left-16 xl:-left-20 bottom-14 z-25 pointer-events-none select-none"
-        aria-hidden="true"
-      >
-        <motion.div
-          variants={shouldReduceMotion ? undefined : idleFloatVariants}
-          initial="initial"
-          animate="animate"
-        >
-          <Image
-            src="/images/menu-decor/freshly-made-badge.svg"
-            alt="Freshly made badge"
-            width={110}
-            height={110}
-            className="w-20 xl:w-24 h-auto rotate-[-12deg] drop-shadow-sm"
-          />
-        </motion.div>
-      </motion.div>
-
-      {/* 2. Chocolate Mocha Pudding Jar (Tucked near bottom left) */}
-      <motion.div
-        variants={shouldReduceMotion ? undefined : stickerPopVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, amount: 0.15 }}
-        className="hidden xl:block absolute -left-14 bottom-0 z-20 pointer-events-none select-none"
-        aria-hidden="true"
-      >
-        <Image
-          src="/images/menu-decor/doodle-choco-pudding-jar.svg"
-          alt="Mocha pudding jar"
-          width={70}
-          height={85}
-          className="w-13 h-auto rotate-[8deg] drop-shadow-xs"
-        />
-      </motion.div>
-
-      {/* 3. Pink Daisy Flower (Gutter corner) */}
-      <motion.div
-        variants={shouldReduceMotion ? undefined : stickerPopVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, amount: 0.15 }}
-        className="hidden lg:block absolute -left-8 lg:-left-10 -bottom-3 z-20 pointer-events-none select-none"
+        viewport={{ once: false, amount: 0.2 }}
+        whileHover={shouldReduceMotion ? undefined : { scale: 1.15, rotate: 18 }}
+        className="hidden lg:block absolute -left-8 lg:-left-10 -bottom-2 z-20 pointer-events-auto select-none cursor-pointer"
         aria-hidden="true"
       >
         <Image

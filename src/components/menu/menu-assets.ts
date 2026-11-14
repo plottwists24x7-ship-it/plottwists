@@ -262,8 +262,15 @@ export const MENU_ASSETS = {
     id: "doodle-muffin-double-choc",
     src: "/images/menu-decor/doodle-muffin-double-choc.svg",
     alt: "Double chocolate bakery muffin",
-    defaultWidth: 75,
-    defaultHeight: 75,
+    defaultWidth: 105,
+    defaultHeight: 105,
+  },
+  doodleMuffinLarge: {
+    id: "doodle-muffin-large",
+    src: "/images/menu-decor/doodle-muffin-large.svg",
+    alt: "Large double-chocolate bakery muffin with chunks",
+    defaultWidth: 105,
+    defaultHeight: 105,
   },
   doodleBrownieCluster: {
     id: "doodle-brownie-cluster",

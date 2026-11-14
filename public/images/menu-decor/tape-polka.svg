@@ -1,13 +1,31 @@
-<svg width="160" height="48" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 48" fill="none">
+<svg width="160" height="44" viewBox="0 0 160 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- PlotTwist Tactile Pink Polka-Dot Washi Tape -->
   <defs>
-    <pattern id="pink-polka" width="16" height="16" patternUnits="userSpaceOnUse">
-      <rect width="16" height="16" fill="#F45B73"/>
-      <circle cx="8" cy="8" r="3" fill="#FFFFFF" opacity="0.9"/>
-      <circle cx="0" cy="0" r="3" fill="#FFFFFF" opacity="0.9"/>
-      <circle cx="16" cy="0" r="3" fill="#FFFFFF" opacity="0.9"/>
-      <circle cx="0" cy="16" r="3" fill="#FFFFFF" opacity="0.9"/>
-      <circle cx="16" cy="16" r="3" fill="#FFFFFF" opacity="0.9"/>
+    <pattern id="pink-polka-v9" width="16" height="16" patternUnits="userSpaceOnUse">
+      <rect width="16" height="16" fill="#F4637D" />
+      <!-- Polka Dots with soft edge -->
+      <circle cx="8" cy="8" r="2.8" fill="#FFF2F5" />
+      <circle cx="0" cy="0" r="2.8" fill="#FFF2F5" />
+      <circle cx="16" cy="0" r="2.8" fill="#FFF2F5" />
+      <circle cx="0" cy="16" r="2.8" fill="#FFF2F5" />
+      <circle cx="16" cy="16" r="2.8" fill="#FFF2F5" />
+      <!-- Fine fiber specks -->
+      <line x1="4" y1="4" x2="6" y2="4" stroke="#DB4A65" stroke-width="0.6" opacity="0.4" />
+      <line x1="12" y1="12" x2="14" y2="12" stroke="#DB4A65" stroke-width="0.6" opacity="0.4" />
     </pattern>
   </defs>
-  <path d="M4 8 L8 1 L12 8 L16 2 L20 8 L24 2 L28 8 L132 8 L136 2 L140 8 L144 2 L148 8 L152 2 L156 8 L152 40 L148 46 L144 40 L140 46 L136 40 L132 46 L28 46 L24 40 L20 46 L16 40 L12 46 L8 40 L4 46 Z" fill="url(#pink-polka)" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- Physical Paper Shadow -->
+  <path d="M4 6 L1 11 L5 16 L2 21 L5 26 L1 31 L4 36 L154 36 L157 31 L153 26 L157 21 L154 16 L158 11 L154 6 Z" fill="#3B2922" opacity="0.14" transform="translate(1.5, 2.5)" />
+
+  <!-- Tape Body with Torn Fibrous Ends -->
+  <path d="M4 6 
+    L1 11 L5 16 L2 21 L5 26 L1 31 L4 36 
+    Q 80 37 154 36 
+    L157 31 L153 26 L157 21 L154 16 L158 11 L154 6 
+    Q 80 5 4 6 Z" 
+    fill="url(#pink-polka-v9)" stroke="#3B2922" stroke-width="2.2" stroke-linejoin="round" />
+
+  <!-- Translucent Top Sheen -->
+  <path d="M12 11 Q 80 10 148 11" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" opacity="0.4" />
 </svg>

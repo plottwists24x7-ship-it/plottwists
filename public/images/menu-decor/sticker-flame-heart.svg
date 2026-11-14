@@ -1,23 +1,22 @@
 <svg width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- PlotTwist Flame Heart Y2K Sticker (Modeled after Reference) -->
+  <!-- PlotTwist Pastel Berry-Pink Flame Heart Sticker -->
   <defs>
-    <clipPath id="heart-clip">
+    <clipPath id="heart-clip-v9">
       <path d="M23 41 C21 39 3 28 3 14 C3 6 9 2 15 2 C19 2 22 5 23 7 C24 5 27 2 31 2 C37 2 43 6 43 14 C43 28 25 39 23 41 Z" />
     </clipPath>
   </defs>
 
   <!-- Offset Shadow -->
-  <path d="M25 43 C23 41 5 30 5 16 C5 8 11 4 17 4 C21 4 24 7 25 9 C26 7 29 4 33 4 C39 4 45 8 45 16 C45 30 27 41 25 43 Z" fill="#3B2922" opacity="0.15" />
+  <path d="M25 43 C23 41 5 30 5 16 C5 8 11 4 17 4 C21 4 24 7 25 9 C26 7 29 4 33 4 C39 4 45 8 45 16 C45 30 27 41 25 43 Z" fill="#3B2922" opacity="0.12" />
 
-  <!-- Heart Base (Pink) -->
-  <path d="M23 41 C21 39 3 28 3 14 C3 6 9 2 15 2 C19 2 22 5 23 7 C24 5 27 2 31 2 C37 2 43 6 43 14 C43 28 25 39 23 41 Z" fill="#FFAEC9" stroke="#3B2922" stroke-width="3" stroke-linejoin="round" />
+  <!-- Heart Base (Soft Pastel Pink) -->
+  <path d="M23 41 C21 39 3 28 3 14 C3 6 9 2 15 2 C19 2 22 5 23 7 C24 5 27 2 31 2 C37 2 43 6 43 14 C43 28 25 39 23 41 Z" fill="#FFC0D3" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
 
-  <!-- Purple Flame Dripping Bottom Half (Clipped to Heart) -->
-  <g clip-path="url(#heart-clip)">
-    <!-- Electric Purple Flames Rising from Bottom -->
-    <path d="M0 45 L0 25 C2 21 4 26 5 20 C6 14 8 24 9 19 C11 12 13 22 14 17 C16 11 17 21 19 16 C21 10 23 20 24 15 C26 9 27 18 29 13 C31 8 32 17 34 14 C36 10 38 18 39 16 C41 12 43 21 44 18 C45 22 46 25 46 45 Z" fill="#C518EB" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
+  <!-- Soft Berry-Pink Flame Pattern (Clipped to Heart) -->
+  <g clip-path="url(#heart-clip-v9)">
+    <path d="M0 45 L0 25 C2 21 4 26 5 20 C6 14 8 24 9 19 C11 12 13 22 14 17 C16 11 17 21 19 16 C21 10 23 20 24 15 C26 9 27 18 29 13 C31 8 32 17 34 14 C36 10 38 18 39 16 C41 12 43 21 44 18 C45 22 46 25 46 45 Z" fill="#E85580" stroke="#3B2922" stroke-width="2.2" stroke-linejoin="round" />
   </g>
 
-  <!-- Outer Border to Ensure Crisp Stroke -->
-  <path d="M23 41 C21 39 3 28 3 14 C3 6 9 2 15 2 C19 2 22 5 23 7 C24 5 27 2 31 2 C37 2 43 6 43 14 C43 28 25 39 23 41 Z" fill="none" stroke="#3B2922" stroke-width="3" stroke-linejoin="round" />
+  <!-- Outer Border -->
+  <path d="M23 41 C21 39 3 28 3 14 C3 6 9 2 15 2 C19 2 22 5 23 7 C24 5 27 2 31 2 C37 2 43 6 43 14 C43 28 25 39 23 41 Z" fill="none" stroke="#3B2922" stroke-width="2.5" stroke-linejoin="round" />
 </svg>
