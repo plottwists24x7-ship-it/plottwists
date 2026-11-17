@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import { 
   SharedProduct, 
-  SharedGalleryPhoto, 
+  SharedGalleryPhoto,
   SharedReview, 
   HeroConfig,
   StoryConfig,
@@ -57,47 +57,6 @@ function mapProductRowToShared(row: ProductRow, index: number, total: number): S
     serial: serialStr,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
-  };
-}
-
-interface GalleryRow {
-  id: string;
-  title: string;
-  image_url: string;
-  alt_text: string | null;
-  category: string;
-  caption: string | null;
-  display_order: number;
-  created_at: string;
-  updated_at: string;
-}
-
-function getDeterministicRotation(id: string): string {
-  let hash = 0;
-  for (let i = 0; i < id.length; i++) {
-    hash = (hash << 5) - hash + id.charCodeAt(i);
-    hash |= 0;
-  }
-  const deg = ((Math.abs(hash) % 60) / 10 - 3).toFixed(1);
-  return `${deg}deg`;
-}
-
-function mapGalleryRowToShared(row: GalleryRow): SharedGalleryPhoto {
-  return {
-    id: row.id,
-    title: row.title,
-    image: getProductImageUrl(row.image_url),
-    imagePath: row.image_url,
-    src: getProductImageUrl(row.image_url),
-    alt: row.alt_text || row.title,
-    label: row.title,
-    category: row.category as SharedGalleryPhoto["category"],
-    caption: row.caption || undefined,
-    width: "230px",
-    height: "200px",
-    rotation: getDeterministicRotation(row.id),
-    zIndex: 6,
-    createdAt: row.created_at,
   };
 }
 
@@ -169,28 +128,94 @@ function mapInstagramRowToConfig(row: InstagramRow): InstagramCTAConfig {
   };
 }
 
-interface StoryImagesRow {
+interface SiteStoryRow {
   id: string;
+  is_enabled: boolean;
+  tagline: string;
+  title: string;
+  subtitle_script: string;
+  note_left: string;
+  note_right: string;
+  recipe_number: string;
+  description: string;
+  cta_text: string;
+  cta_link: string;
+  badge_bottom: string;
+  stamp_top_text: string;
+  stamp_bottom_text: string;
+  chefs_pick_text: string;
+  batch_checklist: string[];
   main_polaroid_url: string;
+  main_polaroid_alt: string;
   badge_1_url: string;
+  badge_1_label: string;
   badge_2_url: string;
+  badge_2_label: string;
   badge_3_url: string;
+  badge_3_label: string;
   updated_at: string;
 }
 
-function mapStoryImagesRowToConfig(row: StoryImagesRow): StoryImagesConfig {
-  return {
-    mainPolaroid: getProductImageUrl(row.main_polaroid_url),
-    badge1: getProductImageUrl(row.badge_1_url),
-    badge2: getProductImageUrl(row.badge_2_url),
-    badge3: getProductImageUrl(row.badge_3_url),
-    updatedAt: row.updated_at,
+function mapSiteStoryRowToConfigs(row: SiteStoryRow): { story: StoryConfig; storyImages: StoryImagesConfig } {
+  const storyImages: StoryImagesConfig = {
+    mainPolaroid: getProductImageUrl(row.main_polaroid_url || INITIAL_STORY_IMAGES.mainPolaroid),
+    badge1: getProductImageUrl(row.badge_1_url || INITIAL_STORY_IMAGES.badge1),
+    badge2: getProductImageUrl(row.badge_2_url || INITIAL_STORY_IMAGES.badge2),
+    badge3: getProductImageUrl(row.badge_3_url || INITIAL_STORY_IMAGES.badge3),
+    updatedAt: row.updated_at || new Date().toISOString(),
   };
+
+  const story: StoryConfig = {
+    isEnabled: row.is_enabled !== undefined ? Boolean(row.is_enabled) : true,
+    tagline: row.tagline || INITIAL_STORY.tagline,
+    title: row.title || INITIAL_STORY.title,
+    subtitleScript: row.subtitle_script || INITIAL_STORY.subtitleScript,
+    noteLeft: row.note_left || INITIAL_STORY.noteLeft,
+    noteRight: row.note_right || INITIAL_STORY.noteRight,
+    recipeNumber: row.recipe_number || INITIAL_STORY.recipeNumber,
+    description: row.description || INITIAL_STORY.description,
+    ctaText: row.cta_text || INITIAL_STORY.ctaText,
+    ctaLink: row.cta_link || INITIAL_STORY.ctaLink,
+    image: storyImages.mainPolaroid,
+    imageAlt: row.main_polaroid_alt || INITIAL_STORY.imageAlt,
+    imageCaption: INITIAL_STORY.imageCaption,
+    badgeBottom: row.badge_bottom || INITIAL_STORY.badgeBottom,
+    stampTopText: row.stamp_top_text || INITIAL_STORY.stampTopText,
+    stampBottomText: row.stamp_bottom_text || INITIAL_STORY.stampBottomText,
+    chefsPickText: row.chefs_pick_text || INITIAL_STORY.chefsPickText,
+    batchChecklist: Array.isArray(row.batch_checklist)
+      ? row.batch_checklist
+      : INITIAL_STORY.batchChecklist,
+    badges: [
+      {
+        id: "sb-1",
+        image: storyImages.badge1,
+        label: row.badge_1_label || INITIAL_STORY.badges[0].label,
+        alt: INITIAL_STORY.badges[0].alt,
+      },
+      {
+        id: "sb-2",
+        image: storyImages.badge2,
+        label: row.badge_2_label || INITIAL_STORY.badges[1].label,
+        alt: INITIAL_STORY.badges[1].alt,
+      },
+      {
+        id: "sb-3",
+        image: storyImages.badge3,
+        label: row.badge_3_label || INITIAL_STORY.badges[2].label,
+        alt: INITIAL_STORY.badges[2].alt,
+      },
+    ],
+    founderName: INITIAL_STORY.founderName,
+    founderRole: INITIAL_STORY.founderRole,
+    updatedAt: row.updated_at || new Date().toISOString(),
+  };
+
+  return { story, storyImages };
 }
 
 export interface AdminStats {
   totalBakes: number;
-  galleryImages: number;
   totalReviews: number;
   lastUpdated: string;
 }
@@ -199,7 +224,6 @@ export interface AdminContextType {
   // Shared Data Sources
   bakes: SharedProduct[];
   faves: SharedProduct[];
-  gallery: SharedGalleryPhoto[];
   reviews: SharedReview[];
   hero: HeroConfig;
   story: StoryConfig;
@@ -210,42 +234,42 @@ export interface AdminContextType {
   isLoaded: boolean;
   
   // Hero Actions
-  updateHero: (updates: Partial<HeroConfig>) => Promise<boolean> | void;
+  updateHero: (updates: Partial<HeroConfig>) => Promise<boolean>;
 
   // Story Actions
-  updateStory: (updates: Partial<StoryConfig>) => Promise<boolean> | void;
-  updateStoryImages: (updates: Partial<StoryImagesConfig>) => Promise<boolean> | void;
+  updateStory: (updates: Partial<StoryConfig>) => Promise<boolean>;
+  updateStoryImages: (updates: Partial<StoryImagesConfig>) => Promise<boolean>;
 
   // Instagram CTA Actions
-  updateInstagramCTA: (updates: Partial<InstagramCTAConfig>) => Promise<boolean> | void;
+  updateInstagramCTA: (updates: Partial<InstagramCTAConfig>) => Promise<boolean>;
   
-  // Bake Actions (Supabase backed)
+  // Bake Actions (Protected Server API)
   addBake: (bake: Omit<SharedProduct, "id" | "createdAt" | "updatedAt">) => Promise<SharedProduct | null>;
   updateBake: (id: string, updates: Partial<Omit<SharedProduct, "id" | "createdAt" | "updatedAt">>) => Promise<boolean>;
   deleteBake: (id: string) => Promise<boolean>;
   
-  // Gallery Actions (Supabase backed)
-  addGalleryImage: (image: Omit<SharedGalleryPhoto, "id" | "createdAt">) => Promise<SharedGalleryPhoto | null>;
-  addMultipleGalleryImages: (images: Array<Omit<SharedGalleryPhoto, "id" | "createdAt">>) => Promise<boolean>;
-  updateGalleryImage: (id: string, updates: Partial<Omit<SharedGalleryPhoto, "id" | "createdAt">>) => Promise<boolean>;
-  deleteGalleryImage: (id: string) => Promise<boolean>;
-  
-  // Review Actions (Supabase backed)
+  // Review Actions (Protected Server API)
   addReview: (review: Omit<SharedReview, "id" | "date">) => Promise<SharedReview | null>;
   updateReview: (id: string, updates: Partial<Omit<SharedReview, "id" | "date">>) => Promise<boolean>;
   deleteReview: (id: string) => Promise<boolean>;
   
-  // Reset
+  // Reset & Toasts
   resetToDefaults: () => void;
   showToast: (type: "success" | "error" | "info" | "warning", message: string) => void;
   toast: { success: (msg: string) => void; error: (msg: string) => void; info: (msg: string) => void; };
+
+  // Deprecated backward-compatible stubs (for safe unmounting)
+  gallery?: SharedGalleryPhoto[];
+  addGalleryImage?: (image: unknown) => Promise<unknown>;
+  addMultipleGalleryImages?: (images: unknown[]) => Promise<boolean>;
+  updateGalleryImage?: (id: string, updates: Record<string, unknown>) => Promise<boolean>;
+  deleteGalleryImage?: (id: string) => Promise<boolean>;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
 export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [bakes, setBakes] = useState<SharedProduct[]>([]);
-  const [gallery, setGallery] = useState<SharedGalleryPhoto[]>([]);
   const [reviews, setReviews] = useState<SharedReview[]>([]);
   const [hero, setHero] = useState<HeroConfig>(INITIAL_HERO);
   const [story, setStory] = useState<StoryConfig>(INITIAL_STORY);
@@ -275,116 +299,66 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     info: (msg: string) => showToast("info", msg),
   }), [showToast]);
 
+  const triggerTimestampUpdate = useCallback(() => {
+    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    setLastUpdated(`Today at ${now}`);
+  }, []);
 
-  // Keep track of database singleton IDs
-  const [heroDbId, setHeroDbId] = useState<string>("00000000-0000-0000-0000-000000000001");
-  const [instagramDbId, setInstagramDbId] = useState<string>("00000000-0000-0000-0000-000000000003");
-  const [storyImagesDbId, setStoryImagesDbId] = useState<string>("00000000-0000-0000-0000-000000000002");
-
-  // Load all modules from Supabase on mount
+  // ─── INITIAL DATA LOAD FROM NEW SUPABASE PROJECT ───
   useEffect(() => {
     let isMounted = true;
-    const supabase = createClient();
 
-    async function loadAllFromSupabase() {
+    async function loadInitialData() {
       try {
-        // Execute all 6 initial data queries concurrently in parallel
-        const [pRes, gRes, rRes, hRes, iRes, sRes] = await Promise.all([
+        const supabase = createClient();
+        const [pRes, rRes, hRes, iRes, sRes] = await Promise.all([
           supabase.from("products").select("*").order("display_order", { ascending: true }),
-          supabase.from("gallery_images").select("*").order("display_order", { ascending: true }),
           supabase.from("reviews").select("*").order("created_at", { ascending: false }),
           supabase.from("site_hero").select("*").limit(1).maybeSingle(),
           supabase.from("site_instagram").select("*").limit(1).maybeSingle(),
-          supabase.from("story_images").select("*").limit(1).maybeSingle(),
+          supabase.from("site_story").select("*").limit(1).maybeSingle(),
         ]);
 
         if (!isMounted) return;
 
         // 1. Products
-        if (pRes.error) console.error("Supabase products fetch error:", pRes.error.message || pRes.error);
-        else if (pRes.data) {
+        if (pRes.error) {
+          console.error("Supabase products fetch error:", pRes.error.message || pRes.error);
+        } else if (pRes.data) {
           setBakes((pRes.data as ProductRow[]).map((row, idx, arr) => mapProductRowToShared(row, idx, arr.length)));
         }
 
-        // 2. Gallery Images
-        if (gRes.error) console.error("Supabase gallery fetch error:", gRes.error.message || gRes.error);
-        else if (gRes.data) {
-          setGallery((gRes.data as GalleryRow[]).map(mapGalleryRowToShared));
-        }
-
-        // 3. Reviews
-        if (rRes.error) console.error("Supabase reviews fetch error:", rRes.error.message || rRes.error);
-        else if (rRes.data) {
+        // 2. Reviews (preserves genuine empty state when 0 reviews exist)
+        if (rRes.error) {
+          console.error("Supabase reviews fetch error:", rRes.error.message || rRes.error);
+        } else if (rRes.data) {
           setReviews((rRes.data as ReviewRow[]).map(mapReviewRowToShared));
         }
 
-        // 4. Site Hero
-        if (hRes.error) console.error("Supabase site_hero fetch error:", hRes.error.message || hRes.error);
-        else if (hRes.data) {
-          setHeroDbId(hRes.data.id);
+        // 3. Site Hero
+        if (hRes.error) {
+          console.error("Supabase site_hero fetch error:", hRes.error.message || hRes.error);
+        } else if (hRes.data) {
           setHero(mapHeroRowToConfig(hRes.data as HeroRow));
         }
 
-        // 5. Site Instagram
-        if (iRes.error) console.error("Supabase site_instagram fetch error:", iRes.error.message || iRes.error);
-        else if (iRes.data) {
-          setInstagramDbId(iRes.data.id);
+        // 4. Site Instagram
+        if (iRes.error) {
+          console.error("Supabase site_instagram fetch error:", iRes.error.message || iRes.error);
+        } else if (iRes.data) {
           setInstagramCTA(mapInstagramRowToConfig(iRes.data as InstagramRow));
         }
 
-        // 6. Story Images
+        // 5. Unified Site Story (Editorial copy + 4 images)
         if (sRes.error) {
-          console.error("Supabase story_images fetch error:", sRes.error.message || sRes.error);
-          if (typeof window !== "undefined") {
-            try {
-              const cachedStoryImages = localStorage.getItem("plottwist_story_images");
-              if (cachedStoryImages) {
-                setStoryImages(JSON.parse(cachedStoryImages));
-              }
-            } catch {}
-          }
+          console.error("Supabase site_story fetch error:", sRes.error.message || sRes.error);
         } else if (sRes.data) {
-          setStoryImagesDbId(sRes.data.id);
-          const mappedStory = mapStoryImagesRowToConfig(sRes.data as StoryImagesRow);
-          setStoryImages(mappedStory);
-          if (typeof window !== "undefined") {
-            try {
-              localStorage.setItem("plottwist_story_images", JSON.stringify(mappedStory));
-            } catch {}
-          }
-        }
-
-        // 7. Story Text Content (Fetch from /api/story + localStorage mirror)
-        try {
-          const sTextRes = await fetch("/api/story");
-          if (sTextRes.ok) {
-            const serverStory = await sTextRes.json();
-            if (serverStory && typeof serverStory === "object") {
-              setStory((prev) => ({ ...prev, ...serverStory }));
-              if (typeof window !== "undefined") {
-                try {
-                  localStorage.setItem("plottwist_story_config", JSON.stringify(serverStory));
-                } catch {}
-              }
-            }
-          } else if (typeof window !== "undefined") {
-            const cachedStory = localStorage.getItem("plottwist_story_config");
-            if (cachedStory) {
-              setStory((prev) => ({ ...prev, ...JSON.parse(cachedStory) }));
-            }
-          }
-        } catch {
-          if (typeof window !== "undefined") {
-            try {
-              const cachedStory = localStorage.getItem("plottwist_story_config");
-              if (cachedStory) {
-                setStory((prev) => ({ ...prev, ...JSON.parse(cachedStory) }));
-              }
-            } catch {}
-          }
+          const mapped = mapSiteStoryRowToConfigs(sRes.data as SiteStoryRow);
+          setStory(mapped.story);
+          setStoryImages(mapped.storyImages);
         }
       } catch (err) {
-        console.error("Unexpected error fetching initial data from Supabase:", err);
+        console.error("Unexpected error fetching data from Supabase:", err);
       } finally {
         if (isMounted) {
           setIsLoading(false);
@@ -393,21 +367,15 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    loadAllFromSupabase();
+    loadInitialData();
 
     return () => {
       isMounted = false;
     };
   }, []);
 
-  const triggerTimestampUpdate = useCallback(() => {
-    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    setLastUpdated(`Today at ${now}`);
-  }, []);
-
-  // ─── BAKES CRUD (SUPABASE BACKED) ───
+  // ─── BAKES CRUD (PROTECTED SERVER-SIDE API) ───
   const addBake = useCallback(async (bakeData: Omit<SharedProduct, "id" | "createdAt" | "updatedAt">): Promise<SharedProduct | null> => {
-    const supabase = createClient();
     try {
       const maxOrder = bakes.reduce((max, b) => {
         const match = b.serial?.match(/^(\d+)/);
@@ -419,95 +387,97 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       const insertPayload = {
         name: bakeData.name,
         description: bakeData.description,
-        image_url: bakeData.image,
+        image: bakeData.image,
         price: bakeData.price || null,
         category: bakeData.category,
         badge: bakeData.badge || null,
-        is_popular: Boolean(bakeData.isPopular),
+        isPopular: Boolean(bakeData.isPopular),
         display_order: nextDisplayOrder,
+        isBestseller: Boolean(bakeData.isBestseller),
+        bestsellerOrder: bakeData.bestsellerOrder || null,
       };
 
-      const { data, error } = await supabase
-        .from("products")
-        .insert(insertPayload)
-        .select()
-        .single();
+      const res = await fetch("/api/admin/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(insertPayload),
+      });
 
-      if (error) {
-        console.error("Failed to insert product into Supabase:", error.message || error);
-        showToast("error", "Failed to create bake. Please try again.");
+      if (res.status === 401) {
+        showToast("error", "Unauthorized: Admin session expired. Please log in.");
         return null;
       }
 
-      if (data) {
-        const inserted = mapProductRowToShared(data as ProductRow, 0, bakes.length + 1);
-        setBakes((prev) => [inserted, ...prev]);
-        triggerTimestampUpdate();
-        showToast("success", "Bake created successfully!");
-        return inserted;
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        showToast("error", result.error || "Failed to create bake.");
+        return null;
       }
+
+      const inserted = mapProductRowToShared(result.data as ProductRow, 0, bakes.length + 1);
+      setBakes((prev) => [inserted, ...prev]);
+      triggerTimestampUpdate();
+      showToast("success", "Bake created successfully!");
+      return inserted;
     } catch (err) {
       console.error("Unexpected error in addBake:", err);
+      showToast("error", "Network error occurred while saving bake.");
+      return null;
     }
-    return null;
   }, [bakes, triggerTimestampUpdate, showToast]);
 
   const updateBake = useCallback(async (id: string, updates: Partial<Omit<SharedProduct, "id" | "createdAt" | "updatedAt">>): Promise<boolean> => {
-    const supabase = createClient();
     try {
-      const updatePayload: Record<string, unknown> = {};
-      if (updates.name !== undefined) updatePayload.name = updates.name;
-      if (updates.description !== undefined) updatePayload.description = updates.description;
-      if (updates.image !== undefined) updatePayload.image_url = updates.imagePath ?? updates.image;
-      if (updates.price !== undefined) updatePayload.price = updates.price || null;
-      if (updates.category !== undefined) updatePayload.category = updates.category;
-      if (updates.badge !== undefined) updatePayload.badge = updates.badge || null;
-      if (updates.isPopular !== undefined) updatePayload.is_popular = Boolean(updates.isPopular);
+      const res = await fetch("/api/admin/products", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, updates }),
+      });
 
-      const { data, error } = await supabase
-        .from("products")
-        .update(updatePayload)
-        .eq("id", id)
-        .select()
-        .single();
-
-      if (error) {
-        console.error("Failed to update product in Supabase:", error.message || error);
-        showToast("error", "Failed to update bake. Please try again.");
+      if (res.status === 401) {
+        showToast("error", "Unauthorized: Admin session expired. Please log in.");
         return false;
       }
 
-      if (data) {
-        setBakes((prev) =>
-          prev.map((item, idx) =>
-            item.id === id
-              ? mapProductRowToShared(data as ProductRow, idx, prev.length)
-              : item
-          )
-        );
-        triggerTimestampUpdate();
-        showToast("success", "Bake updated successfully!");
-        return true;
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        showToast("error", result.error || "Failed to update bake.");
+        return false;
       }
+
+      setBakes((prev) =>
+        prev.map((item, idx) =>
+          item.id === id
+            ? mapProductRowToShared(result.data as ProductRow, idx, prev.length)
+            : item
+        )
+      );
+      triggerTimestampUpdate();
+      showToast("success", "Bake updated successfully!");
+      return true;
     } catch (err) {
       console.error("Unexpected error in updateBake:", err);
+      showToast("error", "Network error occurred while updating bake.");
+      return false;
     }
-    return false;
   }, [triggerTimestampUpdate, showToast]);
 
   const deleteBake = useCallback(async (id: string): Promise<boolean> => {
-    const supabase = createClient();
     try {
-      const { data: _data, error } = await supabase
-        .from("products")
-        .delete()
-        .eq("id", id)
-        .select("id")
-        .maybeSingle();
+      const res = await fetch("/api/admin/products", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
 
-      if (error) {
-        console.error("Failed to delete product from Supabase:", error.message || error);
-        showToast("error", "Failed to delete bake. Please try again.");
+      if (res.status === 401) {
+        showToast("error", "Unauthorized: Admin session expired. Please log in.");
+        return false;
+      }
+
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        showToast("error", result.error || "Failed to delete bake.");
         return false;
       }
 
@@ -517,240 +487,99 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       return true;
     } catch (err) {
       console.error("Unexpected error in deleteBake:", err);
+      showToast("error", "Network error occurred while deleting bake.");
+      return false;
     }
-    return false;
   }, [triggerTimestampUpdate, showToast]);
 
-  // ─── GALLERY CRUD (SUPABASE BACKED) ───
-  const addGalleryImage = useCallback(async (imageData: Omit<SharedGalleryPhoto, "id" | "createdAt">): Promise<SharedGalleryPhoto | null> => {
-    const supabase = createClient();
-    try {
-      const nextDisplayOrder = gallery.length + 1;
-      const insertPayload = {
-        title: imageData.title || "Bakery Moment",
-        image_url: imageData.image,
-        alt_text: imageData.alt || imageData.title || "Bakery Snapshot",
-        category: imageData.category || "Display & Store",
-        caption: imageData.caption || null,
-        display_order: nextDisplayOrder,
-      };
-
-      const { data, error } = await supabase
-        .from("gallery_images")
-        .insert(insertPayload)
-        .select()
-        .single();
-
-      if (error) {
-        console.error("Failed to insert gallery image into Supabase:", error.message || error);
-        showToast("error", "Failed to add gallery image. Please try again.");
-        return null;
-      }
-
-      if (data) {
-        const newImg = mapGalleryRowToShared(data as GalleryRow);
-        setGallery((prev) => [newImg, ...prev]);
-        triggerTimestampUpdate();
-        showToast("success", "Gallery image added successfully.");
-        return newImg;
-      }
-    } catch (err) {
-      console.error("Unexpected error in addGalleryImage:", err);
-    }
-    return null;
-  }, [gallery.length, triggerTimestampUpdate, showToast]);
-
-  const addMultipleGalleryImages = useCallback(async (imagesData: Array<Omit<SharedGalleryPhoto, "id" | "createdAt">>): Promise<boolean> => {
-    const supabase = createClient();
-    try {
-      const insertPayloads = imagesData.map((img, index) => ({
-        title: img.title || `Bakery Photo ${index + 1}`,
-        image_url: img.image,
-        alt_text: img.alt || img.title || "Bakery Snapshot",
-        category: img.category || "Kitchen & Oven",
-        caption: img.caption || null,
-        display_order: gallery.length + index + 1,
-      }));
-
-      const { data, error } = await supabase
-        .from("gallery_images")
-        .insert(insertPayloads)
-        .select();
-
-      if (error) {
-        console.error("Failed to batch insert gallery images into Supabase:", error.message || error);
-        showToast("error", "Failed to batch upload gallery images.");
-        return false;
-      }
-
-      if (data) {
-        const mapped = (data as GalleryRow[]).map(mapGalleryRowToShared);
-        setGallery((prev) => [...mapped, ...prev]);
-        triggerTimestampUpdate();
-        showToast("success", "Gallery images added successfully.");
-        return true;
-      }
-    } catch (err) {
-      console.error("Unexpected error in addMultipleGalleryImages:", err);
-    }
-    return false;
-  }, [gallery.length, triggerTimestampUpdate, showToast]);
-
-  const updateGalleryImage = useCallback(async (id: string, updates: Partial<Omit<SharedGalleryPhoto, "id" | "createdAt">>): Promise<boolean> => {
-    const supabase = createClient();
-    try {
-      const updatePayload: Record<string, unknown> = {};
-      if (updates.title !== undefined) updatePayload.title = updates.title;
-      if (updates.image !== undefined) updatePayload.image_url = updates.image;
-      if (updates.alt !== undefined) updatePayload.alt_text = updates.alt;
-      if (updates.category !== undefined) updatePayload.category = updates.category;
-      if (updates.caption !== undefined) updatePayload.caption = updates.caption || null;
-
-      const { data, error } = await supabase
-        .from("gallery_images")
-        .update(updatePayload)
-        .eq("id", id)
-        .select()
-        .single();
-
-      if (error) {
-        console.error("Failed to update gallery image in Supabase:", error.message || error);
-        showToast("error", "Failed to update gallery image.");
-        return false;
-      }
-
-      if (data) {
-        setGallery((prev) =>
-          prev.map((item) => (item.id === id ? mapGalleryRowToShared(data as GalleryRow) : item))
-        );
-        triggerTimestampUpdate();
-        showToast("success", "Gallery image updated successfully.");
-        return true;
-      }
-    } catch (err) {
-      console.error("Unexpected error in updateGalleryImage:", err);
-    }
-    return false;
-  }, [triggerTimestampUpdate, showToast]);
-
-  const deleteGalleryImage = useCallback(async (id: string): Promise<boolean> => {
-    const supabase = createClient();
-    try {
-      const { data: _data, error } = await supabase
-        .from("gallery_images")
-        .delete()
-        .eq("id", id)
-        .select("id")
-        .maybeSingle();
-
-      if (error) {
-        console.error("Failed to delete gallery image from Supabase:", error.message || error);
-        showToast("error", "Failed to delete gallery image.");
-        return false;
-      }
-
-      setGallery((prev) => prev.filter((item) => item.id !== id));
-      triggerTimestampUpdate();
-      showToast("success", "Gallery image deleted successfully.");
-      return true;
-    } catch (err) {
-      console.error("Unexpected error in deleteGalleryImage:", err);
-    }
-    return false;
-  }, [triggerTimestampUpdate, showToast]);
-
-  // ─── REVIEWS CRUD (SUPABASE BACKED) ───
+  // ─── REVIEWS CRUD (PROTECTED SERVER-SIDE API) ───
   const addReview = useCallback(async (reviewData: Omit<SharedReview, "id" | "date">): Promise<SharedReview | null> => {
-    const supabase = createClient();
     try {
       const insertPayload = {
-        customer_name: reviewData.customerName || reviewData.name || "Bakery Enthusiast",
-        customer_image: reviewData.customerImage || reviewData.portrait || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=450&h=450&fit=crop&q=80",
+        customerName: reviewData.customerName || reviewData.name || "Bakery Guest",
+        customerImage: reviewData.customerImage || reviewData.portrait || "",
         review: reviewData.review,
         rating: reviewData.rating || 5,
-        verified: reviewData.verified !== undefined ? reviewData.verified : true,
-        review_date: new Date().toISOString().split("T")[0],
+        verified: reviewData.verified !== undefined ? reviewData.verified : false,
       };
 
-      const { data, error } = await supabase
-        .from("reviews")
-        .insert(insertPayload)
-        .select()
-        .single();
+      const res = await fetch("/api/admin/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(insertPayload),
+      });
 
-      if (error) {
-        console.error("Failed to insert review into Supabase:", error.message || error);
-        showToast("error", "Failed to add review. Please try again.");
+      if (res.status === 401) {
+        showToast("error", "Unauthorized: Admin session expired. Please log in.");
         return null;
       }
 
-      if (data) {
-        const newReview = mapReviewRowToShared(data as ReviewRow);
-        setReviews((prev) => [newReview, ...prev]);
-        triggerTimestampUpdate();
-        showToast("success", "Review added successfully.");
-        return newReview;
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        showToast("error", result.error || "Failed to add review.");
+        return null;
       }
+
+      const newReview = mapReviewRowToShared(result.data as ReviewRow);
+      setReviews((prev) => [newReview, ...prev]);
+      triggerTimestampUpdate();
+      showToast("success", "Review added successfully.");
+      return newReview;
     } catch (err) {
       console.error("Unexpected error in addReview:", err);
+      showToast("error", "Network error occurred while saving review.");
+      return null;
     }
-    return null;
   }, [triggerTimestampUpdate, showToast]);
 
   const updateReview = useCallback(async (id: string, updates: Partial<Omit<SharedReview, "id" | "date">>): Promise<boolean> => {
-    const supabase = createClient();
     try {
-      const updatePayload: Record<string, unknown> = {};
-      if (updates.customerName !== undefined || updates.name !== undefined) {
-        updatePayload.customer_name = updates.customerName || updates.name;
-      }
-      if (updates.customerImage !== undefined || updates.portrait !== undefined) {
-        updatePayload.customer_image = updates.customerImage || updates.portrait;
-      }
-      if (updates.review !== undefined) updatePayload.review = updates.review;
-      if (updates.rating !== undefined) updatePayload.rating = updates.rating;
-      if (updates.verified !== undefined) updatePayload.verified = updates.verified;
+      const res = await fetch("/api/admin/reviews", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, updates }),
+      });
 
-      const { data, error } = await supabase
-        .from("reviews")
-        .update(updatePayload)
-        .eq("id", id)
-        .select()
-        .single();
-
-      if (error) {
-        console.error("Failed to update review in Supabase:", error.message || error);
-        showToast("error", "Failed to update review. Please try again.");
+      if (res.status === 401) {
+        showToast("error", "Unauthorized: Admin session expired. Please log in.");
         return false;
       }
 
-      if (data) {
-        setReviews((prev) =>
-          prev.map((item) => (item.id === id ? mapReviewRowToShared(data as ReviewRow) : item))
-        );
-        triggerTimestampUpdate();
-        showToast("success", "Review updated successfully.");
-        return true;
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        showToast("error", result.error || "Failed to update review.");
+        return false;
       }
+
+      setReviews((prev) =>
+        prev.map((item) => (item.id === id ? mapReviewRowToShared(result.data as ReviewRow) : item))
+      );
+      triggerTimestampUpdate();
+      showToast("success", "Review updated successfully.");
+      return true;
     } catch (err) {
       console.error("Unexpected error in updateReview:", err);
+      showToast("error", "Network error occurred while updating review.");
+      return false;
     }
-    return false;
   }, [triggerTimestampUpdate, showToast]);
 
   const deleteReview = useCallback(async (id: string): Promise<boolean> => {
-    const supabase = createClient();
     try {
-      const { data: _data, error } = await supabase
-        .from("reviews")
-        .delete()
-        .eq("id", id)
-        .select("id")
-        .maybeSingle();
+      const res = await fetch("/api/admin/reviews", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
 
-      if (error) {
-        console.error("Failed to delete review from Supabase:", error.message || error);
-        showToast("error", "Failed to delete review. Please try again.");
+      if (res.status === 401) {
+        showToast("error", "Unauthorized: Admin session expired. Please log in.");
+        return false;
+      }
+
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        showToast("error", result.error || "Failed to delete review.");
         return false;
       }
 
@@ -760,167 +589,186 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       return true;
     } catch (err) {
       console.error("Unexpected error in deleteReview:", err);
+      showToast("error", "Network error occurred while deleting review.");
+      return false;
     }
-    return false;
   }, [triggerTimestampUpdate, showToast]);
 
-  // ─── HERO ACTIONS (SUPABASE BACKED) ───
+  // ─── HERO ACTIONS (PROTECTED SERVER-SIDE API) ───
   const updateHero = useCallback(async (updates: Partial<HeroConfig>): Promise<boolean> => {
-    const supabase = createClient();
     try {
-      const updatePayload: Record<string, unknown> = {};
-      if (updates.image !== undefined) updatePayload.image_url = updates.image;
-      if (updates.alt !== undefined) updatePayload.alt_text = updates.alt;
-      if (updates.captionTitle !== undefined) updatePayload.caption_title = updates.captionTitle;
-      if (updates.captionSubtitle !== undefined) updatePayload.caption_subtitle = updates.captionSubtitle;
-      if (updates.scale !== undefined) updatePayload.scale = updates.scale;
-      if (updates.objectFit !== undefined) updatePayload.object_fit = updates.objectFit;
-      if (updates.aspectRatio !== undefined) updatePayload.aspect_ratio = updates.aspectRatio;
-
-      const { data, error } = await supabase
-        .from("site_hero")
-        .update(updatePayload)
-        .eq("id", heroDbId)
-        .select()
-        .single();
-
-      if (error) {
-        console.error("Failed to update site_hero in Supabase:", error.message || error);
-        showToast("error", "Failed to update hero section. Please try again.");
-        return false;
-      }
-
-      if (data) {
-        setHero(mapHeroRowToConfig(data as HeroRow));
-        triggerTimestampUpdate();
-        showToast("success", "Hero section updated successfully.");
-        return true;
-      }
-    } catch (err) {
-      console.error("Unexpected error in updateHero:", err);
-    }
-    return false;
-  }, [heroDbId, triggerTimestampUpdate, showToast]);
-
-  // ─── STORY ACTIONS (SERVER PERSISTED + LOCAL MIRROR) ───
-  const updateStory = useCallback(async (updates: Partial<StoryConfig>): Promise<boolean> => {
-    let updatedConfig: StoryConfig = { ...story, ...updates, updatedAt: new Date().toISOString() };
-    setStory((prev) => {
-      updatedConfig = {
-        ...prev,
-        ...updates,
-        updatedAt: new Date().toISOString(),
-      };
-      if (typeof window !== "undefined") {
-        try {
-          localStorage.setItem("plottwist_story_config", JSON.stringify(updatedConfig));
-        } catch (e) {
-          console.warn("Failed to persist story to localStorage:", e);
-        }
-      }
-      return updatedConfig;
-    });
-
-    try {
-      const res = await fetch("/api/admin/story", {
-        method: "POST",
+      const res = await fetch("/api/admin/hero", {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updates),
       });
 
-      if (!res.ok) {
-        console.warn("[Story Update Warning] Failed to persist story to server:", res.statusText);
-      }
-    } catch (err) {
-      console.warn("[Story Update Warning] Error contacting story API:", err);
-    }
-
-    triggerTimestampUpdate();
-    showToast("success", "Story content updated successfully.");
-    return true;
-  }, [story, triggerTimestampUpdate, showToast]);
-
-  // ─── STORY IMAGES (SUPABASE BACKED + PERSISTENCE MIRROR) ───
-  const updateStoryImages = useCallback(async (updates: Partial<StoryImagesConfig>): Promise<boolean> => {
-    const supabase = createClient();
-    try {
-      const updatePayload: Record<string, unknown> = {
-        updated_at: new Date().toISOString(),
-      };
-      if (updates.mainPolaroid !== undefined) updatePayload.main_polaroid_url = updates.mainPolaroid;
-      if (updates.badge1 !== undefined) updatePayload.badge_1_url = updates.badge1;
-      if (updates.badge2 !== undefined) updatePayload.badge_2_url = updates.badge2;
-      if (updates.badge3 !== undefined) updatePayload.badge_3_url = updates.badge3;
-
-      const { data, error } = await supabase
-        .from("story_images")
-        .update(updatePayload)
-        .eq("id", storyImagesDbId)
-        .select()
-        .maybeSingle();
-
-      if (error) {
-        console.error("Failed to update story_images in Supabase:", error.message || error);
-        showToast("error", "Failed to update story images in database.");
+      if (res.status === 401) {
+        showToast("error", "Unauthorized: Admin session expired. Please log in.");
         return false;
       }
 
-      const mapped = data
-        ? mapStoryImagesRowToConfig(data as StoryImagesRow)
-        : { ...storyImages, ...updates };
-      setStoryImages(mapped);
-      if (typeof window !== "undefined") {
-        try {
-          localStorage.setItem("plottwist_story_images", JSON.stringify(mapped));
-        } catch {}
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        showToast("error", result.error || "Failed to update hero section.");
+        return false;
+      }
+
+      setHero(mapHeroRowToConfig(result.data as HeroRow));
+      triggerTimestampUpdate();
+      showToast("success", "Hero section updated successfully.");
+      return true;
+    } catch (err) {
+      console.error("Unexpected error in updateHero:", err);
+      showToast("error", "Network error occurred while saving hero.");
+      return false;
+    }
+  }, [triggerTimestampUpdate, showToast]);
+
+  // ─── STORY ACTIONS (PROTECTED SERVER-SIDE API) ───
+  const updateStory = useCallback(async (updates: Partial<StoryConfig>): Promise<boolean> => {
+    try {
+      const res = await fetch("/api/admin/story", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      });
+
+      if (res.status === 401) {
+        showToast("error", "Unauthorized: Admin session expired. Please log in.");
+        return false;
+      }
+
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        showToast("error", result.error || "Failed to update story.");
+        return false;
+      }
+
+      if (result.data) {
+        const mapped = mapSiteStoryRowToConfigs(result.data as SiteStoryRow);
+        setStory(mapped.story);
+        setStoryImages(mapped.storyImages);
+      } else {
+        setStory((prev) => ({ ...prev, ...updates, updatedAt: new Date().toISOString() }));
+      }
+      triggerTimestampUpdate();
+      showToast("success", "Story content updated successfully.");
+      return true;
+    } catch (err) {
+      console.error("Unexpected error in updateStory:", err);
+      showToast("error", "Network error occurred while saving story.");
+      return false;
+    }
+  }, [triggerTimestampUpdate, showToast]);
+
+  const updateStoryImages = useCallback(async (updates: Partial<StoryImagesConfig>): Promise<boolean> => {
+    try {
+      const res = await fetch("/api/admin/story", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      });
+
+      if (res.status === 401) {
+        showToast("error", "Unauthorized: Admin session expired. Please log in.");
+        return false;
+      }
+
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        showToast("error", result.error || "Failed to update story images.");
+        return false;
+      }
+
+      if (result.data) {
+        const mapped = mapSiteStoryRowToConfigs(result.data as SiteStoryRow);
+        setStory(mapped.story);
+        setStoryImages(mapped.storyImages);
+      } else {
+        setStoryImages((prev) => ({ ...prev, ...updates, updatedAt: new Date().toISOString() }));
       }
       triggerTimestampUpdate();
       showToast("success", "Story images updated successfully.");
       return true;
     } catch (err) {
       console.error("Unexpected error in updateStoryImages:", err);
-      showToast("error", "An error occurred while saving story images.");
+      showToast("error", "Network error occurred while saving story images.");
+      return false;
     }
-    return false;
-  }, [storyImagesDbId, storyImages, triggerTimestampUpdate, showToast]);
+  }, [triggerTimestampUpdate, showToast]);
 
-  // ─── INSTAGRAM CTA (SUPABASE BACKED) ───
+  // ─── INSTAGRAM CTA (PROTECTED SERVER-SIDE API) ───
   const updateInstagramCTA = useCallback(async (updates: Partial<InstagramCTAConfig>): Promise<boolean> => {
-    const supabase = createClient();
     try {
-      const updatePayload: Record<string, unknown> = {};
-      if (updates.image !== undefined) updatePayload.image_url = updates.image;
-      if (updates.alt !== undefined) updatePayload.alt_text = updates.alt;
+      const res = await fetch("/api/admin/instagram", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      });
 
-      const { data, error } = await supabase
-        .from("site_instagram")
-        .update(updatePayload)
-        .eq("id", instagramDbId)
-        .select()
-        .single();
-
-      if (error) {
-        console.error("Failed to update site_instagram in Supabase:", error.message || error);
-        showToast("error", "Failed to update Instagram section. Please try again.");
+      if (res.status === 401) {
+        showToast("error", "Unauthorized: Admin session expired. Please log in.");
         return false;
       }
 
-      if (data) {
-        setInstagramCTA(mapInstagramRowToConfig(data as InstagramRow));
-        triggerTimestampUpdate();
-        showToast("success", "Instagram section updated successfully.");
-        return true;
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        showToast("error", result.error || "Failed to update Instagram section.");
+        return false;
       }
+
+      setInstagramCTA(mapInstagramRowToConfig(result.data as InstagramRow));
+      triggerTimestampUpdate();
+      showToast("success", "Instagram section updated successfully.");
+      return true;
     } catch (err) {
       console.error("Unexpected error in updateInstagramCTA:", err);
+      showToast("error", "Network error occurred while saving Instagram section.");
+      return false;
     }
-    return false;
-  }, [instagramDbId, triggerTimestampUpdate, showToast]);
+  }, [triggerTimestampUpdate, showToast]);
 
-  // ─── RESET ───
+  // ─── RESET / MANUAL REFRESH ───
   const resetToDefaults = useCallback(() => {
-    setLastUpdated("Refreshed from Supabase database");
-  }, []);
+    setIsLoading(true);
+    const supabase = createClient();
+    Promise.all([
+      supabase.from("products").select("*").order("display_order", { ascending: true }),
+      supabase.from("reviews").select("*").order("created_at", { ascending: false }),
+      supabase.from("site_hero").select("*").limit(1).maybeSingle(),
+      supabase.from("site_instagram").select("*").limit(1).maybeSingle(),
+      supabase.from("site_story").select("*").limit(1).maybeSingle(),
+    ])
+      .then(([pRes, rRes, hRes, iRes, sRes]) => {
+        if (pRes.data) {
+          setBakes((pRes.data as ProductRow[]).map((row, idx, arr) => mapProductRowToShared(row, idx, arr.length)));
+        }
+        if (rRes.data) {
+          setReviews((rRes.data as ReviewRow[]).map(mapReviewRowToShared));
+        }
+        if (hRes.data) {
+          setHero(mapHeroRowToConfig(hRes.data as HeroRow));
+        }
+        if (iRes.data) {
+          setInstagramCTA(mapInstagramRowToConfig(iRes.data as InstagramRow));
+        }
+        if (sRes.data) {
+          const mapped = mapSiteStoryRowToConfigs(sRes.data as SiteStoryRow);
+          setStory(mapped.story);
+          setStoryImages(mapped.storyImages);
+        }
+        setLastUpdated("Refreshed from Supabase database");
+        showToast("success", "Dashboard data refreshed from database.");
+      })
+      .catch((err) => {
+        console.error("Failed to refresh data:", err);
+        showToast("error", "Failed to refresh data from Supabase.");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [showToast]);
 
   // ─── OUR FAVES (FOUR FEATURED BESTSELLERS) ───
   const faves: SharedProduct[] = useMemo(() => {
@@ -948,46 +796,30 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         description: found.description || fallback.description,
         image: found.image || fallback.image,
         price: found.price || fallback.price,
-        badgeText: found.badgeText || fallback.badgeText,
       };
     };
 
-    const f1 = findMatch(
-      (b) => b.category?.toLowerCase() === "muffins" || b.name?.toLowerCase().includes("muffin"),
-      INITIAL_FAVES[0]
-    );
-    const f2 = findMatch(
-      (b) => b.category?.toLowerCase() === "cookies" || b.name?.toLowerCase().includes("cookie"),
-      INITIAL_FAVES[1]
-    );
-    const f3 = findMatch(
-      (b) => b.name?.toLowerCase().includes("oreo") || b.description?.toLowerCase().includes("oreo"),
-      INITIAL_FAVES[2]
-    );
-    const f4 = findMatch(
-      (b) => b.category?.toLowerCase() === "tiramisu" || b.name?.toLowerCase().includes("tiramisu"),
-      INITIAL_FAVES[3]
-    );
-
     return [
-      { ...f1, serial: "01 / 04" },
-      { ...f2, serial: "02 / 04" },
-      { ...f3, serial: "03 / 04" },
-      { ...f4, serial: "04 / 04" },
-    ];
+      findMatch((b) => /muffin/i.test(b.name) || /muffin/i.test(b.category), INITIAL_FAVES[0]),
+      findMatch((b) => /cookie/i.test(b.name) || /cookie/i.test(b.category), INITIAL_FAVES[1]),
+      findMatch((b) => /oreo/i.test(b.name) || /fudge/i.test(b.name), INITIAL_FAVES[2]),
+      findMatch((b) => /tiramisu/i.test(b.name) || /tiramisu/i.test(b.category), INITIAL_FAVES[3]),
+    ].map((item, idx) => ({
+      ...item,
+      serial: `0${idx + 1} / 04`,
+    }));
   }, [bakes]);
 
+  // ─── STATS ───
   const stats: AdminStats = useMemo(() => ({
     totalBakes: bakes.length,
-    galleryImages: gallery.length,
     totalReviews: reviews.length,
     lastUpdated,
-  }), [bakes.length, gallery.length, reviews.length, lastUpdated]);
+  }), [bakes.length, reviews.length, lastUpdated]);
 
-  const value = useMemo(() => ({
+  const value = useMemo<AdminContextType>(() => ({
     bakes,
     faves,
-    gallery,
     reviews,
     hero,
     story,
@@ -996,8 +828,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     stats,
     isLoading,
     isLoaded,
-    showToast,
-    toast,
     updateHero,
     updateStory,
     updateStoryImages,
@@ -1005,18 +835,17 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     addBake,
     updateBake,
     deleteBake,
-    addGalleryImage,
-    addMultipleGalleryImages,
-    updateGalleryImage,
-    deleteGalleryImage,
     addReview,
     updateReview,
     deleteReview,
     resetToDefaults,
+    showToast,
+    toast,
+    // Safe empty array for backward compatibility
+    gallery: [],
   }), [
     bakes,
     faves,
-    gallery,
     reviews,
     hero,
     story,
@@ -1025,8 +854,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     stats,
     isLoading,
     isLoaded,
-    showToast,
-    toast,
     updateHero,
     updateStory,
     updateStoryImages,
@@ -1034,14 +861,12 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     addBake,
     updateBake,
     deleteBake,
-    addGalleryImage,
-    addMultipleGalleryImages,
-    updateGalleryImage,
-    deleteGalleryImage,
     addReview,
     updateReview,
     deleteReview,
     resetToDefaults,
+    showToast,
+    toast,
   ]);
 
   return (
@@ -1052,7 +877,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useAdmin() {
+export function useAdmin(): AdminContextType {
   const context = useContext(AdminContext);
   if (!context) {
     throw new Error("useAdmin must be used within an AdminProvider");

@@ -10,7 +10,7 @@ import { AdminSidebar } from "./AdminSidebar";
 const TITLE_MAP: Record<string, { title: string; subtitle: string }> = {
   "/admin/dashboard": {
     title: "Bakery Dashboard",
-    subtitle: "Overview of your bakes, gallery showcase & customer reviews",
+    subtitle: "Overview of your bakes, sections & customer reviews",
   },
   "/admin/hero": {
     title: "Hero Section Cover",
@@ -24,13 +24,13 @@ const TITLE_MAP: Record<string, { title: string; subtitle: string }> = {
     title: "Our Bakes Menu",
     subtitle: "Manage, price and publish your handcrafted desserts",
   },
-  "/admin/gallery": {
-    title: "Bakery Gallery",
-    subtitle: "Showcase behind-the-scenes moments and kitchen craftsmanship",
-  },
   "/admin/reviews": {
     title: "Customer Reviews",
     subtitle: "Highlight genuine customer testimonials & 5-star ratings",
+  },
+  "/admin/instagram": {
+    title: "Instagram CTA",
+    subtitle: "Customize the social connection section and gourmet photo",
   },
 };
 

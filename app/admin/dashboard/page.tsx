@@ -6,13 +6,11 @@ import Image from "next/image";
 import { useAdmin } from "@/context/AdminContext";
 import { StatCard } from "@/components/admin/StatCard";
 import { BakeFormModal } from "@/components/admin/BakeFormModal";
-import { GalleryUploadModal } from "@/components/admin/GalleryUploadModal";
 import { ReviewFormModal } from "@/components/admin/ReviewFormModal";
 import { 
   Plus, 
   ArrowRight, 
   CakeSlice, 
-  Images, 
   MessageSquareHeart, 
   Sparkles, 
   BookOpen,
@@ -26,14 +24,14 @@ export default function AdminDashboardPage() {
     reviews, 
     stats, 
     addBake, 
-    addMultipleGalleryImages, 
     addReview,
     resetToDefaults 
   } = useAdmin();
 
   const [bakeModalOpen, setBakeModalOpen] = useState(false);
-  const [galleryModalOpen, setGalleryModalOpen] = useState(false);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
+
+  const featuredBestsellersCount = bakes.filter((b) => b.isBestseller).length || 4;
 
   return (
     <div className="space-y-5 pb-10">
@@ -53,7 +51,7 @@ export default function AdminDashboardPage() {
             Welcome back, Head Baker!
           </h2>
           <p className="font-kalam text-xs sm:text-sm text-[#5F4A3A] font-semibold mt-0.5">
-            Manage dessert bakes, kitchen gallery photos & 5-star customer reviews
+            Manage dessert bakes, showcase sections & customer reviews
           </p>
         </div>
 
@@ -63,7 +61,7 @@ export default function AdminDashboardPage() {
             type="button"
             onClick={resetToDefaults}
             className="px-3.5 py-2 rounded-xl bg-[#FFFDF8] hover:bg-[#FFF6E8] text-[#3E2A24] font-bricolage font-bold text-xs border-2 border-[#3E2A24] shadow-[1.5px_1.5px_0_#3E2A24] flex items-center gap-1.5 cursor-pointer transition-all"
-            title="Reset to default initial bakery demo data"
+            title="Refresh latest data from Supabase database"
           >
             <RefreshCw className="w-3 h-3" />
             <span>Refresh Data</span>
@@ -79,15 +77,15 @@ export default function AdminDashboardPage() {
           icon="🧁"
           bgColor="bg-[#FFE26E]"
           href="/admin/bakes"
-          description="Active bakery menu items"
+          description="Active bakery catalog items"
         />
         <StatCard
-          label="Gallery Images"
-          value={stats.galleryImages}
-          icon="🖼️"
+          label="Featured Faves"
+          value={featuredBestsellersCount}
+          icon="✨"
           bgColor="bg-[#FFF9F5]"
-          href="/admin/gallery"
-          description="Kitchen & bakery photos"
+          href="/admin/bakes"
+          description="Signature bestsellers"
         />
         <StatCard
           label="Total Reviews"
@@ -170,18 +168,18 @@ export default function AdminDashboardPage() {
             </div>
           </button>
 
-          <button
-            onClick={() => setGalleryModalOpen(true)}
+          <Link
+            href="/admin/bakes"
             className="p-4 rounded-2xl bg-[#FFECC8] hover:bg-[#ffe2a8] border-[3px] border-[#3E2A24] shadow-[3px_3px_0_#3E2A24] hover:shadow-[5px_5px_0_#3E2A24] hover:-translate-y-0.5 flex items-center gap-3 font-bricolage font-bold text-sm text-[#3E2A24] transition-all cursor-pointer text-left"
           >
             <div className="w-10 h-10 rounded-xl bg-white border-2 border-[#3E2A24] flex items-center justify-center text-xl shrink-0">
-              <Images className="w-5 h-5 text-[#FF4FA3]" />
+              <CakeSlice className="w-5 h-5 text-[#FF4FA3]" />
             </div>
             <div>
-              <p className="font-black text-sm">Upload Photos</p>
-              <p className="font-kalam text-xs text-[#5F4A3A]">Add gallery snapshots</p>
+              <p className="font-black text-sm">Catalog Items</p>
+              <p className="font-kalam text-xs text-[#5F4A3A]">Manage bakes</p>
             </div>
-          </button>
+          </Link>
 
           <button
             onClick={() => setReviewModalOpen(true)}
@@ -286,37 +284,44 @@ export default function AdminDashboardPage() {
             </div>
 
             <div className="space-y-3">
-              {reviews.slice(0, 3).map((rev) => (
-                <div
-                  key={rev.id}
-                  className="p-3 bg-[#FFF9F5] rounded-2xl border-2 border-[#3E2A24]/40 hover:bg-[#FFECC8]/40 transition-colors"
-                >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <div className="flex items-center gap-2">
-                      <div className="relative w-7 h-7 rounded-full border border-[#3E2A24] overflow-hidden bg-[#FFE26E]">
-                        <Image
-                          src={rev.customerImage || rev.portrait || "/placeholder-user.jpg"}
-                          alt={rev.customerName || rev.name || "Customer"}
-                          fill
-                          className="object-cover"
-                          unoptimized
-                        />
-                      </div>
-                      <span className="font-bricolage font-bold text-xs text-[#3E2A24]">
-                        {rev.customerName || rev.name}
-                      </span>
-                    </div>
-
-                    <div className="flex text-amber-500 text-xs">
-                      {"★".repeat(rev.rating)}
-                    </div>
-                  </div>
-
-                  <p className="font-kalam text-xs text-[#5F4A3A] line-clamp-2">
-                    &quot;{rev.review}&quot;
-                  </p>
+              {reviews.length === 0 ? (
+                <div className="p-6 text-center bg-[#FFF9F5] rounded-2xl border-2 border-dashed border-[#3E2A24]/30">
+                  <p className="font-bowlby text-sm text-[#3E2A24]">No reviews published yet</p>
+                  <p className="font-kalam text-xs text-[#5F4A3A] mt-1">Real reviews will appear here once submitted or added.</p>
                 </div>
-              ))}
+              ) : (
+                reviews.slice(0, 3).map((rev) => (
+                  <div
+                    key={rev.id}
+                    className="p-3 bg-[#FFF9F5] rounded-2xl border-2 border-[#3E2A24]/40 hover:bg-[#FFECC8]/40 transition-colors"
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <div className="flex items-center gap-2">
+                        <div className="relative w-7 h-7 rounded-full border border-[#3E2A24] overflow-hidden bg-[#FFE26E]">
+                          <Image
+                            src={rev.customerImage || rev.portrait || "/images/baker-where/prod_chocolate_cookies.jpg"}
+                            alt={rev.customerName || rev.name || "Customer"}
+                            fill
+                            className="object-cover"
+                            unoptimized
+                          />
+                        </div>
+                        <span className="font-bricolage font-bold text-xs text-[#3E2A24]">
+                          {rev.customerName || rev.name}
+                        </span>
+                      </div>
+
+                      <div className="flex text-amber-500 text-xs">
+                        {"★".repeat(rev.rating)}
+                      </div>
+                    </div>
+
+                    <p className="font-kalam text-xs text-[#5F4A3A] line-clamp-2">
+                      &quot;{rev.review}&quot;
+                    </p>
+                  </div>
+                ))
+              )}
             </div>
           </div>
 
@@ -337,12 +342,6 @@ export default function AdminDashboardPage() {
         isOpen={bakeModalOpen}
         onSave={async (data) => Boolean(await addBake(data))}
         onClose={() => setBakeModalOpen(false)}
-      />
-
-      <GalleryUploadModal
-        isOpen={galleryModalOpen}
-        onUpload={(items) => addMultipleGalleryImages(items)}
-        onClose={() => setGalleryModalOpen(false)}
       />
 
       <ReviewFormModal

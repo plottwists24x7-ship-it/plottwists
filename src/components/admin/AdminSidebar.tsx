@@ -6,7 +6,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { 
   LayoutDashboard, 
   CakeSlice, 
-  Images, 
   MessageSquareHeart, 
   LogOut, 
   ExternalLink,
@@ -43,12 +42,6 @@ const NAV_ITEMS = [
     href: "/admin/bakes",
     icon: CakeSlice,
     badge: "Menu",
-  },
-  {
-    label: "Gallery",
-    href: "/admin/gallery",
-    icon: Images,
-    badge: null,
   },
   {
     label: "Reviews",

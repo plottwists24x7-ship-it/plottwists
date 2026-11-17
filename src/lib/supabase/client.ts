@@ -10,32 +10,47 @@ const ALLOWED_IMAGE_MIME_TYPES = new Set([
   "image/jpeg",
   "image/png",
   "image/webp",
-  "image/gif",
-  "image/svg+xml",
 ]);
 
 const MAX_IMAGE_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
-let hasWarnedMissingSupabase = false;
+/**
+ * Normalizes the Supabase Project URL:
+ * - Trims whitespace
+ * - Strips trailing slashes
+ * - Strips accidental /rest/v1 suffix
+ * - Enforces fail-closed configuration (never falls back to placeholder domains)
+ */
+export function normalizeSupabaseUrl(rawUrl?: string): string {
+  if (!rawUrl || rawUrl.trim().length === 0) {
+    throw new Error("Configuration error: NEXT_PUBLIC_SUPABASE_URL is missing or empty.");
+  }
+  let url = rawUrl.trim();
+  url = url.replace(/\/+$/, "");
+  url = url.replace(/\/rest\/v1\/?$/i, "");
+  url = url.replace(/\/+$/, "");
 
-export function createClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-
-  if (!url || !key) {
-    if (typeof window !== "undefined" && !hasWarnedMissingSupabase) {
-      console.warn(
-        "Supabase credentials (NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) are missing in environment variables. Falling back to offline client."
-      );
-      hasWarnedMissingSupabase = true;
-    }
-    return createBrowserClient(
-      url || "https://placeholder-offline.supabase.co",
-      key || "placeholder-anon-key"
+  if (url.includes("placeholder-offline")) {
+    throw new Error(
+      "Configuration error: Supabase URL cannot use placeholder-offline domain."
     );
   }
 
-  return createBrowserClient(url, key);
+  return url;
+}
+
+export function createClient() {
+  const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+  if (!rawUrl || !key) {
+    throw new Error(
+      "Supabase client initialization failed: NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY is not defined."
+    );
+  }
+
+  const url = normalizeSupabaseUrl(rawUrl);
+  return createBrowserClient(url, key.trim());
 }
 
 export function getProductImageUrl(image: string) {
@@ -64,52 +79,47 @@ export function getProductImageUrl(image: string) {
 }
 
 /**
- * Validates and uploads an image to Supabase Storage in the specified folder.
- * Enforces file format, size limits, and requires a valid Supabase Storage bucket.
- * Does NOT fall back to Base64 strings to prevent multi-megabyte database row bloat.
+ * Validates and uploads an image via the secure server-side admin upload API route.
+ * Enforces file format (JPEG, PNG, WEBP), 5 MB size limit, and service-role storage.
+ * Does NOT fall back to Base64 strings to prevent database row bloat.
  */
 export async function uploadImage(file: File, folder: string = "products"): Promise<string> {
-  // 1. Validate MIME type
+  // 1. Client-side validation: MIME type
   if (!ALLOWED_IMAGE_MIME_TYPES.has(file.type)) {
     throw new Error(
-      `Unsupported file format (${file.type || "unknown"}). Please upload a JPG, PNG, WEBP, GIF, or SVG image.`
+      `Unsupported file format (${file.type || "unknown"}). Only JPEG, PNG, and WEBP images are supported.`
     );
   }
 
-  // 2. Validate file size (max 5 MB)
+  // 2. Client-side validation: file size (max 5 MB)
   if (file.size > MAX_IMAGE_FILE_SIZE) {
     const sizeInMb = (file.size / (1024 * 1024)).toFixed(1);
     throw new Error(`File size (${sizeInMb} MB) exceeds the 5 MB limit. Please choose a smaller image.`);
   }
 
-  // 3. Generate secure, unique object storage path
-  const extension = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
-  const uniqueId = typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}`;
-  const cleanFolder = folder.replace(/[^a-zA-Z0-9_-]/g, "");
-  const path = `${cleanFolder}/${Date.now()}-${uniqueId}.${extension}`;
+  // 3. Delegate to secure server-side endpoint (which uses service-role and validates session + magic bytes)
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("folder", folder);
 
-  const supabase = createClient();
-  const { error } = await supabase.storage.from(PRODUCT_IMAGE_BUCKET).upload(path, file, {
-    cacheControl: "3600",
-    upsert: false,
-    contentType: file.type,
+  const response = await fetch("/api/admin/upload", {
+    method: "POST",
+    body: formData,
   });
 
-  if (error) {
-    const isBucketMissing =
-      error.message?.toLowerCase().includes("bucket not found") ||
-      (error as { error?: string })?.error?.toLowerCase().includes("bucket not found");
-
-    if (isBucketMissing) {
-      throw new Error(
-        `Supabase Storage bucket '${PRODUCT_IMAGE_BUCKET}' not found. Please create the public bucket '${PRODUCT_IMAGE_BUCKET}' in your Supabase Dashboard before uploading images.`
-      );
-    }
-
-    throw new Error(`Failed to upload image to Supabase Storage: ${error.message}`);
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(
+      errorData.message || errorData.error || `Image upload failed with status ${response.status}`
+    );
   }
 
-  return path;
+  const result = await response.json();
+  if (!result.success || !result.path) {
+    throw new Error(result.message || "Upload response did not return a valid image path.");
+  }
+
+  return result.path;
 }
 
 /**
