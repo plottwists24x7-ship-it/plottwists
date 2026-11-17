@@ -43,16 +43,12 @@ export async function validateAdminRequest(
   if (isMutation && options.checkCsrf !== false) {
     const origin = req.headers.get("origin");
     const referer = req.headers.get("referer");
-    const host =
-      req.headers.get("x-forwarded-host") ||
-      req.headers.get("host") ||
-      req.nextUrl.host;
 
-    let sourceHost: string | null = null;
+    let sourceHostname: string | null = null;
 
     if (origin) {
       try {
-        sourceHost = new URL(origin).host;
+        sourceHostname = new URL(origin).hostname.toLowerCase();
       } catch {
         return {
           authorized: false,
@@ -64,7 +60,7 @@ export async function validateAdminRequest(
       }
     } else if (referer) {
       try {
-        sourceHost = new URL(referer).host;
+        sourceHostname = new URL(referer).hostname.toLowerCase();
       } catch {
         return {
           authorized: false,
@@ -76,19 +72,78 @@ export async function validateAdminRequest(
       }
     }
 
-    // If neither origin nor referer is provided, or source host doesn't match expected host
-    if (
-      !sourceHost ||
-      !host ||
-      sourceHost.toLowerCase() !== host.toLowerCase()
-    ) {
+    // If neither origin nor referer is provided on a mutation, reject
+    if (!sourceHostname) {
       return {
         authorized: false,
         response: NextResponse.json(
           {
             success: false,
             error:
-              "Forbidden: Cross-site request forgery detected or missing Origin header.",
+              "Forbidden: Origin or Referer header required for state-changing requests.",
+          },
+          { status: 403 }
+        ),
+      };
+    }
+
+    // Expected target hostnames
+    const expectedHostnames = new Set<string>();
+
+    // 1. Next.js internal parsed request hostname
+    if (req.nextUrl.hostname) {
+      expectedHostnames.add(req.nextUrl.hostname.toLowerCase());
+    }
+
+    // 2. HTTP Host header (without port)
+    const hostHeader = req.headers.get("host");
+    if (hostHeader) {
+      const cleanHost = hostHeader.split(":")[0].trim().toLowerCase();
+      if (cleanHost) expectedHostnames.add(cleanHost);
+    }
+
+    // 3. X-Forwarded-Host header (Vercel edge proxy - take primary client host, without port)
+    const xForwardedHost = req.headers.get("x-forwarded-host");
+    if (xForwardedHost) {
+      const primaryForwardedHost = xForwardedHost
+        .split(",")[0]
+        .trim()
+        .split(":")[0]
+        .trim()
+        .toLowerCase();
+      if (primaryForwardedHost) expectedHostnames.add(primaryForwardedHost);
+    }
+
+    // 4. Vercel deployment environment variables (if set)
+    if (process.env.VERCEL_URL) {
+      expectedHostnames.add(
+        process.env.VERCEL_URL.split(":")[0].trim().toLowerCase()
+      );
+    }
+    if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+      expectedHostnames.add(
+        process.env.VERCEL_PROJECT_PRODUCTION_URL.split(":")[0].trim().toLowerCase()
+      );
+    }
+
+    // Allow local loopback in development / test
+    if (
+      sourceHostname === "localhost" ||
+      sourceHostname === "127.0.0.1" ||
+      sourceHostname === "::1"
+    ) {
+      expectedHostnames.add("localhost");
+      expectedHostnames.add("127.0.0.1");
+      expectedHostnames.add("::1");
+    }
+
+    if (!expectedHostnames.has(sourceHostname)) {
+      return {
+        authorized: false,
+        response: NextResponse.json(
+          {
+            success: false,
+            error: "Forbidden: Cross-site request forgery detected.",
           },
           { status: 403 }
         ),

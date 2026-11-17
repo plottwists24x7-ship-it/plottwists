@@ -12,21 +12,26 @@ export async function proxy(req: NextRequest) {
     // If user is visiting the login page
     if (pathname === "/admin/login") {
       if (isAuthenticated) {
-        // Already logged in, redirect to dashboard
-        return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+        // Already logged in, redirect to dashboard preserving protocol & host
+        const dashboardUrl = req.nextUrl.clone();
+        dashboardUrl.pathname = "/admin/dashboard";
+        return NextResponse.redirect(dashboardUrl);
       }
       return NextResponse.next();
     }
 
     // If user is visiting any other admin route and not authenticated
     if (!isAuthenticated) {
-      const loginUrl = new URL("/admin/login", req.url);
+      const loginUrl = req.nextUrl.clone();
+      loginUrl.pathname = "/admin/login";
       return NextResponse.redirect(loginUrl);
     }
 
     // If user visits root /admin while authenticated, redirect to /admin/dashboard
     if (pathname === "/admin") {
-      return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+      const dashboardUrl = req.nextUrl.clone();
+      dashboardUrl.pathname = "/admin/dashboard";
+      return NextResponse.redirect(dashboardUrl);
     }
   }
 

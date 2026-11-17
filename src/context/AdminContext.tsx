@@ -117,13 +117,61 @@ interface InstagramRow {
   id: string;
   image_url: string;
   alt_text: string;
+  eyebrow?: string;
+  heading_line1?: string;
+  heading_line2?: string;
+  description?: string;
+  quote?: string;
+  instagram_handle?: string;
+  instagram_url?: string;
+  cta_text?: string;
+  display_order?: number;
+  is_active?: boolean;
   updated_at: string;
+}
+
+export interface SharedInstagramEntry {
+  id: string;
+  image: string;
+  imagePath: string;
+  alt: string;
+  eyebrow?: string;
+  headingLine1?: string;
+  headingLine2?: string;
+  description?: string;
+  quote?: string;
+  handle?: string;
+  url?: string;
+  ctaText?: string;
+  displayOrder?: number;
+  isActive?: boolean;
+  updatedAt: string;
 }
 
 function mapInstagramRowToConfig(row: InstagramRow): InstagramCTAConfig {
   return {
     image: getProductImageUrl(row.image_url),
     alt: row.alt_text,
+    updatedAt: row.updated_at,
+  };
+}
+
+function mapInstagramRowToShared(row: InstagramRow): SharedInstagramEntry {
+  return {
+    id: row.id,
+    image: getProductImageUrl(row.image_url),
+    imagePath: row.image_url,
+    alt: row.alt_text,
+    eyebrow: row.eyebrow,
+    headingLine1: row.heading_line1,
+    headingLine2: row.heading_line2,
+    description: row.description,
+    quote: row.quote,
+    handle: row.instagram_handle,
+    url: row.instagram_url,
+    ctaText: row.cta_text,
+    displayOrder: typeof row.display_order === "number" ? row.display_order : 0,
+    isActive: row.is_active !== undefined ? Boolean(row.is_active) : true,
     updatedAt: row.updated_at,
   };
 }
@@ -229,6 +277,7 @@ export interface AdminContextType {
   story: StoryConfig;
   storyImages: StoryImagesConfig;
   instagramCTA: InstagramCTAConfig;
+  instagramEntries: SharedInstagramEntry[];
   stats: AdminStats;
   isLoading: boolean;
   isLoaded: boolean;
@@ -240,8 +289,11 @@ export interface AdminContextType {
   updateStory: (updates: Partial<StoryConfig>) => Promise<boolean>;
   updateStoryImages: (updates: Partial<StoryImagesConfig>) => Promise<boolean>;
 
-  // Instagram CTA Actions
+  // Instagram Actions (Protected Server API)
   updateInstagramCTA: (updates: Partial<InstagramCTAConfig>) => Promise<boolean>;
+  addInstagramEntry: (entry: Omit<SharedInstagramEntry, "id" | "updatedAt">) => Promise<SharedInstagramEntry | null>;
+  updateInstagramEntry: (id: string, updates: Partial<Omit<SharedInstagramEntry, "id" | "updatedAt">>) => Promise<boolean>;
+  deleteInstagramEntry: (id: string) => Promise<boolean>;
   
   // Bake Actions (Protected Server API)
   addBake: (bake: Omit<SharedProduct, "id" | "createdAt" | "updatedAt">) => Promise<SharedProduct | null>;
@@ -275,6 +327,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [story, setStory] = useState<StoryConfig>(INITIAL_STORY);
   const [storyImages, setStoryImages] = useState<StoryImagesConfig>(INITIAL_STORY_IMAGES);
   const [instagramCTA, setInstagramCTA] = useState<InstagramCTAConfig>(INITIAL_INSTAGRAM_CTA);
+  const [instagramEntries, setInstagramEntries] = useState<SharedInstagramEntry[]>([]);
   const [lastUpdated, setLastUpdated] = useState<string>("Just now");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -315,7 +368,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
           supabase.from("products").select("*").order("display_order", { ascending: true }),
           supabase.from("reviews").select("*").order("created_at", { ascending: false }),
           supabase.from("site_hero").select("*").limit(1).maybeSingle(),
-          supabase.from("site_instagram").select("*").limit(1).maybeSingle(),
+          supabase.from("site_instagram").select("*"),
           supabase.from("site_story").select("*").limit(1).maybeSingle(),
         ]);
 
@@ -346,7 +399,12 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         if (iRes.error) {
           console.error("Supabase site_instagram fetch error:", iRes.error.message || iRes.error);
         } else if (iRes.data) {
-          setInstagramCTA(mapInstagramRowToConfig(iRes.data as InstagramRow));
+          const rows = iRes.data as InstagramRow[];
+          const bannerRow = rows.find((r) => r.id === "00000000-0000-0000-0000-000000000003") || rows[0];
+          if (bannerRow) {
+            setInstagramCTA(mapInstagramRowToConfig(bannerRow));
+          }
+          setInstagramEntries(rows.map(mapInstagramRowToShared));
         }
 
         // 5. Unified Site Story (Editorial copy + 4 images)
@@ -698,7 +756,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     }
   }, [triggerTimestampUpdate, showToast]);
 
-  // ─── INSTAGRAM CTA (PROTECTED SERVER-SIDE API) ───
+  // ─── INSTAGRAM ACTIONS (PROTECTED SERVER-SIDE API) ───
   const updateInstagramCTA = useCallback(async (updates: Partial<InstagramCTAConfig>): Promise<boolean> => {
     try {
       const res = await fetch("/api/admin/instagram", {
@@ -729,6 +787,130 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     }
   }, [triggerTimestampUpdate, showToast]);
 
+  const addInstagramEntry = useCallback(async (entryData: Omit<SharedInstagramEntry, "id" | "updatedAt">): Promise<SharedInstagramEntry | null> => {
+    try {
+      const payload = {
+        image: entryData.image,
+        alt: entryData.alt,
+        instagram_handle: entryData.handle,
+        instagram_url: entryData.url,
+        description: entryData.description,
+        quote: entryData.quote,
+        eyebrow: entryData.eyebrow,
+        heading_line1: entryData.headingLine1,
+        heading_line2: entryData.headingLine2,
+        cta_text: entryData.ctaText,
+        display_order: entryData.displayOrder ?? (instagramEntries.length + 1),
+        is_active: entryData.isActive !== undefined ? entryData.isActive : true,
+      };
+
+      const res = await fetch("/api/admin/instagram", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.status === 401) {
+        showToast("error", "Unauthorized: Admin session expired. Please log in.");
+        return null;
+      }
+
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        showToast("error", result.error || "Failed to add Instagram entry.");
+        return null;
+      }
+
+      const newEntry = mapInstagramRowToShared(result.data as InstagramRow);
+      setInstagramEntries((prev) => [...prev, newEntry]);
+      triggerTimestampUpdate();
+      showToast("success", "Instagram post added successfully.");
+      return newEntry;
+    } catch (err) {
+      console.error("Unexpected error in addInstagramEntry:", err);
+      showToast("error", "Network error occurred while saving Instagram post.");
+      return null;
+    }
+  }, [instagramEntries.length, triggerTimestampUpdate, showToast]);
+
+  const updateInstagramEntry = useCallback(async (id: string, updates: Partial<Omit<SharedInstagramEntry, "id" | "updatedAt">>): Promise<boolean> => {
+    try {
+      const payload: Record<string, unknown> = { id };
+      if (updates.image !== undefined) payload.image = updates.image;
+      if (updates.alt !== undefined) payload.alt = updates.alt;
+      if (updates.handle !== undefined) payload.instagram_handle = updates.handle;
+      if (updates.url !== undefined) payload.instagram_url = updates.url;
+      if (updates.description !== undefined) payload.description = updates.description;
+      if (updates.quote !== undefined) payload.quote = updates.quote;
+      if (updates.eyebrow !== undefined) payload.eyebrow = updates.eyebrow;
+      if (updates.headingLine1 !== undefined) payload.heading_line1 = updates.headingLine1;
+      if (updates.headingLine2 !== undefined) payload.heading_line2 = updates.headingLine2;
+      if (updates.ctaText !== undefined) payload.cta_text = updates.ctaText;
+      if (updates.displayOrder !== undefined) payload.display_order = updates.displayOrder;
+      if (updates.isActive !== undefined) payload.is_active = updates.isActive;
+
+      const res = await fetch("/api/admin/instagram", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.status === 401) {
+        showToast("error", "Unauthorized: Admin session expired. Please log in.");
+        return false;
+      }
+
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        showToast("error", result.error || "Failed to update Instagram entry.");
+        return false;
+      }
+
+      const updated = mapInstagramRowToShared(result.data as InstagramRow);
+      setInstagramEntries((prev) =>
+        prev.map((item) => (item.id === id ? updated : item))
+      );
+      if (id === "00000000-0000-0000-0000-000000000003") {
+        setInstagramCTA(mapInstagramRowToConfig(result.data as InstagramRow));
+      }
+      triggerTimestampUpdate();
+      showToast("success", "Instagram entry updated successfully.");
+      return true;
+    } catch (err) {
+      console.error("Unexpected error in updateInstagramEntry:", err);
+      showToast("error", "Network error occurred while updating Instagram entry.");
+      return false;
+    }
+  }, [triggerTimestampUpdate, showToast]);
+
+  const deleteInstagramEntry = useCallback(async (id: string): Promise<boolean> => {
+    try {
+      const res = await fetch(`/api/admin/instagram?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+      });
+
+      if (res.status === 401) {
+        showToast("error", "Unauthorized: Admin session expired. Please log in.");
+        return false;
+      }
+
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        showToast("error", result.error || "Failed to delete Instagram entry.");
+        return false;
+      }
+
+      setInstagramEntries((prev) => prev.filter((item) => item.id !== id));
+      triggerTimestampUpdate();
+      showToast("success", "Instagram entry deleted successfully.");
+      return true;
+    } catch (err) {
+      console.error("Unexpected error in deleteInstagramEntry:", err);
+      showToast("error", "Network error occurred while deleting Instagram entry.");
+      return false;
+    }
+  }, [triggerTimestampUpdate, showToast]);
+
   // ─── RESET / MANUAL REFRESH ───
   const resetToDefaults = useCallback(() => {
     setIsLoading(true);
@@ -737,7 +919,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       supabase.from("products").select("*").order("display_order", { ascending: true }),
       supabase.from("reviews").select("*").order("created_at", { ascending: false }),
       supabase.from("site_hero").select("*").limit(1).maybeSingle(),
-      supabase.from("site_instagram").select("*").limit(1).maybeSingle(),
+      supabase.from("site_instagram").select("*"),
       supabase.from("site_story").select("*").limit(1).maybeSingle(),
     ])
       .then(([pRes, rRes, hRes, iRes, sRes]) => {
@@ -751,7 +933,12 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
           setHero(mapHeroRowToConfig(hRes.data as HeroRow));
         }
         if (iRes.data) {
-          setInstagramCTA(mapInstagramRowToConfig(iRes.data as InstagramRow));
+          const rows = iRes.data as InstagramRow[];
+          const bannerRow = rows.find((r) => r.id === "00000000-0000-0000-0000-000000000003") || rows[0];
+          if (bannerRow) {
+            setInstagramCTA(mapInstagramRowToConfig(bannerRow));
+          }
+          setInstagramEntries(rows.map(mapInstagramRowToShared));
         }
         if (sRes.data) {
           const mapped = mapSiteStoryRowToConfigs(sRes.data as SiteStoryRow);
@@ -825,6 +1012,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     story,
     storyImages,
     instagramCTA,
+    instagramEntries,
     stats,
     isLoading,
     isLoaded,
@@ -832,6 +1020,9 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     updateStory,
     updateStoryImages,
     updateInstagramCTA,
+    addInstagramEntry,
+    updateInstagramEntry,
+    deleteInstagramEntry,
     addBake,
     updateBake,
     deleteBake,
@@ -851,6 +1042,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     story,
     storyImages,
     instagramCTA,
+    instagramEntries,
     stats,
     isLoading,
     isLoaded,
@@ -858,6 +1050,9 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     updateStory,
     updateStoryImages,
     updateInstagramCTA,
+    addInstagramEntry,
+    updateInstagramEntry,
+    deleteInstagramEntry,
     addBake,
     updateBake,
     deleteBake,

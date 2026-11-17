@@ -5,6 +5,55 @@ import { createAdminClient } from "@/lib/supabase/server";
 export const dynamic = "force-dynamic";
 
 /**
+ * GET /api/admin/reviews
+ * Retrieves all reviews or a single review by ID via service-role client.
+ */
+export async function GET(req: NextRequest) {
+  const auth = await validateAdminRequest(req, { checkCsrf: false });
+  if (!auth.authorized || auth.response) {
+    return auth.response!;
+  }
+
+  try {
+    const id = req.nextUrl.searchParams.get("id");
+    const supabaseAdmin = createAdminClient();
+
+    if (id) {
+      const { data, error } = await supabaseAdmin
+        .from("reviews")
+        .select("*")
+        .eq("id", id)
+        .maybeSingle();
+
+      if (error) {
+        return NextResponse.json(
+          { success: false, error: error.message },
+          { status: 500 }
+        );
+      }
+      return NextResponse.json({ success: true, data });
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from("reviews")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      return NextResponse.json(
+        { success: false, error: error.message },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ success: true, data });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Internal server error";
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
+  }
+}
+
+/**
  * POST /api/admin/reviews
  * Creates a new customer review via service-role admin client.
  */
