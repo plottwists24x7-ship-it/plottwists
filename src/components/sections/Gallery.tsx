@@ -51,22 +51,22 @@ const BakeryStamp = ({ className = "" }: { className?: string }) => (
 import { useAdmin } from "@/context/AdminContext";
 
 export default function Gallery() {
-  const { gallery } = useAdmin();
+  const { instagramEntries } = useAdmin();
   
-  // Merge live gallery updates from context with layout configuration
+  // Merge live site_instagram entries from context with layout configuration
   const activePhotos = React.useMemo(() => {
-    if (!gallery || gallery.length === 0) return GALLERY_PHOTOS;
+    if (!instagramEntries || instagramEntries.length === 0) return GALLERY_PHOTOS;
     return GALLERY_PHOTOS.map((staticPhoto, idx) => {
-      const liveItem = gallery[idx];
+      const liveItem = instagramEntries[idx];
       if (!liveItem) return staticPhoto;
       return {
         ...staticPhoto,
-        src: liveItem.image || liveItem.src || staticPhoto.src,
-        alt: liveItem.title || liveItem.alt || staticPhoto.alt,
-        label: liveItem.title || liveItem.label || staticPhoto.label,
+        src: liveItem.image || staticPhoto.src,
+        alt: liveItem.alt || staticPhoto.alt,
+        label: liveItem.description || liveItem.alt || staticPhoto.label,
       };
     });
-  }, [gallery]);
+  }, [instagramEntries]);
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const leftColumnRef = useRef<HTMLDivElement>(null);

@@ -204,3 +204,23 @@ export function extractStoragePath(
 
   return null;
 }
+
+/**
+ * Checks whether two image references (relative storage paths, full Supabase public URLs,
+ * or static paths) refer to the exact same underlying image resource.
+ * Prevents accidentally deleting an active Storage object when the frontend sends back
+ * a resolved public URL for an unchanged relative storage path.
+ */
+export function isSameImageResource(
+  a?: string | null,
+  b?: string | null,
+  bucketName: string = "products"
+): boolean {
+  const normA = (a || "").trim();
+  const normB = (b || "").trim();
+  if (normA === normB) return true;
+  const pathA = extractStoragePath(normA, bucketName);
+  const pathB = extractStoragePath(normB, bucketName);
+  if (pathA && pathB && pathA === pathB) return true;
+  return false;
+}

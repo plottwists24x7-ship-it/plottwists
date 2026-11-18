@@ -13,6 +13,7 @@ interface BakeFormModalProps {
 }
 
 const CATEGORIES: BakeCategory[] = [
+  "Muffins",
   "Cheesecakes",
   "Brownies",
   "Cookies",

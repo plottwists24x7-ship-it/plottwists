@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateAdminRequest, extractStoragePath } from "@/lib/admin-guard";
+import { validateAdminRequest, extractStoragePath, isSameImageResource } from "@/lib/admin-guard";
 import { createAdminClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -211,9 +211,13 @@ export async function PATCH(req: NextRequest) {
 
     const newImage = updateFields.image_url ?? updateFields.imagePath ?? updateFields.image;
     let hasImageChanged = false;
-    if (newImage !== undefined && newImage !== existing.image_url) {
+    if (newImage !== undefined && !isSameImageResource(String(newImage), existing.image_url)) {
       dbPayload.image_url = String(newImage).trim();
       hasImageChanged = true;
+    }
+
+    if (Object.keys(dbPayload).length === 0) {
+      return NextResponse.json({ success: true, data: existing });
     }
 
     // Execute database update

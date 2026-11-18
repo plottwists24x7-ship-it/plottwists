@@ -3,7 +3,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import { 
   SharedProduct, 
-  SharedGalleryPhoto,
   SharedReview, 
   HeroConfig,
   StoryConfig,
@@ -73,12 +72,13 @@ interface ReviewRow {
 }
 
 function mapReviewRowToShared(row: ReviewRow): SharedReview {
+  const resolvedImage = getProductImageUrl(row.customer_image);
   return {
     id: row.id,
     name: row.customer_name,
     customerName: row.customer_name,
-    portrait: row.customer_image,
-    customerImage: row.customer_image,
+    portrait: resolvedImage,
+    customerImage: resolvedImage,
     review: row.review,
     rating: row.rating,
     verified: row.verified,
@@ -309,13 +309,6 @@ export interface AdminContextType {
   resetToDefaults: () => void;
   showToast: (type: "success" | "error" | "info" | "warning", message: string) => void;
   toast: { success: (msg: string) => void; error: (msg: string) => void; info: (msg: string) => void; };
-
-  // Deprecated backward-compatible stubs (for safe unmounting)
-  gallery?: SharedGalleryPhoto[];
-  addGalleryImage?: (image: unknown) => Promise<unknown>;
-  addMultipleGalleryImages?: (images: unknown[]) => Promise<boolean>;
-  updateGalleryImage?: (id: string, updates: Record<string, unknown>) => Promise<boolean>;
-  deleteGalleryImage?: (id: string) => Promise<boolean>;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
@@ -1032,8 +1025,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     resetToDefaults,
     showToast,
     toast,
-    // Safe empty array for backward compatibility
-    gallery: [],
   }), [
     bakes,
     faves,

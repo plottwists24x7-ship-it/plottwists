@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateAdminRequest, extractStoragePath } from "@/lib/admin-guard";
+import { validateAdminRequest, extractStoragePath, isSameImageResource } from "@/lib/admin-guard";
 import { createAdminClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -120,7 +120,7 @@ async function updateStorySingleton(req: NextRequest) {
 
     // Main Polaroid
     const newMain = body.main_polaroid_url ?? body.mainPolaroid ?? body.image;
-    if (newMain !== undefined && newMain !== existing.main_polaroid_url) {
+    if (newMain !== undefined && !isSameImageResource(String(newMain), existing.main_polaroid_url)) {
       dbPayload.main_polaroid_url = String(newMain).trim();
       imageReplacements.push({ newPath: String(newMain).trim(), oldPath: existing.main_polaroid_url });
     }
@@ -130,7 +130,7 @@ async function updateStorySingleton(req: NextRequest) {
 
     // Badge 1
     const newBadge1 = body.badge_1_url ?? body.badge1;
-    if (newBadge1 !== undefined && newBadge1 !== existing.badge_1_url) {
+    if (newBadge1 !== undefined && !isSameImageResource(String(newBadge1), existing.badge_1_url)) {
       dbPayload.badge_1_url = String(newBadge1).trim();
       imageReplacements.push({ newPath: String(newBadge1).trim(), oldPath: existing.badge_1_url });
     }
@@ -138,7 +138,7 @@ async function updateStorySingleton(req: NextRequest) {
 
     // Badge 2
     const newBadge2 = body.badge_2_url ?? body.badge2;
-    if (newBadge2 !== undefined && newBadge2 !== existing.badge_2_url) {
+    if (newBadge2 !== undefined && !isSameImageResource(String(newBadge2), existing.badge_2_url)) {
       dbPayload.badge_2_url = String(newBadge2).trim();
       imageReplacements.push({ newPath: String(newBadge2).trim(), oldPath: existing.badge_2_url });
     }
@@ -146,11 +146,20 @@ async function updateStorySingleton(req: NextRequest) {
 
     // Badge 3
     const newBadge3 = body.badge_3_url ?? body.badge3;
-    if (newBadge3 !== undefined && newBadge3 !== existing.badge_3_url) {
+    if (newBadge3 !== undefined && !isSameImageResource(String(newBadge3), existing.badge_3_url)) {
       dbPayload.badge_3_url = String(newBadge3).trim();
       imageReplacements.push({ newPath: String(newBadge3).trim(), oldPath: existing.badge_3_url });
     }
     if (body.badge_3_label !== undefined) dbPayload.badge_3_label = String(body.badge_3_label).trim();
+
+    if (Object.keys(dbPayload).length === 0) {
+      return NextResponse.json({
+        success: true,
+        message: "No changes to persist.",
+        data: existing,
+        story: existing,
+      });
+    }
 
     // 2. Perform DB update
     const { data: updated, error: updateError } = await supabaseAdmin
